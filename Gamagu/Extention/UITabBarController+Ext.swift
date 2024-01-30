@@ -14,7 +14,7 @@ extension UITabBarController {
         tabBar.unselectedItemTintColor = .font25
         
         tabBar.items?.forEach {
-            $0.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12)], for: .normal)
+            $0.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .heavy)], for: .normal)
             $0.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 4)
         }
         
