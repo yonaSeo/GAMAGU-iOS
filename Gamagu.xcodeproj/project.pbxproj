@@ -9,12 +9,29 @@
 /* Begin PBXBuildFile section */
 		ED2250C32B61973000C0FDA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2250C22B61973000C0FDA9 /* AppDelegate.swift */; };
 		ED2250C52B61973000C0FDA9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2250C42B61973000C0FDA9 /* SceneDelegate.swift */; };
-		ED2250C72B61973000C0FDA9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2250C62B61973000C0FDA9 /* ViewController.swift */; };
+		ED2250C72B61973000C0FDA9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2250C62B61973000C0FDA9 /* HomeViewController.swift */; };
 		ED2250CC2B61973300C0FDA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED2250CB2B61973300C0FDA9 /* Assets.xcassets */; };
 		ED2250CF2B61973300C0FDA9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED2250CD2B61973300C0FDA9 /* LaunchScreen.storyboard */; };
 		ED2250DA2B61973300C0FDA9 /* GamaguTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2250D92B61973300C0FDA9 /* GamaguTests.swift */; };
 		ED2250E42B61973300C0FDA9 /* GamaguUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2250E32B61973300C0FDA9 /* GamaguUITests.swift */; };
 		ED2250E62B61973300C0FDA9 /* GamaguUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2250E52B61973300C0FDA9 /* GamaguUITestsLaunchTests.swift */; };
+		ED2252422B674F8400C0FDA9 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252412B674F8400C0FDA9 /* SettingViewController.swift */; };
+		ED2252452B67A1E000C0FDA9 /* UINavigationController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252442B67A1E000C0FDA9 /* UINavigationController+Ext.swift */; };
+		ED2252482B67AF6400C0FDA9 /* Slackey-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED2252472B67AF6400C0FDA9 /* Slackey-Regular.ttf */; };
+		ED22524B2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED22524A2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf */; };
+		ED22524C2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED22524A2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf */; };
+		ED22524D2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED22524A2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf */; };
+		ED22524E2B67AFB400C0FDA9 /* Slackey-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED2252472B67AF6400C0FDA9 /* Slackey-Regular.ttf */; };
+		ED22524F2B67AFB400C0FDA9 /* Slackey-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED2252472B67AF6400C0FDA9 /* Slackey-Regular.ttf */; };
+		ED2252512B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252502B67BC9700C0FDA9 /* UIButton+Ext.swift */; };
+		ED2252522B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252502B67BC9700C0FDA9 /* UIButton+Ext.swift */; };
+		ED2252532B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252502B67BC9700C0FDA9 /* UIButton+Ext.swift */; };
+		ED2252562B67D48700C0FDA9 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252552B67D48700C0FDA9 /* Const.swift */; };
+		ED2252572B67D48700C0FDA9 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252552B67D48700C0FDA9 /* Const.swift */; };
+		ED2252582B67D48700C0FDA9 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252552B67D48700C0FDA9 /* Const.swift */; };
+		ED22525E2B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */; };
+		ED22525F2B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */; };
+		ED2252602B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +55,7 @@
 		ED2250BF2B61973000C0FDA9 /* Gamagu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gamagu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED2250C22B61973000C0FDA9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ED2250C42B61973000C0FDA9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		ED2250C62B61973000C0FDA9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		ED2250C62B61973000C0FDA9 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		ED2250CB2B61973300C0FDA9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED2250CE2B61973300C0FDA9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED2250D02B61973300C0FDA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +64,13 @@
 		ED2250DF2B61973300C0FDA9 /* GamaguUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GamaguUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED2250E32B61973300C0FDA9 /* GamaguUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamaguUITests.swift; sourceTree = "<group>"; };
 		ED2250E52B61973300C0FDA9 /* GamaguUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamaguUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		ED2252412B674F8400C0FDA9 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		ED2252442B67A1E000C0FDA9 /* UINavigationController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Ext.swift"; sourceTree = "<group>"; };
+		ED2252472B67AF6400C0FDA9 /* Slackey-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Slackey-Regular.ttf"; sourceTree = "<group>"; };
+		ED22524A2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BlackHanSans-Regular.ttf"; sourceTree = "<group>"; };
+		ED2252502B67BC9700C0FDA9 /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
+		ED2252552B67D48700C0FDA9 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
+		ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,10 +123,14 @@
 			children = (
 				ED2250C22B61973000C0FDA9 /* AppDelegate.swift */,
 				ED2250C42B61973000C0FDA9 /* SceneDelegate.swift */,
-				ED2250C62B61973000C0FDA9 /* ViewController.swift */,
-				ED2250CB2B61973300C0FDA9 /* Assets.xcassets */,
-				ED2250CD2B61973300C0FDA9 /* LaunchScreen.storyboard */,
+				ED2252542B67D47000C0FDA9 /* Helper */,
+				ED2252432B67A19A00C0FDA9 /* Extention */,
+				ED22523E2B6746C500C0FDA9 /* Model */,
+				ED22523F2B6746D500C0FDA9 /* View */,
+				ED2252402B6746DB00C0FDA9 /* Controller */,
+				ED2252492B67AF7300C0FDA9 /* Resources */,
 				ED2250D02B61973300C0FDA9 /* Info.plist */,
+				ED2250CD2B61973300C0FDA9 /* LaunchScreen.storyboard */,
 			);
 			path = Gamagu;
 			sourceTree = "<group>";
@@ -122,6 +150,65 @@
 				ED2250E52B61973300C0FDA9 /* GamaguUITestsLaunchTests.swift */,
 			);
 			path = GamaguUITests;
+			sourceTree = "<group>";
+		};
+		ED22523E2B6746C500C0FDA9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		ED22523F2B6746D500C0FDA9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		ED2252402B6746DB00C0FDA9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				ED2250C62B61973000C0FDA9 /* HomeViewController.swift */,
+				ED2252412B674F8400C0FDA9 /* SettingViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		ED2252432B67A19A00C0FDA9 /* Extention */ = {
+			isa = PBXGroup;
+			children = (
+				ED2252442B67A1E000C0FDA9 /* UINavigationController+Ext.swift */,
+				ED2252502B67BC9700C0FDA9 /* UIButton+Ext.swift */,
+				ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */,
+			);
+			path = Extention;
+			sourceTree = "<group>";
+		};
+		ED2252462B67AF1500C0FDA9 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				ED22524A2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf */,
+				ED2252472B67AF6400C0FDA9 /* Slackey-Regular.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		ED2252492B67AF7300C0FDA9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				ED2250CB2B61973300C0FDA9 /* Assets.xcassets */,
+				ED2252462B67AF1500C0FDA9 /* Font */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		ED2252542B67D47000C0FDA9 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				ED2252552B67D48700C0FDA9 /* Const.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,7 +315,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED22524B2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf in Resources */,
 				ED2250CF2B61973300C0FDA9 /* LaunchScreen.storyboard in Resources */,
+				ED2252482B67AF6400C0FDA9 /* Slackey-Regular.ttf in Resources */,
 				ED2250CC2B61973300C0FDA9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,6 +326,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED22524E2B67AFB400C0FDA9 /* Slackey-Regular.ttf in Resources */,
+				ED22524C2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +335,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED22524F2B67AFB400C0FDA9 /* Slackey-Regular.ttf in Resources */,
+				ED22524D2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,9 +347,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED2250C72B61973000C0FDA9 /* ViewController.swift in Sources */,
+				ED2250C72B61973000C0FDA9 /* HomeViewController.swift in Sources */,
+				ED22525E2B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */,
+				ED2252452B67A1E000C0FDA9 /* UINavigationController+Ext.swift in Sources */,
 				ED2250C32B61973000C0FDA9 /* AppDelegate.swift in Sources */,
 				ED2250C52B61973000C0FDA9 /* SceneDelegate.swift in Sources */,
+				ED2252422B674F8400C0FDA9 /* SettingViewController.swift in Sources */,
+				ED2252512B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
+				ED2252562B67D48700C0FDA9 /* Const.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +363,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED2250DA2B61973300C0FDA9 /* GamaguTests.swift in Sources */,
+				ED22525F2B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */,
+				ED2252522B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
+				ED2252572B67D48700C0FDA9 /* Const.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +374,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED2250E62B61973300C0FDA9 /* GamaguUITestsLaunchTests.swift in Sources */,
+				ED2252582B67D48700C0FDA9 /* Const.swift in Sources */,
 				ED2250E42B61973300C0FDA9 /* GamaguUITests.swift in Sources */,
+				ED2252532B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
+				ED2252602B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +537,7 @@
 				DEVELOPMENT_TEAM = PX6UGAAW3A;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gamagu/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -464,6 +569,7 @@
 				DEVELOPMENT_TEAM = PX6UGAAW3A;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Gamagu/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
