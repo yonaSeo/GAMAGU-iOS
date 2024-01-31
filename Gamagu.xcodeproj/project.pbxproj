@@ -32,6 +32,16 @@
 		ED22525E2B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */; };
 		ED22525F2B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */; };
 		ED2252602B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */; };
+		ED22526A2B692FE100C0FDA9 /* CollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252692B692FE100C0FDA9 /* CollectionHeaderView.swift */; };
+		ED22526B2B692FE100C0FDA9 /* CollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252692B692FE100C0FDA9 /* CollectionHeaderView.swift */; };
+		ED22526C2B692FE100C0FDA9 /* CollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252692B692FE100C0FDA9 /* CollectionHeaderView.swift */; };
+		ED88E6772B69640300C66565 /* CollectionBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E6762B69640300C66565 /* CollectionBackgroundView.swift */; };
+		ED88E6792B69764000C66565 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E6782B69764000C66565 /* CollectionViewCell.swift */; };
+		ED88E67A2B69764000C66565 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E6782B69764000C66565 /* CollectionViewCell.swift */; };
+		ED88E67B2B69764000C66565 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E6782B69764000C66565 /* CollectionViewCell.swift */; };
+		ED88E67D2B6A287E00C66565 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E67C2B6A287E00C66565 /* Item.swift */; };
+		ED88E67E2B6A287E00C66565 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E67C2B6A287E00C66565 /* Item.swift */; };
+		ED88E67F2B6A287E00C66565 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E67C2B6A287E00C66565 /* Item.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +81,10 @@
 		ED2252502B67BC9700C0FDA9 /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		ED2252552B67D48700C0FDA9 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Ext.swift"; sourceTree = "<group>"; };
+		ED2252692B692FE100C0FDA9 /* CollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionHeaderView.swift; sourceTree = "<group>"; };
+		ED88E6762B69640300C66565 /* CollectionBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionBackgroundView.swift; sourceTree = "<group>"; };
+		ED88E6782B69764000C66565 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		ED88E67C2B6A287E00C66565 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +169,7 @@
 		ED22523E2B6746C500C0FDA9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				ED88E67C2B6A287E00C66565 /* Item.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -162,6 +177,9 @@
 		ED22523F2B6746D500C0FDA9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				ED2252692B692FE100C0FDA9 /* CollectionHeaderView.swift */,
+				ED88E6762B69640300C66565 /* CollectionBackgroundView.swift */,
+				ED88E6782B69764000C66565 /* CollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -347,14 +365,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED22526A2B692FE100C0FDA9 /* CollectionHeaderView.swift in Sources */,
 				ED2250C72B61973000C0FDA9 /* HomeViewController.swift in Sources */,
 				ED22525E2B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */,
 				ED2252452B67A1E000C0FDA9 /* UINavigationController+Ext.swift in Sources */,
+				ED88E67D2B6A287E00C66565 /* Item.swift in Sources */,
+				ED88E6772B69640300C66565 /* CollectionBackgroundView.swift in Sources */,
 				ED2250C32B61973000C0FDA9 /* AppDelegate.swift in Sources */,
 				ED2250C52B61973000C0FDA9 /* SceneDelegate.swift in Sources */,
 				ED2252422B674F8400C0FDA9 /* SettingViewController.swift in Sources */,
 				ED2252512B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
 				ED2252562B67D48700C0FDA9 /* Const.swift in Sources */,
+				ED88E6792B69764000C66565 /* CollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +385,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED2250DA2B61973300C0FDA9 /* GamaguTests.swift in Sources */,
+				ED22526B2B692FE100C0FDA9 /* CollectionHeaderView.swift in Sources */,
+				ED88E67A2B69764000C66565 /* CollectionViewCell.swift in Sources */,
 				ED22525F2B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */,
+				ED88E67E2B6A287E00C66565 /* Item.swift in Sources */,
 				ED2252522B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
 				ED2252572B67D48700C0FDA9 /* Const.swift in Sources */,
 			);
@@ -376,6 +401,9 @@
 				ED2250E62B61973300C0FDA9 /* GamaguUITestsLaunchTests.swift in Sources */,
 				ED2252582B67D48700C0FDA9 /* Const.swift in Sources */,
 				ED2250E42B61973300C0FDA9 /* GamaguUITests.swift in Sources */,
+				ED88E67B2B69764000C66565 /* CollectionViewCell.swift in Sources */,
+				ED88E67F2B6A287E00C66565 /* Item.swift in Sources */,
+				ED22526C2B692FE100C0FDA9 /* CollectionHeaderView.swift in Sources */,
 				ED2252532B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
 				ED2252602B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */,
 			);

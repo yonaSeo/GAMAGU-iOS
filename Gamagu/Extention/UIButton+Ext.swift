@@ -12,7 +12,7 @@ extension UIButton {
     @available(iOS 15.0, *)
     func newCustomButtonMaker(title: String, color: UIColor, imageName: String) {
         var titleContainer = AttributeContainer()
-        titleContainer.font = UIFont.systemFont(ofSize: 12)
+        titleContainer.font = UIFont.systemFont(ofSize: 12, weight: .heavy)
         
         var configuration = UIButton.Configuration.plain()
         configuration.attributedTitle = AttributedString(title, attributes: titleContainer)
@@ -26,7 +26,7 @@ extension UIButton {
     func oldCustomButtonMaker(title: String, color: UIColor, imageName: String) {
         self.setTitle(title, for: .normal)
         self.setTitleColor(color, for: .normal)
-        self.titleLabel?.font = .systemFont(ofSize: 12)
+        self.titleLabel?.font = .systemFont(ofSize: 12, weight: .heavy)
         self.setImage(UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
         self.imageView?.tintColor = color
         self.alignTextBelow(spacing: 2)
