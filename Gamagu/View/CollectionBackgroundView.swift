@@ -21,8 +21,8 @@ class CollectionBackgroundView: UICollectionReusableView {
         super.init(frame: frame)
         addSubview(backgroundView)
         NSLayoutConstraint.activate([
-            backgroundView.topAnchor.constraint(equalTo: topAnchor, constant: 48),
-            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -48),
+            backgroundView.topAnchor.constraint(equalTo: topAnchor, constant: 48), // 바꾸기 주의 ⚠️
+            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -48), // 바꾸기 주의 ⚠️
             backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
             

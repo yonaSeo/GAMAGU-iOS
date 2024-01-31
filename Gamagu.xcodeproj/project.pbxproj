@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED1B389E2B6A934900C36A7A /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1B389D2B6A934900C36A7A /* TableHeaderView.swift */; };
+		ED1B389F2B6A934900C36A7A /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1B389D2B6A934900C36A7A /* TableHeaderView.swift */; };
+		ED1B38A02B6A934900C36A7A /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1B389D2B6A934900C36A7A /* TableHeaderView.swift */; };
+		ED1B38A62B6A97D300C36A7A /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1B38A52B6A97D300C36A7A /* TableViewCell.swift */; };
+		ED1B38A72B6A97D300C36A7A /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1B38A52B6A97D300C36A7A /* TableViewCell.swift */; };
+		ED1B38A82B6A97D300C36A7A /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1B38A52B6A97D300C36A7A /* TableViewCell.swift */; };
 		ED2250C32B61973000C0FDA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2250C22B61973000C0FDA9 /* AppDelegate.swift */; };
 		ED2250C52B61973000C0FDA9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2250C42B61973000C0FDA9 /* SceneDelegate.swift */; };
 		ED2250C72B61973000C0FDA9 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2250C62B61973000C0FDA9 /* HomeViewController.swift */; };
@@ -62,6 +68,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		ED1B389D2B6A934900C36A7A /* TableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderView.swift; sourceTree = "<group>"; };
+		ED1B38A52B6A97D300C36A7A /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		ED2250BF2B61973000C0FDA9 /* Gamagu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gamagu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED2250C22B61973000C0FDA9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ED2250C42B61973000C0FDA9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -180,6 +188,8 @@
 				ED2252692B692FE100C0FDA9 /* CollectionHeaderView.swift */,
 				ED88E6762B69640300C66565 /* CollectionBackgroundView.swift */,
 				ED88E6782B69764000C66565 /* CollectionViewCell.swift */,
+				ED1B389D2B6A934900C36A7A /* TableHeaderView.swift */,
+				ED1B38A52B6A97D300C36A7A /* TableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -365,10 +375,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED1B389E2B6A934900C36A7A /* TableHeaderView.swift in Sources */,
 				ED22526A2B692FE100C0FDA9 /* CollectionHeaderView.swift in Sources */,
 				ED2250C72B61973000C0FDA9 /* HomeViewController.swift in Sources */,
 				ED22525E2B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */,
 				ED2252452B67A1E000C0FDA9 /* UINavigationController+Ext.swift in Sources */,
+				ED1B38A62B6A97D300C36A7A /* TableViewCell.swift in Sources */,
 				ED88E67D2B6A287E00C66565 /* Item.swift in Sources */,
 				ED88E6772B69640300C66565 /* CollectionBackgroundView.swift in Sources */,
 				ED2250C32B61973000C0FDA9 /* AppDelegate.swift in Sources */,
@@ -387,7 +399,9 @@
 				ED2250DA2B61973300C0FDA9 /* GamaguTests.swift in Sources */,
 				ED22526B2B692FE100C0FDA9 /* CollectionHeaderView.swift in Sources */,
 				ED88E67A2B69764000C66565 /* CollectionViewCell.swift in Sources */,
+				ED1B38A72B6A97D300C36A7A /* TableViewCell.swift in Sources */,
 				ED22525F2B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */,
+				ED1B389F2B6A934900C36A7A /* TableHeaderView.swift in Sources */,
 				ED88E67E2B6A287E00C66565 /* Item.swift in Sources */,
 				ED2252522B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
 				ED2252572B67D48700C0FDA9 /* Const.swift in Sources */,
@@ -398,10 +412,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED1B38A02B6A934900C36A7A /* TableHeaderView.swift in Sources */,
 				ED2250E62B61973300C0FDA9 /* GamaguUITestsLaunchTests.swift in Sources */,
 				ED2252582B67D48700C0FDA9 /* Const.swift in Sources */,
 				ED2250E42B61973300C0FDA9 /* GamaguUITests.swift in Sources */,
 				ED88E67B2B69764000C66565 /* CollectionViewCell.swift in Sources */,
+				ED1B38A82B6A97D300C36A7A /* TableViewCell.swift in Sources */,
 				ED88E67F2B6A287E00C66565 /* Item.swift in Sources */,
 				ED22526C2B692FE100C0FDA9 /* CollectionHeaderView.swift in Sources */,
 				ED2252532B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,

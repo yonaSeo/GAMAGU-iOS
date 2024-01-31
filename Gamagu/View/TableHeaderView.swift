@@ -1,14 +1,14 @@
 //
-//  CollectionHeaderView.swift
+//  TableHeaderView.swift
 //  Gamagu
 //
-//  Created by yona on 1/30/24.
+//  Created by yona on 1/31/24.
 //
 
 import UIKit
 
-class CollectionHeaderView: UICollectionReusableView {
-    static let identifier = "CollectionHeaderView"
+final class TableHeaderView: UITableViewHeaderFooterView {
+    static let identifier = "TableHeaderView"
     
     private let label: UILabel = {
         let label = UILabel()
@@ -20,13 +20,17 @@ class CollectionHeaderView: UICollectionReusableView {
         return label
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addSubview(label)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupUI() {
+        contentView.addSubview(label)
     }
     
     override func layoutSubviews() {
