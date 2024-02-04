@@ -7,7 +7,29 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
+    private var dummyItems = [
+        Item(category: "카테고리 1", title: "첫 번째 제목", content: "첫 번째 내용입니다."),
+        Item(category: "카테고리 1", title: "두 번째 제목", content: "두 번째 내용입니다."),
+        Item(category: "카테고리 1", title: "세 번째 제목", content: "세 번째 내용입니다."),
+        Item(category: "카테고리 2", title: "첫 번째 제목", content: "첫 번째 내용입니다."),
+        Item(category: "카테고리 2", title: "두 번째 제목", content: "두 번째 내용입니다."),
+        Item(category: "카테고리 2", title: "세 번째 제목", content: "세 번째 내용입니다."),
+        Item(category: "카테고리 2", title: "네 번째 제목", content: "네 번째 내용입니다."),
+        Item(category: "카테고리 3", title: "첫 번째 제목", content: "첫 번째 내용입니다."),
+        Item(category: "카테고리 3", title: "두 번째 제목", content: "두 번째 내용입니다."),
+        Item(category: "카테고리 3", title: "세 번째 제목", content: "세 번째 내용입니다."),
+    ]
+    private lazy var categories: [(name: String, items: [Item])] = {
+        var arr: [(name: String, items: [Item])] = []
+        dummyItems.forEach { item in
+            var idx = 0
+            arr.enumerated().contains { idx = $0.offset; return $0.element.name.contains(item.category) }
+            ? arr[idx].items.append(item)
+            : arr.append((name: item.category, items: [item]))
+        }
+        return arr
+    }()
     
     // MARK: - 헤더(네비게이션 바)
     private let logoImageView: UIButton = {
@@ -63,11 +85,11 @@ class HomeViewController: UIViewController {
                     heightDimension: .estimated(100) // 카드 크기: 내부 크기에 따라 늘어남 (아이템-그룹 같아야 함)
                 )
             )
-            item.contentInsets = .init(top: 0, leading: 20, bottom: 0, trailing: 20) // 카드 간 간격
+            item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 40) // 카드 간 간격
             // group
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.8),
+                    widthDimension: .fractionalWidth(0.9),
                     heightDimension: .estimated(100) // 카드 크기: 내부 크기에 따라 늘어남 (아이템-그룹 같아야 함)
                 ),
                 subitem: item,
@@ -76,7 +98,11 @@ class HomeViewController: UIViewController {
             // section
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-            section.contentInsets = .init(top: 32, leading: 20, bottom: 80, trailing: 0) // CollectionBackgroundView 크기 (안의 view가 아님) -> 바꾸기 주의 ⚠️
+            // 내부 Cell의 CollectionBackgroundView 좌상단 경계로부터의 거리(Inset)
+            // 다만 **bottom**은 CollectionBackgroundView 크기 자체에 영향을 준다! -> 바꾸기 주의 ⚠️
+            // top-32 / bottom-80인 이유: top과 bottom을 0으로 잡으면 CollectionBackgroundView 크기는 164(= Header 48 + Cell 116(28+28+8+24+28))가 되는데, top을 32로 잡으면 196(+32)가 되고, 이때 backgroundView는 topAnchor는 Header 크기와 같은 48이므로 이미 맞게 적용된 상태이고 bottomAnchor만 남은 상태다. 그러므로 여기서 나머지 bottomAnchor인 48에 top과 같은 32를 더한 80을 bottom으로 잡으면 동일한 거리가 나온다. (헷갈리면 top bottom 0 -> top 32 -> bottom 80 순으로 뷰 계층 비교해볼 것)
+            // => top을 정한 후(ex: 50), 이에 backgroundView의 bottomAnchor(48)을 더해(ex: 98) bottom으로 설정
+            section.contentInsets = .init(top: 32, leading: 16, bottom: 80, trailing: 0)
             
             
             // header
@@ -222,8 +248,7 @@ class HomeViewController: UIViewController {
     
     // MARK: - @objc 함수
     @objc func addNewItem() {
-        let vc = UIViewController()
-        vc.view.backgroundColor = .primary80
+        let vc = InputFormViewController()
         present(vc, animated: true)
     }
     
@@ -236,54 +261,100 @@ class HomeViewController: UIViewController {
 // MARK: - 컬렉션뷰 datasource & delegate
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return categories[section].items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionHeaderView.identifier, for: indexPath) as? CollectionHeaderView else { fatalError() }
+        
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionHeaderView.identifier, for: indexPath) as? CollectionHeaderView else { fatalError() }
-            return header
-        default: return UICollectionReusableView()
+            header.text = categories[indexPath.section].name
+        default: break
         }
+        
+        return header
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: CollectionViewCell.identifier, for: indexPath
-        ) as? CollectionViewCell else { return UICollectionViewCell() }
-        // if indexPath.section == 0 { }
-        if indexPath.row % 2 == 0 {
-            cell.item = Item(title: "제목", content: "짝수 내용입니다.")
-        } else {
-            cell.item = Item(title: "제목", content: "홀수 내용입니다홀수 내용입니다홀수 내용입니다홀수 내용입니다홀수 내용입니다홀수 내용입니다")
-        }
+        ) as? CollectionViewCell else { fatalError() }
+        
+        cell.item = categories[indexPath.section].items[indexPath.row]
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell else { fatalError() }
+        
+        cell.item?.category = categories[indexPath.section].name
+        
+        let vc = InputFormViewController()
+        vc.item = cell.item
+        
+        present(vc, animated: true)
     }
 }
 
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return categories.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableHeaderView.identifier)
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableHeaderView.identifier) as? TableHeaderView else { fatalError() }
+        header.text = categories[section].name
         return header
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return categories[section].items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else { fatalError() }
+        cell.item = categories[indexPath.section].items[indexPath.row]
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? TableViewCell else { fatalError() }
+        
+        cell.item?.category = categories[indexPath.section].name
+        
+        let vc = InputFormViewController()
+        vc.item = cell.item
+        
+        present(vc, animated: true)
+    }
+    
+    
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "삭제"
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let alert = UIAlertController(
+                title: "삭제", message: "정말 삭제하시겠습니까?", preferredStyle: .alert
+            )
+            let yes = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
+                self?.categories[indexPath.section].items.remove(at: indexPath.row)
+                tableView.reloadData()
+                self?.collectionView.reloadData()
+            })
+            let no = UIAlertAction(title: "취소", style: .cancel)
+            alert.addAction(yes)
+            alert.addAction(no)
+            
+            present(alert, animated: true)
+        }
     }
 }

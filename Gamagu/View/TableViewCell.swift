@@ -7,15 +7,17 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+final class TableViewCell: UITableViewCell {
     static let identifier = "TableViewCell"
+    
+    var item: Item? {
+        didSet { setupData() }
+    }
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .init(string: "제목입니다.", attributes: [
-            .font: UIFont(name: "BlackHanSans-Regular", size: 20) as Any,
-            .foregroundColor: UIColor.font100
-        ])
+        label.font = UIFont(name: "BlackHanSans-Regular", size: 20)
+        label.textColor = UIColor.font100
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -31,6 +33,10 @@ class TableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupData() {
+        titleLabel.text = item?.title
     }
     
     func setupUI() {

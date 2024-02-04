@@ -8,15 +8,21 @@
 import UIKit
 
 struct Item {
-    var title: String?
-    var content: String?
-    var cetegory: String?
-    var date: Date?
+    var category: String
+    var title: String
+    var content: String
+    var date: Date
     
     public var dateString: String? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        guard let date else { return "" }
         return formatter.string(from: date)
+    }
+    
+    init(category: String, title: String, content: String) {
+        self.category = category
+        self.title = title
+        self.content = content
+        self.date = Date()
     }
 }

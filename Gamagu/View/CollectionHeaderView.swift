@@ -7,16 +7,17 @@
 
 import UIKit
 
-class CollectionHeaderView: UICollectionReusableView {
+final class CollectionHeaderView: UICollectionReusableView {
     static let identifier = "CollectionHeaderView"
+    
+    var text: String? {
+        didSet { label.text = text }
+    }
     
     private let label: UILabel = {
         let label = UILabel()
-        label.textAlignment = .left
-        label.textColor = .font50
-        label.attributedText = .init(string: "헤더", attributes: [
-            .font: UIFont(name: "BlackHanSans-Regular", size: 28) as Any,
-            .foregroundColor: UIColor.font75])
+        label.font = UIFont(name: "BlackHanSans-Regular", size: 28)
+        label.textColor = .font75
         return label
     }()
     
