@@ -24,7 +24,10 @@ final class HomeViewController: UIViewController {
         var arr: [(name: String, items: [Item])] = []
         dummyItems.forEach { item in
             var idx = 0
-            arr.enumerated().contains { idx = $0.offset; return $0.element.name.contains(item.category) }
+            arr.enumerated().contains {
+                idx = $0.offset;
+                return $0.element.name.contains(item.category)
+            }
             ? arr[idx].items.append(item)
             : arr.append((name: item.category, items: [item]))
         }
@@ -116,12 +119,12 @@ final class HomeViewController: UIViewController {
             
             // background
             section.decorationItems = [
-                NSCollectionLayoutDecorationItem.background(elementKind: CollectionBackgroundView.identifier)
+                NSCollectionLayoutDecorationItem.background(elementKind: HomeCollectionBackgroundView.identifier)
             ]
            
             return section
         }
-        layout.register(CollectionBackgroundView.self, forDecorationViewOfKind: CollectionBackgroundView.identifier)
+        layout.register(HomeCollectionBackgroundView.self, forDecorationViewOfKind: HomeCollectionBackgroundView.identifier)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
@@ -151,17 +154,11 @@ final class HomeViewController: UIViewController {
     // MARK: - 라이프 사이클
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .primary40
         
         setupNavigationBar()
         setupCollectionView()
         setupTableView()
         setupUI()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        collectionView.frame = view.bounds
     }
     
     // MARK: - setup 함수
@@ -177,24 +174,26 @@ final class HomeViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(
-            CollectionViewCell.self, 
-            forCellWithReuseIdentifier: CollectionViewCell.identifier
+            HomeCollectionViewCell.self, 
+            forCellWithReuseIdentifier: HomeCollectionViewCell.identifier
         )
         collectionView.register(
-            CollectionHeaderView.self,
+            HomeCollectionHeaderView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: CollectionHeaderView.identifier
+            withReuseIdentifier: HomeCollectionHeaderView.identifier
         )
     }
     
     func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
-        tableView.register(TableHeaderView.self, forHeaderFooterViewReuseIdentifier: TableHeaderView.identifier)
+        tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
+        tableView.register(HomeTableHeaderView.self, forHeaderFooterViewReuseIdentifier: HomeTableHeaderView.identifier)
     }
     
     func setupUI() {
+        view.backgroundColor = .primary60
+        
         guard let navigationBar = navigationController?.navigationBar else { return }
         
         view.addSubview(segmentedControl)
@@ -253,8 +252,12 @@ final class HomeViewController: UIViewController {
     }
     
     @objc func didChangeValue(segment: UISegmentedControl) {
-        collectionContainerView.isHidden = segment.selectedSegmentIndex != 0
-        tableContainerView.isHidden = !collectionContainerView.isHidden
+        // ???
+        UIView.animate(withDuration: 1.0) { [weak self] in
+            guard let self else { return }
+            collectionContainerView.isHidden = segment.selectedSegmentIndex != 0
+            tableContainerView.isHidden = !collectionContainerView.isHidden
+        }
     }
 }
 
@@ -269,7 +272,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionHeaderView.identifier, for: indexPath) as? CollectionHeaderView else { fatalError() }
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.identifier, for: indexPath) as? HomeCollectionHeaderView else { fatalError() }
         
         switch kind {
         case UICollectionView.elementKindSectionHeader:
@@ -282,8 +285,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: CollectionViewCell.identifier, for: indexPath
-        ) as? CollectionViewCell else { fatalError() }
+            withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath
+        ) as? HomeCollectionViewCell else { fatalError() }
         
         cell.item = categories[indexPath.section].items[indexPath.row]
         
@@ -291,7 +294,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell else { fatalError() }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? HomeCollectionViewCell else { fatalError() }
         
         cell.item?.category = categories[indexPath.section].name
         
@@ -309,7 +312,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableHeaderView.identifier) as? TableHeaderView else { fatalError() }
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeTableHeaderView.identifier) as? HomeTableHeaderView else { fatalError() }
         header.text = categories[section].name
         return header
     }
@@ -319,13 +322,13 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else { fatalError() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as? HomeTableViewCell else { fatalError() }
         cell.item = categories[indexPath.section].items[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? TableViewCell else { fatalError() }
+        guard let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell else { fatalError() }
         
         cell.item?.category = categories[indexPath.section].name
         

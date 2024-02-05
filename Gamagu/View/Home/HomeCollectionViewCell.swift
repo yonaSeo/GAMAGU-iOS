@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CollectionViewCell: UICollectionViewCell {
+final class HomeCollectionViewCell: UICollectionViewCell {
     static let identifier = "CollectionViewCell"
     
     var item: Item? {
@@ -49,7 +49,7 @@ final class CollectionViewCell: UICollectionViewCell {
     }
     
     func setupCell() {
-        self.backgroundColor = .primary60
+        self.backgroundColor = .primary40
         self.layer.cornerRadius = 10
         self.layer.masksToBounds = true
     }
