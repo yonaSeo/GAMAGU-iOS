@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class InputFormViewController: UIViewController {
+final class AddFormViewController: UIViewController {
     var item: Item? {
         didSet { setupData() }
     }
@@ -239,7 +239,7 @@ final class InputFormViewController: UIViewController {
     }
 }
 
-extension InputFormViewController: UITextFieldDelegate {
+extension AddFormViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         textField.backgroundColor = .primary20
@@ -255,7 +255,7 @@ extension InputFormViewController: UITextFieldDelegate {
     }
 }
 
-extension InputFormViewController: UITextViewDelegate {
+extension AddFormViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "내용을 입력하세요" {
             textView.font = UIFont.systemFont(ofSize: 20, weight: .regular)

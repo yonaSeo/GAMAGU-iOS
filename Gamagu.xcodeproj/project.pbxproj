@@ -47,9 +47,9 @@
 		ED46F0892B71468E004A1FD9 /* SettingCategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46F0882B71468E004A1FD9 /* SettingCategoryTableViewCell.swift */; };
 		ED46F08A2B71468E004A1FD9 /* SettingCategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46F0882B71468E004A1FD9 /* SettingCategoryTableViewCell.swift */; };
 		ED46F08B2B71468E004A1FD9 /* SettingCategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46F0882B71468E004A1FD9 /* SettingCategoryTableViewCell.swift */; };
-		ED6496472B6CD28800D890E1 /* InputFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6496462B6CD28800D890E1 /* InputFormViewController.swift */; };
-		ED6496482B6CD28800D890E1 /* InputFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6496462B6CD28800D890E1 /* InputFormViewController.swift */; };
-		ED6496492B6CD28800D890E1 /* InputFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6496462B6CD28800D890E1 /* InputFormViewController.swift */; };
+		ED6496472B6CD28800D890E1 /* AddFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6496462B6CD28800D890E1 /* AddFormViewController.swift */; };
+		ED6496482B6CD28800D890E1 /* AddFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6496462B6CD28800D890E1 /* AddFormViewController.swift */; };
+		ED6496492B6CD28800D890E1 /* AddFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED6496462B6CD28800D890E1 /* AddFormViewController.swift */; };
 		ED64964B2B6D1C1600D890E1 /* UITextField+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED64964A2B6D1C1600D890E1 /* UITextField+Ext.swift */; };
 		ED64964C2B6D1C1600D890E1 /* UITextField+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED64964A2B6D1C1600D890E1 /* UITextField+Ext.swift */; };
 		ED64964D2B6D1C1600D890E1 /* UITextField+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED64964A2B6D1C1600D890E1 /* UITextField+Ext.swift */; };
@@ -60,9 +60,27 @@
 		ED88E67D2B6A287E00C66565 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E67C2B6A287E00C66565 /* Item.swift */; };
 		ED88E67E2B6A287E00C66565 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E67C2B6A287E00C66565 /* Item.swift */; };
 		ED88E67F2B6A287E00C66565 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E67C2B6A287E00C66565 /* Item.swift */; };
+		EDACCDDF2B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */; };
+		EDACCDE02B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */; };
+		EDACCDE12B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */; };
+		EDACCDE32B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDE22B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift */; };
+		EDACCDE42B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDE22B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift */; };
+		EDACCDE52B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDE22B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift */; };
+		EDACCDE72B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDE62B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift */; };
+		EDACCDE82B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDE62B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift */; };
+		EDACCDE92B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDE62B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift */; };
 		EDB316FD2B7152D90061934A /* SettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB316FC2B7152D90061934A /* SettingButtonDelegate.swift */; };
 		EDB316FE2B7152D90061934A /* SettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB316FC2B7152D90061934A /* SettingButtonDelegate.swift */; };
 		EDB316FF2B7152D90061934A /* SettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB316FC2B7152D90061934A /* SettingButtonDelegate.swift */; };
+		EDB317012B71F8F50061934A /* CategorySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB317002B71F8F50061934A /* CategorySettingViewController.swift */; };
+		EDB317022B71F8F50061934A /* CategorySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB317002B71F8F50061934A /* CategorySettingViewController.swift */; };
+		EDB317032B71F8F50061934A /* CategorySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB317002B71F8F50061934A /* CategorySettingViewController.swift */; };
+		EDB317052B73202A0061934A /* ItemCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB317042B73202A0061934A /* ItemCategory.swift */; };
+		EDB317062B73202A0061934A /* ItemCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB317042B73202A0061934A /* ItemCategory.swift */; };
+		EDB317072B73202A0061934A /* ItemCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB317042B73202A0061934A /* ItemCategory.swift */; };
+		EDB3170A2B7326810061934A /* CategorySettingNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB317092B7326810061934A /* CategorySettingNameTableViewCell.swift */; };
+		EDB3170B2B7326810061934A /* CategorySettingNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB317092B7326810061934A /* CategorySettingNameTableViewCell.swift */; };
+		EDB3170C2B7326810061934A /* CategorySettingNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB317092B7326810061934A /* CategorySettingNameTableViewCell.swift */; };
 		EDF92ECE2B70ED7400531BD7 /* SettingDatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF92ECD2B70ED7400531BD7 /* SettingDatePickerTableViewCell.swift */; };
 		EDF92ECF2B70ED7400531BD7 /* SettingDatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF92ECD2B70ED7400531BD7 /* SettingDatePickerTableViewCell.swift */; };
 		EDF92ED02B70ED7400531BD7 /* SettingDatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF92ECD2B70ED7400531BD7 /* SettingDatePickerTableViewCell.swift */; };
@@ -110,12 +128,18 @@
 		ED46F0802B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingToggleSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		ED46F0842B71453D004A1FD9 /* SettingOptionMenuButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingOptionMenuButtonTableViewCell.swift; sourceTree = "<group>"; };
 		ED46F0882B71468E004A1FD9 /* SettingCategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCategoryTableViewCell.swift; sourceTree = "<group>"; };
-		ED6496462B6CD28800D890E1 /* InputFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFormViewController.swift; sourceTree = "<group>"; };
+		ED6496462B6CD28800D890E1 /* AddFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFormViewController.swift; sourceTree = "<group>"; };
 		ED64964A2B6D1C1600D890E1 /* UITextField+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Ext.swift"; sourceTree = "<group>"; };
 		ED88E6762B69640300C66565 /* HomeCollectionBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionBackgroundView.swift; sourceTree = "<group>"; };
 		ED88E6782B69764000C66565 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		ED88E67C2B6A287E00C66565 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingButtonDelegate.swift; sourceTree = "<group>"; };
+		EDACCDE22B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingAlarmCountTableViewCell.swift; sourceTree = "<group>"; };
+		EDACCDE62B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingDeleteTableViewCell.swift; sourceTree = "<group>"; };
 		EDB316FC2B7152D90061934A /* SettingButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingButtonDelegate.swift; sourceTree = "<group>"; };
+		EDB317002B71F8F50061934A /* CategorySettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingViewController.swift; sourceTree = "<group>"; };
+		EDB317042B73202A0061934A /* ItemCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCategory.swift; sourceTree = "<group>"; };
+		EDB317092B7326810061934A /* CategorySettingNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingNameTableViewCell.swift; sourceTree = "<group>"; };
 		EDF92ECD2B70ED7400531BD7 /* SettingDatePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDatePickerTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -202,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				ED88E67C2B6A287E00C66565 /* Item.swift */,
+				EDB317042B73202A0061934A /* ItemCategory.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -211,6 +236,7 @@
 			children = (
 				EDB316F92B7151250061934A /* Home */,
 				EDB316FA2B7151330061934A /* Setting */,
+				EDB3170D2B73269E0061934A /* CategorySetting */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -219,8 +245,9 @@
 			isa = PBXGroup;
 			children = (
 				ED2250C62B61973000C0FDA9 /* HomeViewController.swift */,
-				ED6496462B6CD28800D890E1 /* InputFormViewController.swift */,
+				ED6496462B6CD28800D890E1 /* AddFormViewController.swift */,
 				ED2252412B674F8400C0FDA9 /* SettingViewController.swift */,
+				EDB317002B71F8F50061934A /* CategorySettingViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -257,11 +284,11 @@
 		EDB316F92B7151250061934A /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				ED1B389D2B6A934900C36A7A /* HomeTableHeaderView.swift */,
 				ED1B38A52B6A97D300C36A7A /* HomeTableViewCell.swift */,
 				ED2252692B692FE100C0FDA9 /* HomeCollectionHeaderView.swift */,
 				ED88E6762B69640300C66565 /* HomeCollectionBackgroundView.swift */,
 				ED88E6782B69764000C66565 /* HomeCollectionViewCell.swift */,
-				ED1B389D2B6A934900C36A7A /* HomeTableHeaderView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -281,8 +308,19 @@
 			isa = PBXGroup;
 			children = (
 				EDB316FC2B7152D90061934A /* SettingButtonDelegate.swift */,
+				EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		EDB3170D2B73269E0061934A /* CategorySetting */ = {
+			isa = PBXGroup;
+			children = (
+				EDB317092B7326810061934A /* CategorySettingNameTableViewCell.swift */,
+				EDACCDE22B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift */,
+				EDACCDE62B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift */,
+			);
+			path = CategorySetting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -422,6 +460,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED1B389E2B6A934900C36A7A /* HomeTableHeaderView.swift in Sources */,
+				EDACCDDF2B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */,
 				ED22526A2B692FE100C0FDA9 /* HomeCollectionHeaderView.swift in Sources */,
 				ED46F0812B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift in Sources */,
 				EDB316FD2B7152D90061934A /* SettingButtonDelegate.swift in Sources */,
@@ -435,12 +474,17 @@
 				ED88E67D2B6A287E00C66565 /* Item.swift in Sources */,
 				ED88E6772B69640300C66565 /* HomeCollectionBackgroundView.swift in Sources */,
 				ED2250C32B61973000C0FDA9 /* AppDelegate.swift in Sources */,
+				EDB317052B73202A0061934A /* ItemCategory.swift in Sources */,
 				ED46F0852B71453D004A1FD9 /* SettingOptionMenuButtonTableViewCell.swift in Sources */,
+				EDB317012B71F8F50061934A /* CategorySettingViewController.swift in Sources */,
 				ED2250C52B61973000C0FDA9 /* SceneDelegate.swift in Sources */,
+				EDACCDE72B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift in Sources */,
 				ED2252422B674F8400C0FDA9 /* SettingViewController.swift in Sources */,
+				EDB3170A2B7326810061934A /* CategorySettingNameTableViewCell.swift in Sources */,
 				ED2252512B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
-				ED6496472B6CD28800D890E1 /* InputFormViewController.swift in Sources */,
+				ED6496472B6CD28800D890E1 /* AddFormViewController.swift in Sources */,
 				ED88E6792B69764000C66565 /* HomeCollectionViewCell.swift in Sources */,
+				EDACCDE32B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,17 +493,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDF92ECF2B70ED7400531BD7 /* SettingDatePickerTableViewCell.swift in Sources */,
+				EDB317022B71F8F50061934A /* CategorySettingViewController.swift in Sources */,
 				ED2250DA2B61973300C0FDA9 /* GamaguTests.swift in Sources */,
+				EDACCDE82B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift in Sources */,
 				ED46F0822B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift in Sources */,
+				EDACCDE42B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift in Sources */,
 				ED22526B2B692FE100C0FDA9 /* HomeCollectionHeaderView.swift in Sources */,
 				ED64964C2B6D1C1600D890E1 /* UITextField+Ext.swift in Sources */,
 				ED88E67A2B69764000C66565 /* HomeCollectionViewCell.swift in Sources */,
-				ED6496482B6CD28800D890E1 /* InputFormViewController.swift in Sources */,
+				ED6496482B6CD28800D890E1 /* AddFormViewController.swift in Sources */,
+				EDB317062B73202A0061934A /* ItemCategory.swift in Sources */,
 				ED1B38A72B6A97D300C36A7A /* HomeTableViewCell.swift in Sources */,
+				EDACCDE02B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */,
 				EDB316FE2B7152D90061934A /* SettingButtonDelegate.swift in Sources */,
 				ED46F0862B71453D004A1FD9 /* SettingOptionMenuButtonTableViewCell.swift in Sources */,
 				ED22525F2B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */,
 				ED1B389F2B6A934900C36A7A /* HomeTableHeaderView.swift in Sources */,
+				EDB3170B2B7326810061934A /* CategorySettingNameTableViewCell.swift in Sources */,
 				ED88E67E2B6A287E00C66565 /* Item.swift in Sources */,
 				ED46F08A2B71468E004A1FD9 /* SettingCategoryTableViewCell.swift in Sources */,
 				ED2252522B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
@@ -471,21 +521,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED1B38A02B6A934900C36A7A /* HomeTableHeaderView.swift in Sources */,
+				EDACCDE12B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */,
 				ED2250E62B61973300C0FDA9 /* GamaguUITestsLaunchTests.swift in Sources */,
-				ED6496492B6CD28800D890E1 /* InputFormViewController.swift in Sources */,
+				ED6496492B6CD28800D890E1 /* AddFormViewController.swift in Sources */,
+				EDB3170C2B7326810061934A /* CategorySettingNameTableViewCell.swift in Sources */,
 				ED46F08B2B71468E004A1FD9 /* SettingCategoryTableViewCell.swift in Sources */,
 				ED46F0832B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift in Sources */,
 				ED2250E42B61973300C0FDA9 /* GamaguUITests.swift in Sources */,
+				EDACCDE52B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift in Sources */,
 				ED88E67B2B69764000C66565 /* HomeCollectionViewCell.swift in Sources */,
 				ED1B38A82B6A97D300C36A7A /* HomeTableViewCell.swift in Sources */,
+				EDB317072B73202A0061934A /* ItemCategory.swift in Sources */,
 				EDF92ED02B70ED7400531BD7 /* SettingDatePickerTableViewCell.swift in Sources */,
 				ED64964D2B6D1C1600D890E1 /* UITextField+Ext.swift in Sources */,
 				ED88E67F2B6A287E00C66565 /* Item.swift in Sources */,
+				EDB317032B71F8F50061934A /* CategorySettingViewController.swift in Sources */,
 				EDB316FF2B7152D90061934A /* SettingButtonDelegate.swift in Sources */,
 				ED46F0872B71453D004A1FD9 /* SettingOptionMenuButtonTableViewCell.swift in Sources */,
 				ED22526C2B692FE100C0FDA9 /* HomeCollectionHeaderView.swift in Sources */,
 				ED2252532B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
 				ED2252602B67F4F300C0FDA9 /* UITabBarController+Ext.swift in Sources */,
+				EDACCDE92B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

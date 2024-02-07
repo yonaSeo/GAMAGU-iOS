@@ -1,20 +1,14 @@
 //
-//  SettingCategoryTableViewCell.swift
+//  CategorySettingDeleteTableViewCell.swift
 //  Gamagu
 //
-//  Created by yona on 2/6/24.
+//  Created by yona on 2/7/24.
 //
 
 import UIKit
 
-class SettingCategoryTableViewCell: UITableViewCell {
-    static let identifier = "SettingCategoryTableViewCell"
-    
-    weak var delegate: SettingButtonDelegate?
-    
-    var text: String? {
-        didSet { setupData() }
-    }
+class CategorySettingDeleteTableViewCell: UITableViewCell {
+    static let identifier = "CategorySettingDeleteTableViewCell"
     
     private let containerView: UIView = {
         let view = UIView()
@@ -24,15 +18,16 @@ class SettingCategoryTableViewCell: UITableViewCell {
     
     private let settingLabel: UILabel = {
         let label = UILabel()
+        label.text = "삭제"
         label.font = .systemFont(ofSize: 20)
-        label.textColor = .font100
+        label.textColor = .primary20
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let arrowImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
+        iv.image = UIImage(systemName: "trash")?.withRenderingMode(.alwaysTemplate)
         iv.tintColor = .primary20
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
@@ -48,13 +43,8 @@ class SettingCategoryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        selected ? delegate?.categoryButtonTapped() : .none
-    }
-    
     func setupUI() {
-        self.backgroundColor = .primary80
+        self.backgroundColor = .primary100
         self.selectionStyle = .none
         
         contentView.addSubview(containerView)
@@ -63,20 +53,15 @@ class SettingCategoryTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+            containerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            containerView.widthAnchor.constraint(greaterThanOrEqualToConstant: 60),
             
             settingLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            settingLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
             settingLabel.heightAnchor.constraint(equalTo: containerView.heightAnchor),
             
             arrowImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             arrowImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
         ])
-    }
-    
-    func setupData() {
-        settingLabel.text = text
     }
 }

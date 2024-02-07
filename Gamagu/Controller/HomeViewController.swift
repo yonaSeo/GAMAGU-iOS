@@ -8,6 +8,8 @@
 import UIKit
 
 final class HomeViewController: UIViewController {
+    
+    // MARK: - 더미 데이터
     private var dummyItems = [
         Item(category: "카테고리 1", title: "첫 번째 제목", content: "첫 번째 내용입니다."),
         Item(category: "카테고리 1", title: "두 번째 제목", content: "두 번째 내용입니다."),
@@ -20,6 +22,7 @@ final class HomeViewController: UIViewController {
         Item(category: "카테고리 3", title: "두 번째 제목", content: "두 번째 내용입니다."),
         Item(category: "카테고리 3", title: "세 번째 제목", content: "세 번째 내용입니다."),
     ]
+    
     private lazy var categories: [(name: String, items: [Item])] = {
         var arr: [(name: String, items: [Item])] = []
         dummyItems.forEach { item in
@@ -155,13 +158,27 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupTabBarController()
         setupNavigationBar()
         setupCollectionView()
         setupTableView()
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+        tableView.reloadData()
+    }
+    
     // MARK: - setup 함수
+    func setupTabBarController() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let sceneDelegate = windowScene.delegate as? SceneDelegate,
+              let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController else { return }
+        tabBarController.delegate = self
+    }
+    
     func setupNavigationBar() {
         navigationController?.setNavigationBarAppearce()
         navigationItem.largeTitleDisplayMode = .always
@@ -234,8 +251,8 @@ final class HomeViewController: UIViewController {
         
         if #available(iOS 15.0, *) {
             NSLayoutConstraint.activate([
-                customButton.rightAnchor.constraint(equalTo: navigationBar.rightAnchor, constant: -8),
-                customButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor),
+                customButton.rightAnchor.constraint(equalTo: navigationBar.rightAnchor, constant: -12),
+                customButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -4),
             ])
         } else {
             NSLayoutConstraint.activate([
@@ -247,7 +264,7 @@ final class HomeViewController: UIViewController {
     
     // MARK: - @objc 함수
     @objc func addNewItem() {
-        let vc = InputFormViewController()
+        let vc = AddFormViewController()
         present(vc, animated: true)
     }
     
@@ -257,6 +274,18 @@ final class HomeViewController: UIViewController {
             guard let self else { return }
             collectionContainerView.isHidden = segment.selectedSegmentIndex != 0
             tableContainerView.isHidden = !collectionContainerView.isHidden
+        }
+    }
+}
+
+
+// MARK: - 탭바 delegate
+extension HomeViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if tabBarController.selectedIndex == 0 {
+            print("HomeVC Selected: reload data")
+            collectionView.reloadData()
+            tableView.reloadData()
         }
     }
 }
@@ -298,7 +327,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         cell.item?.category = categories[indexPath.section].name
         
-        let vc = InputFormViewController()
+        let vc = AddFormViewController()
         vc.item = cell.item
         
         present(vc, animated: true)
@@ -332,7 +361,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         
         cell.item?.category = categories[indexPath.section].name
         
-        let vc = InputFormViewController()
+        let vc = AddFormViewController()
         vc.item = cell.item
         
         present(vc, animated: true)

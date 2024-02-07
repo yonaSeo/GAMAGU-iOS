@@ -1,18 +1,18 @@
 //
-//  SettingOptionMenuButtonTableViewCell.swift
+//  CategorySettingTableViewCell.swift
 //  Gamagu
 //
-//  Created by yona on 2/6/24.
+//  Created by yona on 2/7/24.
 //
 
 import UIKit
 
-class SettingOptionMenuButtonTableViewCell: UITableViewCell {
-    static let identifier = "SettingOptionMenuButtonTableViewCell"
+class CategorySettingNameTableViewCell: UITableViewCell {
+    static let identifier = "CategorySettingNameTableViewCell"
     
-    weak var delegate: SettingButtonDelegate?
+    weak var delegate: CategorySettingButtonDelegate?
     
-    var data: (text: String, options: [String])? {
+    var data: (labelText: String, categoryName: String)? {
         didSet { setupData() }
     }
     
@@ -30,44 +30,28 @@ class SettingOptionMenuButtonTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let optionButton: UIButton = {
+    private let editButton: UIButton = {
         let button = UIButton()
         if #available(iOS 15.0, *) {
             button.configuration = UIButton.Configuration.filled()
             button.configuration?.imagePadding = 8
-            button.configuration?.image = UIImage(systemName: "chevron.down")?.applyingSymbolConfiguration(.init(scale: .medium))
+            button.configuration?.image = UIImage(systemName: "pencil")?.applyingSymbolConfiguration(.init(scale: .medium))
             button.configuration?.imagePlacement = .trailing
-            button.configuration?.baseForegroundColor = .font25
+            button.configuration?.baseForegroundColor = .font50
             button.configuration?.baseBackgroundColor = .primary60
         } else {
             button.imageEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: 0)
-            button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+            button.setImage(UIImage(systemName: "pencil"), for: .normal)
             button.semanticContentAttribute = .forceRightToLeft
-            button.tintColor = .font25
+            button.tintColor = .font50
             button.setBackgroundColor(.primary60, for: .normal)
         }
-        button.setTitle("선택", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .thin)
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
-    func setupOptionButton(options: [String]) {
-        let popUpButtonAction = { [weak self] (action: UIAction) in
-            self?.optionButton.setTitle(options.first { $0 == action.title }, for: .normal)
-            self?.optionButton.setTitleColor(.font100, for: .normal)
-            self?.delegate?.optionMenuValueChnaged()
-        }
-        
-        optionButton.showsMenuAsPrimaryAction = true
-        optionButton.menu = UIMenu(
-            title: "선택",
-            children: options.map { UIAction(title: $0, handler: popUpButtonAction) }
-            
-        )
-    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -85,7 +69,7 @@ class SettingOptionMenuButtonTableViewCell: UITableViewCell {
         
         contentView.addSubview(containerView)
         containerView.addSubview(settingLabel)
-        containerView.addSubview(optionButton)
+        containerView.addSubview(editButton)
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
@@ -97,22 +81,44 @@ class SettingOptionMenuButtonTableViewCell: UITableViewCell {
             settingLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
             settingLabel.heightAnchor.constraint(equalTo: containerView.heightAnchor),
             
-            optionButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            optionButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
-            optionButton.heightAnchor.constraint(equalTo: containerView.heightAnchor),
+            editButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            editButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            editButton.heightAnchor.constraint(equalTo: containerView.heightAnchor),
         ])
     }
     
     func setupData() {
-        guard let data else { return }
-        settingLabel.text = data.text
-        setupOptionButton(options: data.options)
+        guard let labelText = data?.labelText else { return }
+        guard let categoryName = data?.categoryName else { return }
+        settingLabel.text = labelText
+        editButton.setTitle(categoryName, for: .normal)
+        
+        editButton.addAction(UIAction(handler: { [weak self] _ in
+            let alert = UIAlertController(title: "카테고리 수정", message: "변경할 카테고리 이름을 입력하세요", preferredStyle: .alert)
+            let yes = UIAlertAction(title: "확인", style: .default, handler: { [weak alert, self] _ in
+                guard let text = alert?.textFields?[0].text else { return }
+                self?.editButton.setTitle(text, for: .normal)
+                self?.delegate?.categorySettingNameChanged()
+            })
+            let no = UIAlertAction(title: "취소", style: .cancel)
+            
+            alert.addTextField { [weak self] tf in
+                tf.placeholder = "ex) D-Day3, 영단어"
+                tf.delegate = self
+                tf.text = categoryName
+            }
+            alert.addAction(yes)
+            alert.addAction(no)
+            
+            guard let vc = self?.delegate as? CategorySettingViewController else { return }
+            vc.present(alert, animated: true)
+        }), for: .touchUpInside)
     }
+}
 
-    func toggleButtonState() {
-        optionButton.isEnabled
-        ? (settingLabel.textColor = .font25)
-        : (settingLabel.textColor = .font100)
-        optionButton.isEnabled = !optionButton.isEnabled
+extension CategorySettingNameTableViewCell: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        return (text.count + string.count - range.length) <= 10
     }
 }

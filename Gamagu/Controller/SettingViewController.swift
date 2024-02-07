@@ -8,9 +8,35 @@
 import UIKit
 
 final class SettingViewController: UIViewController {
+    private var dummyItems = [
+        Item(category: "카테고리 1", title: "첫 번째 제목", content: "첫 번째 내용입니다."),
+        Item(category: "카테고리 1", title: "두 번째 제목", content: "두 번째 내용입니다."),
+        Item(category: "카테고리 1", title: "세 번째 제목", content: "세 번째 내용입니다."),
+        Item(category: "카테고리 2", title: "첫 번째 제목", content: "첫 번째 내용입니다."),
+        Item(category: "카테고리 2", title: "두 번째 제목", content: "두 번째 내용입니다."),
+        Item(category: "카테고리 2", title: "세 번째 제목", content: "세 번째 내용입니다."),
+        Item(category: "카테고리 2", title: "네 번째 제목", content: "네 번째 내용입니다."),
+        Item(category: "카테고리 3", title: "첫 번째 제목", content: "첫 번째 내용입니다."),
+        Item(category: "카테고리 3", title: "두 번째 제목", content: "두 번째 내용입니다."),
+        Item(category: "카테고리 3", title: "세 번째 제목", content: "세 번째 내용입니다."),
+    ]
+    
+    private lazy var categories: [(name: String, items: [Item])] = {
+        var arr: [(name: String, items: [Item])] = []
+        dummyItems.forEach { item in
+            var idx = 0
+            arr.enumerated().contains {
+                idx = $0.offset;
+                return $0.element.name.contains(item.category)
+            }
+            ? arr[idx].items.append(item)
+            : arr.append((name: item.category, items: [item]))
+        }
+        return arr
+    }()
+    
     private let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
-        
         tv.separatorColor = .primary20
         tv.rowHeight = 56
         tv.sectionHeaderHeight = 48
@@ -160,5 +186,7 @@ extension SettingViewController: SettingButtonDelegate {
     
     func categoryButtonTapped() {
         print("category button tapped")
+        navigationController?.pushViewController(CategorySettingViewController(), animated: true)
     }
 }
+

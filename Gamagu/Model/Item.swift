@@ -15,7 +15,7 @@ struct Item {
     
     public var dateString: String? {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.dateFormat = "yyyy.MM.dd"
         return formatter.string(from: date)
     }
     
