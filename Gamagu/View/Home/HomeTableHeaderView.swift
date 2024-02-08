@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TableHeaderView: UITableViewHeaderFooterView {
+final class HomeTableHeaderView: UITableViewHeaderFooterView {
     static let identifier = "TableHeaderView"
     
     var text: String? {

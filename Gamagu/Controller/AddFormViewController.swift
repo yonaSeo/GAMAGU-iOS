@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class InputFormViewController: UIViewController {
+final class AddFormViewController: UIViewController {
     var item: Item? {
         didSet { setupData() }
     }
@@ -72,6 +72,9 @@ final class InputFormViewController: UIViewController {
     private lazy var titleTextField: UITextField = { [weak self] in
         let tf = UITextField()
         tf.delegate = self
+        tf.autocorrectionType = .no
+        tf.spellCheckingType = .no
+        
         tf.attributedPlaceholder = .init(
             string: "제목을 입력하세요",
             attributes: [
@@ -92,6 +95,9 @@ final class InputFormViewController: UIViewController {
     private lazy var contentTextView: UITextView = { [weak self] in
         let tv = UITextView()
         tv.delegate = self
+        tv.autocorrectionType = .no
+        tv.spellCheckingType = .no
+        
         tv.text = "내용을 입력하세요"
         tv.font = UIFont.systemFont(ofSize: 20, weight: .thin)
         tv.textColor = .font25
@@ -161,6 +167,9 @@ final class InputFormViewController: UIViewController {
         contentTextView.text = item?.content
         contentTextView.textColor = .font100
         contentTextView.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        
+        let attributedString = setAttributedString(textView: contentTextView)
+        letterCountLabel.attributedText = attributedString
     }
     
     func setupCategoryButton() {
@@ -230,7 +239,7 @@ final class InputFormViewController: UIViewController {
     }
 }
 
-extension InputFormViewController: UITextFieldDelegate {
+extension AddFormViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         textField.backgroundColor = .primary20
@@ -246,7 +255,7 @@ extension InputFormViewController: UITextFieldDelegate {
     }
 }
 
-extension InputFormViewController: UITextViewDelegate {
+extension AddFormViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "내용을 입력하세요" {
             textView.font = UIFont.systemFont(ofSize: 20, weight: .regular)
@@ -270,7 +279,7 @@ extension InputFormViewController: UITextViewDelegate {
         }
         
         if self.view.window?.frame.origin.y != 0 {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: 0.3) {
                 self.view.window?.frame.origin.y += 160
             }
         }
@@ -281,13 +290,17 @@ extension InputFormViewController: UITextViewDelegate {
             textView.deleteBackward()
         }
         
-        letterCountLabel.text = "\(textView.text.count)/150"
-                
+        let attributedString = setAttributedString(textView: textView)
+        letterCountLabel.attributedText = attributedString
+    }
+    
+    func setAttributedString(textView: UITextView) -> NSMutableAttributedString {
         let attributedString = NSMutableAttributedString(string: "\(textView.text.count)/150")
         attributedString.addAttribute(
             .foregroundColor,
             value: UIColor.accent100,
             range: ("\(textView.text.count)/150" as NSString).range(of:"\(textView.text.count)"))
-        letterCountLabel.attributedText = attributedString
+        return attributedString
     }
+
 }

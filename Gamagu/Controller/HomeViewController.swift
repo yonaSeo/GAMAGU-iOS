@@ -8,6 +8,8 @@
 import UIKit
 
 final class HomeViewController: UIViewController {
+    
+    // MARK: - 더미 데이터
     private var dummyItems = [
         Item(category: "카테고리 1", title: "첫 번째 제목", content: "첫 번째 내용입니다."),
         Item(category: "카테고리 1", title: "두 번째 제목", content: "두 번째 내용입니다."),
@@ -20,11 +22,15 @@ final class HomeViewController: UIViewController {
         Item(category: "카테고리 3", title: "두 번째 제목", content: "두 번째 내용입니다."),
         Item(category: "카테고리 3", title: "세 번째 제목", content: "세 번째 내용입니다."),
     ]
+    
     private lazy var categories: [(name: String, items: [Item])] = {
         var arr: [(name: String, items: [Item])] = []
         dummyItems.forEach { item in
             var idx = 0
-            arr.enumerated().contains { idx = $0.offset; return $0.element.name.contains(item.category) }
+            arr.enumerated().contains {
+                idx = $0.offset;
+                return $0.element.name.contains(item.category)
+            }
             ? arr[idx].items.append(item)
             : arr.append((name: item.category, items: [item]))
         }
@@ -116,12 +122,12 @@ final class HomeViewController: UIViewController {
             
             // background
             section.decorationItems = [
-                NSCollectionLayoutDecorationItem.background(elementKind: CollectionBackgroundView.identifier)
+                NSCollectionLayoutDecorationItem.background(elementKind: HomeCollectionBackgroundView.identifier)
             ]
            
             return section
         }
-        layout.register(CollectionBackgroundView.self, forDecorationViewOfKind: CollectionBackgroundView.identifier)
+        layout.register(HomeCollectionBackgroundView.self, forDecorationViewOfKind: HomeCollectionBackgroundView.identifier)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
@@ -151,20 +157,28 @@ final class HomeViewController: UIViewController {
     // MARK: - 라이프 사이클
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .primary40
         
+        setupTabBarController()
         setupNavigationBar()
         setupCollectionView()
         setupTableView()
         setupUI()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        collectionView.frame = view.bounds
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+        tableView.reloadData()
     }
     
     // MARK: - setup 함수
+    func setupTabBarController() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let sceneDelegate = windowScene.delegate as? SceneDelegate,
+              let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController else { return }
+        tabBarController.delegate = self
+    }
+    
     func setupNavigationBar() {
         navigationController?.setNavigationBarAppearce()
         navigationItem.largeTitleDisplayMode = .always
@@ -177,24 +191,26 @@ final class HomeViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(
-            CollectionViewCell.self, 
-            forCellWithReuseIdentifier: CollectionViewCell.identifier
+            HomeCollectionViewCell.self, 
+            forCellWithReuseIdentifier: HomeCollectionViewCell.identifier
         )
         collectionView.register(
-            CollectionHeaderView.self,
+            HomeCollectionHeaderView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: CollectionHeaderView.identifier
+            withReuseIdentifier: HomeCollectionHeaderView.identifier
         )
     }
     
     func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
-        tableView.register(TableHeaderView.self, forHeaderFooterViewReuseIdentifier: TableHeaderView.identifier)
+        tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
+        tableView.register(HomeTableHeaderView.self, forHeaderFooterViewReuseIdentifier: HomeTableHeaderView.identifier)
     }
     
     func setupUI() {
+        view.backgroundColor = .primary60
+        
         guard let navigationBar = navigationController?.navigationBar else { return }
         
         view.addSubview(segmentedControl)
@@ -235,8 +251,8 @@ final class HomeViewController: UIViewController {
         
         if #available(iOS 15.0, *) {
             NSLayoutConstraint.activate([
-                customButton.rightAnchor.constraint(equalTo: navigationBar.rightAnchor, constant: -8),
-                customButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor),
+                customButton.rightAnchor.constraint(equalTo: navigationBar.rightAnchor, constant: -12),
+                customButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -4),
             ])
         } else {
             NSLayoutConstraint.activate([
@@ -248,13 +264,29 @@ final class HomeViewController: UIViewController {
     
     // MARK: - @objc 함수
     @objc func addNewItem() {
-        let vc = InputFormViewController()
+        let vc = AddFormViewController()
         present(vc, animated: true)
     }
     
     @objc func didChangeValue(segment: UISegmentedControl) {
-        collectionContainerView.isHidden = segment.selectedSegmentIndex != 0
-        tableContainerView.isHidden = !collectionContainerView.isHidden
+        // ???
+        UIView.animate(withDuration: 1.0) { [weak self] in
+            guard let self else { return }
+            collectionContainerView.isHidden = segment.selectedSegmentIndex != 0
+            tableContainerView.isHidden = !collectionContainerView.isHidden
+        }
+    }
+}
+
+
+// MARK: - 탭바 delegate
+extension HomeViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if tabBarController.selectedIndex == 0 {
+            print("HomeVC Selected: reload data")
+            collectionView.reloadData()
+            tableView.reloadData()
+        }
     }
 }
 
@@ -269,7 +301,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionHeaderView.identifier, for: indexPath) as? CollectionHeaderView else { fatalError() }
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.identifier, for: indexPath) as? HomeCollectionHeaderView else { fatalError() }
         
         switch kind {
         case UICollectionView.elementKindSectionHeader:
@@ -282,8 +314,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: CollectionViewCell.identifier, for: indexPath
-        ) as? CollectionViewCell else { fatalError() }
+            withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath
+        ) as? HomeCollectionViewCell else { fatalError() }
         
         cell.item = categories[indexPath.section].items[indexPath.row]
         
@@ -291,11 +323,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell else { fatalError() }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? HomeCollectionViewCell else { fatalError() }
         
         cell.item?.category = categories[indexPath.section].name
         
-        let vc = InputFormViewController()
+        let vc = AddFormViewController()
         vc.item = cell.item
         
         present(vc, animated: true)
@@ -309,7 +341,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableHeaderView.identifier) as? TableHeaderView else { fatalError() }
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeTableHeaderView.identifier) as? HomeTableHeaderView else { fatalError() }
         header.text = categories[section].name
         return header
     }
@@ -319,17 +351,17 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else { fatalError() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as? HomeTableViewCell else { fatalError() }
         cell.item = categories[indexPath.section].items[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? TableViewCell else { fatalError() }
+        guard let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell else { fatalError() }
         
         cell.item?.category = categories[indexPath.section].name
         
-        let vc = InputFormViewController()
+        let vc = AddFormViewController()
         vc.item = cell.item
         
         present(vc, animated: true)

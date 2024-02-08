@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CollectionBackgroundView: UICollectionReusableView {
+final class HomeCollectionBackgroundView: UICollectionReusableView {
     static let identifier = "CollectionBackgroundView"
     
     private let backgroundView: UIView = {
