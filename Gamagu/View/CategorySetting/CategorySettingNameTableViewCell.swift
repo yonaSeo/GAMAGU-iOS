@@ -37,13 +37,13 @@ class CategorySettingNameTableViewCell: UITableViewCell {
             button.configuration?.imagePadding = 8
             button.configuration?.image = UIImage(systemName: "pencil")?.applyingSymbolConfiguration(.init(scale: .medium))
             button.configuration?.imagePlacement = .trailing
-            button.configuration?.baseForegroundColor = .font50
+            button.configuration?.baseForegroundColor = .font100
             button.configuration?.baseBackgroundColor = .primary60
         } else {
             button.imageEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: 0)
             button.setImage(UIImage(systemName: "pencil"), for: .normal)
             button.semanticContentAttribute = .forceRightToLeft
-            button.tintColor = .font50
+            button.tintColor = .font100
             button.setBackgroundColor(.primary60, for: .normal)
         }
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .thin)

@@ -9,9 +9,9 @@ import UIKit
 
 class CategorySettingViewController: UIViewController {
     private var dummyItemCategories = [
-        ItemCategory(name: "카테고리 1", alarmCycleDay: 7, alarmCount: 3),
-        ItemCategory(name: "카테고리 2", alarmCycleDay: 1, alarmCount: 1),
-        ItemCategory(name: "카테고리 3", alarmCycleDay: 30, alarmCount: 9),
+        ItemCategory(name: "카테고리 1", alarmCycleDay: 7, alarmCount: 3, orderNumber: 0),
+        ItemCategory(name: "카테고리 2", alarmCycleDay: 1, alarmCount: 1, orderNumber: 1),
+        ItemCategory(name: "카테고리 3", alarmCycleDay: 30, alarmCount: 9, orderNumber: 2),
     ]
     
     private let tableView: UITableView = {
@@ -37,7 +37,8 @@ class CategorySettingViewController: UIViewController {
             let alert = UIAlertController(title: "카테고리 추가", message: "카테고리 이름을 입력하세요", preferredStyle: .alert)
             let yes = UIAlertAction(title: "확인", style: .default, handler: { [weak alert, self] _ in
                 guard let text = alert?.textFields?[0].text else { return }
-                self?.dummyItemCategories.append(ItemCategory(name: text, alarmCycleDay: 1, alarmCount: 1))
+                guard let lastOrderNumber = self?.dummyItemCategories.last?.orderNumber else { return }
+                self?.dummyItemCategories.append(ItemCategory(name: text, alarmCycleDay: 1, alarmCount: 1, orderNumber: lastOrderNumber + 1))
                 self?.tableView.reloadData()
             })
             let no = UIAlertAction(title: "취소", style: .cancel)
@@ -58,6 +59,7 @@ class CategorySettingViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(CategorySettingNameTableViewCell.self, forCellReuseIdentifier: CategorySettingNameTableViewCell.identifier)
         tableView.register(CategorySettingAlarmCountTableViewCell.self, forCellReuseIdentifier: CategorySettingAlarmCountTableViewCell.identifier)
+        tableView.register(CategorySettingPositionTableViewCell.self, forCellReuseIdentifier: CategorySettingPositionTableViewCell.identifier)
         tableView.register(CategorySettingDeleteTableViewCell.self, forCellReuseIdentifier: CategorySettingDeleteTableViewCell.identifier)
     }
     
@@ -81,7 +83,7 @@ extension CategorySettingViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -106,6 +108,17 @@ extension CategorySettingViewController: UITableViewDataSource, UITableViewDeleg
             return cell
         case 2:
             guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: CategorySettingPositionTableViewCell.identifier, for: indexPath
+            ) as? CategorySettingPositionTableViewCell else { fatalError() }
+            cell.delegate = self
+            cell.data = (
+                labelText: "위치",
+                orderNumber: dummyItemCategories[indexPath.section].orderNumber,
+                categoryCount: dummyItemCategories.count
+            )
+            return cell
+        case 3:
+            guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: CategorySettingDeleteTableViewCell.identifier, for: indexPath
             ) as? CategorySettingDeleteTableViewCell else { fatalError() }
             return cell
@@ -114,7 +127,7 @@ extension CategorySettingViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 2 {
+        if indexPath.row == 3 {
             let alert = UIAlertController(
                 title: "카테고리 삭제", message: "해당 카테고리에 속한\n모든 아이템이 삭제됩니다.\n\n정말 삭제하시겠습니까?", preferredStyle: .alert
             )
@@ -132,6 +145,29 @@ extension CategorySettingViewController: UITableViewDataSource, UITableViewDeleg
 }
 
 extension CategorySettingViewController: CategorySettingButtonDelegate {
+    func categorySettingPositionUpButtonTapped(orderNumber: Int) {
+        print("position up button tapped and position is \(orderNumber)")
+        dummyItemCategories[orderNumber].orderNumber -= 1
+        dummyItemCategories[orderNumber - 1].orderNumber += 1
+        
+        let temp = dummyItemCategories[orderNumber]
+        dummyItemCategories[orderNumber] = dummyItemCategories[orderNumber - 1]
+        dummyItemCategories[orderNumber - 1] =  temp
+        
+        tableView.reloadData()
+    }
+    
+    func categorySettingPositionDownButtonTapped(orderNumber: Int) {
+        print("position down button tapped and position is \(orderNumber)")
+        dummyItemCategories[orderNumber].orderNumber += 1
+        dummyItemCategories[orderNumber + 1].orderNumber -= 1
+        
+        let temp = dummyItemCategories[orderNumber]
+        dummyItemCategories[orderNumber] = dummyItemCategories[orderNumber + 1]
+        dummyItemCategories[orderNumber + 1] =  temp
+        tableView.reloadData()
+    }
+    
     func categorySettingNameChanged() {
         print("name button tapped")
     }

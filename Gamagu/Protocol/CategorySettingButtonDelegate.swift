@@ -11,4 +11,6 @@ protocol CategorySettingButtonDelegate: AnyObject {
     func categorySettingNameChanged()
     func categorySettingAlarmCountButtonTapped()
     func categorySettingAlarmCycleButtonTapped()
+    func categorySettingPositionUpButtonTapped(orderNumber: Int)
+    func categorySettingPositionDownButtonTapped(orderNumber: Int)
 }

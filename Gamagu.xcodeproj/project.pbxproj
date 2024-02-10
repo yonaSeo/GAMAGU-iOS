@@ -60,6 +60,9 @@
 		ED88E67D2B6A287E00C66565 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E67C2B6A287E00C66565 /* Item.swift */; };
 		ED88E67E2B6A287E00C66565 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E67C2B6A287E00C66565 /* Item.swift */; };
 		ED88E67F2B6A287E00C66565 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED88E67C2B6A287E00C66565 /* Item.swift */; };
+		ED91BF4C2B77AAB800CF048E /* CategorySettingPositionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED91BF4B2B77AAB800CF048E /* CategorySettingPositionTableViewCell.swift */; };
+		ED91BF4D2B77AABF00CF048E /* CategorySettingPositionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED91BF4B2B77AAB800CF048E /* CategorySettingPositionTableViewCell.swift */; };
+		ED91BF4E2B77AABF00CF048E /* CategorySettingPositionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED91BF4B2B77AAB800CF048E /* CategorySettingPositionTableViewCell.swift */; };
 		EDACCDDF2B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */; };
 		EDACCDE02B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */; };
 		EDACCDE12B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */; };
@@ -133,6 +136,7 @@
 		ED88E6762B69640300C66565 /* HomeCollectionBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionBackgroundView.swift; sourceTree = "<group>"; };
 		ED88E6782B69764000C66565 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		ED88E67C2B6A287E00C66565 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		ED91BF4B2B77AAB800CF048E /* CategorySettingPositionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingPositionTableViewCell.swift; sourceTree = "<group>"; };
 		EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingButtonDelegate.swift; sourceTree = "<group>"; };
 		EDACCDE22B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingAlarmCountTableViewCell.swift; sourceTree = "<group>"; };
 		EDACCDE62B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingDeleteTableViewCell.swift; sourceTree = "<group>"; };
@@ -318,6 +322,7 @@
 			children = (
 				EDB317092B7326810061934A /* CategorySettingNameTableViewCell.swift */,
 				EDACCDE22B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift */,
+				ED91BF4B2B77AAB800CF048E /* CategorySettingPositionTableViewCell.swift */,
 				EDACCDE62B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift */,
 			);
 			path = CategorySetting;
@@ -473,6 +478,7 @@
 				ED1B38A62B6A97D300C36A7A /* HomeTableViewCell.swift in Sources */,
 				ED88E67D2B6A287E00C66565 /* Item.swift in Sources */,
 				ED88E6772B69640300C66565 /* HomeCollectionBackgroundView.swift in Sources */,
+				ED91BF4C2B77AAB800CF048E /* CategorySettingPositionTableViewCell.swift in Sources */,
 				ED2250C32B61973000C0FDA9 /* AppDelegate.swift in Sources */,
 				EDB317052B73202A0061934A /* ItemCategory.swift in Sources */,
 				ED46F0852B71453D004A1FD9 /* SettingOptionMenuButtonTableViewCell.swift in Sources */,
@@ -511,6 +517,7 @@
 				ED1B389F2B6A934900C36A7A /* HomeTableHeaderView.swift in Sources */,
 				EDB3170B2B7326810061934A /* CategorySettingNameTableViewCell.swift in Sources */,
 				ED88E67E2B6A287E00C66565 /* Item.swift in Sources */,
+				ED91BF4D2B77AABF00CF048E /* CategorySettingPositionTableViewCell.swift in Sources */,
 				ED46F08A2B71468E004A1FD9 /* SettingCategoryTableViewCell.swift in Sources */,
 				ED2252522B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
 			);
@@ -525,6 +532,7 @@
 				ED2250E62B61973300C0FDA9 /* GamaguUITestsLaunchTests.swift in Sources */,
 				ED6496492B6CD28800D890E1 /* AddFormViewController.swift in Sources */,
 				EDB3170C2B7326810061934A /* CategorySettingNameTableViewCell.swift in Sources */,
+				ED91BF4E2B77AABF00CF048E /* CategorySettingPositionTableViewCell.swift in Sources */,
 				ED46F08B2B71468E004A1FD9 /* SettingCategoryTableViewCell.swift in Sources */,
 				ED46F0832B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift in Sources */,
 				ED2250E42B61973300C0FDA9 /* GamaguUITests.swift in Sources */,

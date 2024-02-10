@@ -57,7 +57,7 @@ class SettingOptionMenuButtonTableViewCell: UITableViewCell {
     func setupOptionButton(options: [String]) {
         let popUpButtonAction = { [weak self] (action: UIAction) in
             self?.optionButton.setTitle(options.first { $0 == action.title }, for: .normal)
-            self?.optionButton.setTitleColor(.font100, for: .normal)
+            self?.optionButton.setTitleColor(.font75, for: .normal)
             self?.delegate?.optionMenuValueChnaged()
         }
         
@@ -112,7 +112,7 @@ class SettingOptionMenuButtonTableViewCell: UITableViewCell {
     func toggleButtonState() {
         optionButton.isEnabled
         ? (settingLabel.textColor = .font25)
-        : (settingLabel.textColor = .font100)
+        : (settingLabel.textColor = .font75)
         optionButton.isEnabled = !optionButton.isEnabled
     }
 }

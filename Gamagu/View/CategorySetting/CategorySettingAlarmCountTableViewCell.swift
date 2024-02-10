@@ -37,13 +37,13 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
             button.configuration?.imagePadding = 8
             button.configuration?.image = UIImage(systemName: "chevron.down")?.applyingSymbolConfiguration(.init(scale: .medium))
             button.configuration?.imagePlacement = .trailing
-            button.configuration?.baseForegroundColor = .font50
+            button.configuration?.baseForegroundColor = .font100
             button.configuration?.baseBackgroundColor = .primary60
         } else {
             button.imageEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: 0)
             button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
             button.semanticContentAttribute = .forceRightToLeft
-            button.tintColor = .font50
+            button.tintColor = .font100
             button.setBackgroundColor(.primary60, for: .normal)
         }
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .thin)
@@ -56,7 +56,6 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     func setupAlarmCycleButton() {
         let popUpButtonAction = { [weak self] (action: UIAction) in
             self?.alarmCycleButton.setTitle(action.title, for: .normal)
-            self?.alarmCycleButton.setTitleColor(.font100, for: .normal)
             self?.delegate?.categorySettingAlarmCycleButtonTapped()
         }
         
@@ -74,13 +73,13 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
             button.configuration?.imagePadding = 8
             button.configuration?.image = UIImage(systemName: "chevron.down")?.applyingSymbolConfiguration(.init(scale: .medium))
             button.configuration?.imagePlacement = .trailing
-            button.configuration?.baseForegroundColor = .font50
+            button.configuration?.baseForegroundColor = .font100
             button.configuration?.baseBackgroundColor = .primary60
         } else {
             button.imageEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: 0)
             button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
             button.semanticContentAttribute = .forceRightToLeft
-            button.tintColor = .font50
+            button.tintColor = .font100
             button.setBackgroundColor(.primary60, for: .normal)
         }
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .thin)
@@ -93,7 +92,6 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     func setupAlarmCountButton() {
         let popUpButtonAction = { [weak self] (action: UIAction) in
             self?.alarmCountButton.setTitle(action.title, for: .normal)
-            self?.alarmCountButton.setTitleColor(.font100, for: .normal)
             self?.delegate?.categorySettingAlarmCountButtonTapped()
         }
         

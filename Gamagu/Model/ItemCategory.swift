@@ -11,6 +11,7 @@ struct ItemCategory {
     var name: String
     var alarmCycleDayCount: Int
     var alarmCount: Int
+    var orderNumber: Int
     var date: Date
     
     public var dateString: String? {
@@ -29,10 +30,11 @@ struct ItemCategory {
         }
     }
     
-    init(name: String, alarmCycleDay: Int, alarmCount: Int) {
+    init(name: String, alarmCycleDay: Int, alarmCount: Int, orderNumber: Int) {
         self.name = name
         self.alarmCycleDayCount = alarmCycleDay
         self.alarmCount = alarmCount
+        self.orderNumber = orderNumber
         self.date = Date()
     }
 }
