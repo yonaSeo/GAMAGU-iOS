@@ -9,8 +9,9 @@ import UIKit
 
 protocol CategorySettingButtonDelegate: AnyObject {
     func categorySettingNameChanged()
-    func categorySettingAlarmCountButtonTapped()
+    func categorySettingActivationToggleValueChanged(section: Int, isActive: Bool)
     func categorySettingAlarmCycleButtonTapped()
-    func categorySettingPositionUpButtonTapped(orderNumber: Int)
-    func categorySettingPositionDownButtonTapped(orderNumber: Int)
+    func categorySettingAlarmCountButtonTapped()
+    func categorySettingPositionUpButtonTapped(section: Int)
+    func categorySettingPositionDownButtonTapped(section: Int)
 }

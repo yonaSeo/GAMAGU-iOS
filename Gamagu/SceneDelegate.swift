@@ -22,9 +22,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.setViewControllers([homeVC, settingVC], animated: true)
         tabBarController.setTabBar()
         
+        preloadData()
+        
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
         window?.overrideUserInterfaceStyle = .dark
+    }
+    
+    private func preloadData() {
+        let preloadDataKey = "didPreloadData"
+        
+        if UserDefaults.standard.bool(forKey: preloadDataKey) == false {
+            let backgroundContext = CoreDataManager.shared.persistentContainer.newBackgroundContext()
+            backgroundContext.perform {
+                CoreDataManager.shared.initialDataSetup()
+                UserDefaults.standard.set(true, forKey: preloadDataKey)
+            }
+        }
     }
 }
 

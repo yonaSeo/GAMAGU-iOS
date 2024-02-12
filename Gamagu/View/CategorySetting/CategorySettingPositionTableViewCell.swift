@@ -12,7 +12,7 @@ class CategorySettingPositionTableViewCell: UITableViewCell {
     
     weak var delegate: CategorySettingButtonDelegate?
     
-    var data: (labelText: String, orderNumber: Int, categoryCount: Int)? {
+    var data: (labelText: String, category: Category, section: Int)? {
         didSet { setupData() }
     }
     
@@ -40,7 +40,7 @@ class CategorySettingPositionTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addAction(UIAction(handler: { [weak self] _ in
             guard let data = self?.data else { return }
-            self?.delegate?.categorySettingPositionUpButtonTapped(orderNumber: data.orderNumber)
+            self?.delegate?.categorySettingPositionUpButtonTapped(section: self?.data?.section ?? 0)
         }), for: .touchUpInside)
         return button
     }()
@@ -55,7 +55,7 @@ class CategorySettingPositionTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addAction(UIAction(handler: { [weak self] _ in
             guard let data = self?.data else { return }
-            self?.delegate?.categorySettingPositionDownButtonTapped(orderNumber: data.orderNumber)
+            self?.delegate?.categorySettingPositionDownButtonTapped(section: self?.data?.section ?? 0)
         }), for: .touchUpInside)
         return button
     }()
@@ -103,8 +103,10 @@ class CategorySettingPositionTableViewCell: UITableViewCell {
     func setupData() {
         guard let data else { return }
         settingLabel.text = data.labelText
-        positionUpButton.isEnabled = data.orderNumber != 0 ? true : false
-        positionDownButton.isEnabled = data.orderNumber != data.categoryCount - 1 ? true : false
+        positionUpButton.isEnabled =
+            data.category.orderNumber != CoreDataManager.shared.getMinOrderNumberCategory() ? true : false
+        positionDownButton.isEnabled =
+            data.category.orderNumber != CoreDataManager.shared.getMaxOrderNumberCategory() ? true : false
     }
 
 }

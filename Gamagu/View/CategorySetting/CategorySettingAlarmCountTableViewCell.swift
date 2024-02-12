@@ -12,7 +12,7 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     
     weak var delegate: CategorySettingButtonDelegate?
     
-    var data: (labelText: String, cycle: String?, count: String)? {
+    var data: (labelText: String, category: Category)? {
         didSet { setupData() }
     }
     
@@ -56,13 +56,20 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     func setupAlarmCycleButton() {
         let popUpButtonAction = { [weak self] (action: UIAction) in
             self?.alarmCycleButton.setTitle(action.title, for: .normal)
+            
+            self?.data?.category.alarmCycleDayCount = Category.makeAlarmCycleNumber(string: action.title)
+            CoreDataManager.shared.save()
+            CoreDataManager.shared.fetchCategories()
+            
             self?.delegate?.categorySettingAlarmCycleButtonTapped()
         }
         
         alarmCycleButton.showsMenuAsPrimaryAction = true
         alarmCycleButton.menu = UIMenu(
             title: "주기",
-            children: ["하루", "삼일", "일주일", "한 달"].map { UIAction(title: $0, handler: popUpButtonAction) }
+            children: CategoryAlarmCycle.allCases.map {
+                UIAction(title: $0.rawValue, handler: popUpButtonAction)
+            }
         )
     }
     
@@ -92,6 +99,11 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     func setupAlarmCountButton() {
         let popUpButtonAction = { [weak self] (action: UIAction) in
             self?.alarmCountButton.setTitle(action.title, for: .normal)
+            
+            self?.data?.category.alarmPushCount = Int64(action.title) ?? 1
+            CoreDataManager.shared.save()
+            CoreDataManager.shared.fetchCategories()
+            
             self?.delegate?.categorySettingAlarmCountButtonTapped()
         }
         
@@ -144,10 +156,21 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     }
     
     func setupData() {
-        settingLabel.text = data?.labelText
-        alarmCountButton.setTitle(data?.count, for: .normal)
-        alarmCycleButton.setTitle(data?.cycle, for: .normal)
+        guard let data else { return }
+        settingLabel.text = data.labelText
+        alarmCountButton.setTitle(data.category.alarmPushCount.description, for: .normal)
+        alarmCycleButton.setTitle(data.category.alarmCycleString, for: .normal)
         setupAlarmCountButton()
         setupAlarmCycleButton()
+        
+        toggleButtonState(isActive: data.category.isAlarmActive)
+    }
+    
+    func toggleButtonState(isActive: Bool) {
+        isActive
+        ? (settingLabel.textColor = .font75)
+        : (settingLabel.textColor = .font25)
+        alarmCycleButton.isEnabled = isActive
+        alarmCountButton.isEnabled = isActive
     }
 }

@@ -12,7 +12,7 @@ class CategorySettingNameTableViewCell: UITableViewCell {
     
     weak var delegate: CategorySettingButtonDelegate?
     
-    var data: (labelText: String, categoryName: String)? {
+    var data: (labelText: String, category: Category)? {
         didSet { setupData() }
     }
     
@@ -89,7 +89,7 @@ class CategorySettingNameTableViewCell: UITableViewCell {
     
     func setupData() {
         guard let labelText = data?.labelText else { return }
-        guard let categoryName = data?.categoryName else { return }
+        guard let categoryName = data?.category.name else { return }
         settingLabel.text = labelText
         editButton.setTitle(categoryName, for: .normal)
         
@@ -98,6 +98,11 @@ class CategorySettingNameTableViewCell: UITableViewCell {
             let yes = UIAlertAction(title: "확인", style: .default, handler: { [weak alert, self] _ in
                 guard let text = alert?.textFields?[0].text else { return }
                 self?.editButton.setTitle(text, for: .normal)
+                
+                self?.data?.category.name = text
+                CoreDataManager.shared.save()
+                CoreDataManager.shared.fetchCategories()
+                
                 self?.delegate?.categorySettingNameChanged()
             })
             let no = UIAlertAction(title: "취소", style: .cancel)
@@ -105,7 +110,6 @@ class CategorySettingNameTableViewCell: UITableViewCell {
             alert.addTextField { [weak self] tf in
                 tf.placeholder = "ex) D-Day3, 영단어"
                 tf.delegate = self
-                tf.text = categoryName
             }
             alert.addAction(yes)
             alert.addAction(no)

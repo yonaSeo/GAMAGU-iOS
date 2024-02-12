@@ -9,34 +9,6 @@ import UIKit
 
 final class HomeViewController: UIViewController {
     
-    // MARK: - 더미 데이터
-    private var dummyItems = [
-        Item(category: "카테고리 1", title: "첫 번째 제목", content: "첫 번째 내용입니다."),
-        Item(category: "카테고리 1", title: "두 번째 제목", content: "두 번째 내용입니다."),
-        Item(category: "카테고리 1", title: "세 번째 제목", content: "세 번째 내용입니다."),
-        Item(category: "카테고리 2", title: "첫 번째 제목", content: "첫 번째 내용입니다."),
-        Item(category: "카테고리 2", title: "두 번째 제목", content: "두 번째 내용입니다."),
-        Item(category: "카테고리 2", title: "세 번째 제목", content: "세 번째 내용입니다."),
-        Item(category: "카테고리 2", title: "네 번째 제목", content: "네 번째 내용입니다."),
-        Item(category: "카테고리 3", title: "첫 번째 제목", content: "첫 번째 내용입니다."),
-        Item(category: "카테고리 3", title: "두 번째 제목", content: "두 번째 내용입니다."),
-        Item(category: "카테고리 3", title: "세 번째 제목", content: "세 번째 내용입니다."),
-    ]
-    
-    private lazy var categories: [(name: String, items: [Item])] = {
-        var arr: [(name: String, items: [Item])] = []
-        dummyItems.forEach { item in
-            var idx = 0
-            arr.enumerated().contains {
-                idx = $0.offset;
-                return $0.element.name.contains(item.category)
-            }
-            ? arr[idx].items.append(item)
-            : arr.append((name: item.category, items: [item]))
-        }
-        return arr
-    }()
-    
     // MARK: - 헤더(네비게이션 바)
     private let logoImageView: UIButton = {
         let button = UIButton()
@@ -56,7 +28,11 @@ final class HomeViewController: UIViewController {
         } else {
             button.oldCustomButtonMaker(title: "추가", color: .accent100, imageName: "icon_plus")
         }
-        button.addTarget(self, action: #selector(addNewItem), for: .touchUpInside)
+        button.addAction(UIAction(handler: { [weak self] _ in
+            let vc = AddFormViewController()
+            vc.delegate = self
+            self?.present(vc, animated: true)
+        }), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -69,7 +45,12 @@ final class HomeViewController: UIViewController {
         control.setTitleTextAttributes([.foregroundColor: UIColor.font100], for: .selected)
         control.setTitleTextAttributes([.foregroundColor: UIColor.primary20], for: .normal)
         control.selectedSegmentIndex = 0
-        control.addTarget(self, action: #selector(didChangeValue(segment:)), for: .valueChanged)
+        control.addAction(UIAction(handler: { [weak self] _ in
+            CoreDataManager.shared.userSetting?.isCardViewActive.toggle()
+            CoreDataManager.shared.save()
+            CoreDataManager.shared.fetchUserSetting()
+            self?.toggleCardTable()
+        }), for: .valueChanged)
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
@@ -158,11 +139,13 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupSegmentedControl()
         setupTabBarController()
         setupNavigationBar()
         setupCollectionView()
         setupTableView()
         setupUI()
+        setupData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -172,6 +155,12 @@ final class HomeViewController: UIViewController {
     }
     
     // MARK: - setup 함수
+    func setupSegmentedControl() {
+        CoreDataManager.shared.fetchUserSetting()
+        segmentedControl.selectedSegmentIndex = CoreDataManager.shared.userSetting!.isCardViewActive ? 0 : 1
+        toggleCardTable()
+    }
+    
     func setupTabBarController() {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let sceneDelegate = windowScene.delegate as? SceneDelegate,
@@ -262,18 +251,16 @@ final class HomeViewController: UIViewController {
         }
     }
     
-    // MARK: - @objc 함수
-    @objc func addNewItem() {
-        let vc = AddFormViewController()
-        present(vc, animated: true)
+    func setupData() {
+        CoreDataManager.shared.fetchCategories()
+        CoreDataManager.shared.fetchItems()
     }
     
-    @objc func didChangeValue(segment: UISegmentedControl) {
-        // ???
+    func toggleCardTable() {
         UIView.animate(withDuration: 1.0) { [weak self] in
             guard let self else { return }
-            collectionContainerView.isHidden = segment.selectedSegmentIndex != 0
-            tableContainerView.isHidden = !collectionContainerView.isHidden
+            self.collectionContainerView.isHidden = self.segmentedControl.selectedSegmentIndex != 0
+            self.tableContainerView.isHidden = !self.collectionContainerView.isHidden
         }
     }
 }
@@ -283,7 +270,6 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if tabBarController.selectedIndex == 0 {
-            print("HomeVC Selected: reload data")
             collectionView.reloadData()
             tableView.reloadData()
         }
@@ -293,19 +279,21 @@ extension HomeViewController: UITabBarControllerDelegate {
 // MARK: - 컬렉션뷰 datasource & delegate
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return categories.count
+        return CoreDataManager.shared.getCategoriesWithoutNoItem().count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories[section].items.count
+        return CoreDataManager.shared.getCategoriesWithoutNoItem()[section].items?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.identifier, for: indexPath) as? HomeCollectionHeaderView else { fatalError() }
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.identifier, for: indexPath
+        ) as? HomeCollectionHeaderView else { fatalError() }
         
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            header.text = categories[indexPath.section].name
+            header.text = CoreDataManager.shared.getCategoriesWithoutNoItem()[indexPath.section].name ?? ""
         default: break
         }
         
@@ -317,7 +305,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             withReuseIdentifier: HomeCollectionViewCell.identifier, for: indexPath
         ) as? HomeCollectionViewCell else { fatalError() }
         
-        cell.item = categories[indexPath.section].items[indexPath.row]
+        let category = CoreDataManager.shared.getCategoriesWithoutNoItem()[indexPath.section]
+        cell.item = CoreDataManager.shared.getItemsOfCategory(category: category)[indexPath.row]
         
         return cell
     }
@@ -325,9 +314,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? HomeCollectionViewCell else { fatalError() }
         
-        cell.item?.category = categories[indexPath.section].name
+        cell.item?.category = CoreDataManager.shared.getCategoriesWithoutNoItem()[indexPath.section]
         
         let vc = AddFormViewController()
+        vc.delegate = self
         vc.item = cell.item
         
         present(vc, animated: true)
@@ -337,31 +327,38 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return categories.count
+        return CoreDataManager.shared.getCategoriesWithoutNoItem().count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: HomeTableHeaderView.identifier) as? HomeTableHeaderView else { fatalError() }
-        header.text = categories[section].name
+        guard let header = tableView.dequeueReusableHeaderFooterView(
+            withIdentifier: HomeTableHeaderView.identifier
+        ) as? HomeTableHeaderView else { fatalError() }
+        
+        header.text = CoreDataManager.shared.getCategoriesWithoutNoItem()[section].name ?? ""
         return header
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories[section].items.count
+        return CoreDataManager.shared.getCategoriesWithoutNoItem()[section].items!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as? HomeTableViewCell else { fatalError() }
-        cell.item = categories[indexPath.section].items[indexPath.row]
+        
+        let category = CoreDataManager.shared.getCategoriesWithoutNoItem()[indexPath.section]
+        cell.item = CoreDataManager.shared.getItemsOfCategory(category: category)[indexPath.row]
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell else { fatalError() }
         
-        cell.item?.category = categories[indexPath.section].name
+        cell.item?.category = CoreDataManager.shared.getCategoriesWithoutNoItem()[indexPath.section]
         
         let vc = AddFormViewController()
+        vc.delegate = self
         vc.item = cell.item
         
         present(vc, animated: true)
@@ -378,8 +375,11 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
                 title: "삭제", message: "정말 삭제하시겠습니까?", preferredStyle: .alert
             )
             let yes = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
-                self?.categories[indexPath.section].items.remove(at: indexPath.row)
-                tableView.reloadData()
+                // self?.categories[indexPath.section].items.remove(at: indexPath.row)
+                let category = CoreDataManager.shared.getCategoriesWithoutNoItem()[indexPath.section]
+                let item = CoreDataManager.shared.getItemsOfCategory(category: category)[indexPath.row]
+                CoreDataManager.shared.deleteItem(deleteItem: item)
+                self?.tableView.reloadData()
                 self?.collectionView.reloadData()
             })
             let no = UIAlertAction(title: "취소", style: .cancel)
@@ -388,5 +388,17 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             
             present(alert, animated: true)
         }
+    }
+}
+
+extension HomeViewController: AddFormButtonDelegate {
+    func saveButtonTapped() {
+        collectionView.reloadData()
+        tableView.reloadData()
+    }
+    
+    func deleteButtonTapped() {
+        collectionView.reloadData()
+        tableView.reloadData()
     }
 }
