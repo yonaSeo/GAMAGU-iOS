@@ -8,8 +8,8 @@
 import UIKit
 
 protocol SettingButtonDelegate: AnyObject {
-    func dateValueChanged()
-    func toggleValueChanged()
-    func optionMenuValueChnaged()
+    func dateValueChanged(type: String, date: Date)
+    func toggleValueChanged(isActive: Bool)
+    func optionMenuValueChnaged(type: String, selectedOption: String)
     func categoryButtonTapped()
 }

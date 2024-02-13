@@ -12,7 +12,7 @@ class SettingToggleSwitchTableViewCell: UITableViewCell {
     
     weak var delegate: SettingButtonDelegate?
     
-    var text: String? {
+    var data: (labelText: String, isActive: Bool)? {
         didSet { setupData() }
     }
     
@@ -35,7 +35,8 @@ class SettingToggleSwitchTableViewCell: UITableViewCell {
         sw.onTintColor = .accent100
         sw.isOn = true
         sw.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.toggleValueChanged()
+            guard let self else { return }
+            self.delegate?.toggleValueChanged(isActive: self.toggleSwitch.isOn)
         }), for: .valueChanged)
         sw.translatesAutoresizingMaskIntoConstraints = false
         return sw
@@ -76,6 +77,7 @@ class SettingToggleSwitchTableViewCell: UITableViewCell {
     }
     
     func setupData() {
-        settingLabel.text = text
+        settingLabel.text = data?.labelText
+        toggleSwitch.isOn = data?.isActive ?? true
     }
 }

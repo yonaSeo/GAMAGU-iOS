@@ -12,7 +12,7 @@ class SettingOptionMenuButtonTableViewCell: UITableViewCell {
     
     weak var delegate: SettingButtonDelegate?
     
-    var data: (text: String, options: [String])? {
+    var data: (labelText: String, selectedOption: String, options: [String], isActive: Bool?)? {
         didSet { setupData() }
     }
     
@@ -37,13 +37,13 @@ class SettingOptionMenuButtonTableViewCell: UITableViewCell {
             button.configuration?.imagePadding = 8
             button.configuration?.image = UIImage(systemName: "chevron.down")?.applyingSymbolConfiguration(.init(scale: .medium))
             button.configuration?.imagePlacement = .trailing
-            button.configuration?.baseForegroundColor = .font25
+            // button.configuration?.baseForegroundColor = .font25
             button.configuration?.baseBackgroundColor = .primary60
         } else {
             button.imageEdgeInsets = .init(top: 0, left: 8, bottom: 0, right: 0)
             button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
             button.semanticContentAttribute = .forceRightToLeft
-            button.tintColor = .font25
+            // button.tintColor = .font25
             button.setBackgroundColor(.primary60, for: .normal)
         }
         button.setTitle("선택", for: .normal)
@@ -56,14 +56,18 @@ class SettingOptionMenuButtonTableViewCell: UITableViewCell {
     
     func setupOptionButton(options: [String]) {
         let popUpButtonAction = { [weak self] (action: UIAction) in
-            self?.optionButton.setTitle(options.first { $0 == action.title }, for: .normal)
-            self?.optionButton.setTitleColor(.font100, for: .normal)
-            self?.delegate?.optionMenuValueChnaged()
+            guard let self else { return }
+            self.optionButton.setTitle(options.first { $0 == action.title }, for: .normal)
+            self.optionButton.setTitleColor(.font75, for: .normal)
+            self.delegate?.optionMenuValueChnaged(
+                type: self.data?.labelText ?? "",
+                selectedOption: action.title
+            )
         }
         
         optionButton.showsMenuAsPrimaryAction = true
         optionButton.menu = UIMenu(
-            title: "선택",
+            title: "타입 선택",
             children: options.map { UIAction(title: $0, handler: popUpButtonAction) }
             
         )
@@ -105,14 +109,19 @@ class SettingOptionMenuButtonTableViewCell: UITableViewCell {
     
     func setupData() {
         guard let data else { return }
-        settingLabel.text = data.text
+        settingLabel.text = data.labelText
         setupOptionButton(options: data.options)
+        optionButton.setTitle(data.selectedOption, for: .normal)
+        
+        if data.isActive != nil && data.labelText == "알림음 타입" {
+            toggleButtonState(isActive: data.isActive!)
+        }
     }
 
-    func toggleButtonState() {
-        optionButton.isEnabled
-        ? (settingLabel.textColor = .font25)
-        : (settingLabel.textColor = .font100)
-        optionButton.isEnabled = !optionButton.isEnabled
+    func toggleButtonState(isActive: Bool) {
+        isActive
+        ? (settingLabel.textColor = .font75)
+        : (settingLabel.textColor = .font25)
+        optionButton.isEnabled = isActive
     }
 }

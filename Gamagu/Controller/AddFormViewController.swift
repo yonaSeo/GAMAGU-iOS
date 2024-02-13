@@ -8,6 +8,8 @@
 import UIKit
 
 final class AddFormViewController: UIViewController {
+    weak var delegate: AddFormButtonDelegate?
+    
     var item: Item? {
         didSet { setupData() }
     }
@@ -127,6 +129,20 @@ final class AddFormViewController: UIViewController {
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.addAction(UIAction(identifier: UIAction.Identifier("add"), handler: { [weak self] _ in
+            guard let self else { return }
+            guard self.checkValidation() else { return }
+            CoreDataManager.shared.setItem(
+                title: self.titleTextField.text ?? "",
+                content: self.contentTextView.text ?? "",
+                category: CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
+            )
+//            CoreDataManager.shared.fetchItems()
+            CoreDataManager.shared.fetchCategories()
+            self.delegate?.saveButtonTapped()
+            self.dismiss(animated: true)
+        }), for: .touchUpInside)
         return button
     }()
     
@@ -139,6 +155,27 @@ final class AddFormViewController: UIViewController {
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.isEnabled = false
+        button.addAction(UIAction(handler: { [weak self] _ in
+            let alert = UIAlertController(
+                title: "삭제", message: "정말 삭제하시겠습니까?", preferredStyle: .alert
+            )
+            let yes = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
+                CoreDataManager.shared.deleteItem(
+                    deleteItem: CoreDataManager.shared.getItem(title: self?.item?.title ?? "")
+                )
+                CoreDataManager.shared.fetchItems()
+                CoreDataManager.shared.fetchCategories()
+                self?.delegate?.deleteButtonTapped()
+                self?.dismiss(animated: true)
+            })
+            let no = UIAlertAction(title: "취소", style: .cancel)
+            alert.addAction(yes)
+            alert.addAction(no)
+            
+            self?.present(alert, animated: true)
+        }), for: .touchUpInside)
         return button
     }()
     
@@ -159,7 +196,7 @@ final class AddFormViewController: UIViewController {
     }
     
     func setupData() {
-        categoryButton.setTitle(item?.category, for: .normal)
+        categoryButton.setTitle(item?.category?.name, for: .normal)
         categoryButton.setTitleColor(.font100, for: .normal)
         
         titleTextField.text = item?.title
@@ -170,26 +207,39 @@ final class AddFormViewController: UIViewController {
         
         let attributedString = setAttributedString(textView: contentTextView)
         letterCountLabel.attributedText = attributedString
+        
+        saveButton.setTitle("수정", for: .normal)
+        saveButton.removeAction(identifiedBy: UIAction.Identifier("add"), for: .touchUpInside)
+        saveButton.addAction(UIAction(handler: { [weak self] _ in
+            guard let self else { return }
+            guard self.checkValidation() else { return }
+            self.item?.title = self.titleTextField.text
+            self.item?.content = self.contentTextView.text
+            self.item?.category = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
+            self.item?.createdDate = Date()
+            
+            CoreDataManager.shared.save()
+            CoreDataManager.shared.fetchItems()
+            CoreDataManager.shared.fetchCategories()
+            self.delegate?.deleteButtonTapped()
+            self.dismiss(animated: true)
+        }), for: .touchUpInside)
+        
+        deleteButton.isEnabled = true
     }
     
     func setupCategoryButton() {
         let popUpButtonAction = { [weak self] (action: UIAction) in
-            switch action.title {
-            case "카테고리 1" : self?.categoryButton.setTitle("카테고리 1", for: .normal)
-            case "카테고리 2" : self?.categoryButton.setTitle("카테고리 2", for: .normal)
-            case "카테고리 3" : self?.categoryButton.setTitle("카테고리 3", for: .normal)
-            default: break
-            }
+            self?.categoryButton.setTitle(action.title, for: .normal)
             self?.categoryButton.setTitleColor(.font100, for: .normal)
         }
         
         categoryButton.showsMenuAsPrimaryAction = true
-        categoryButton.menu = UIMenu(title: "선택",children: [
-            // 카테고리 조회 로직
-            UIAction(title: "카테고리 1", handler: popUpButtonAction),
-            UIAction(title: "카테고리 2", handler: popUpButtonAction),
-            UIAction(title: "카테고리 3", handler: popUpButtonAction),
-        ])
+        categoryButton.menu = UIMenu(title: "카테고리 종류", children:
+            CoreDataManager.shared.getAllCategories().map {
+                UIAction(title: $0.name ?? "", handler: popUpButtonAction)
+            }
+        )
     }
     
     func setupUI() {
@@ -234,6 +284,34 @@ final class AddFormViewController: UIViewController {
         ])
     }
     
+    func checkValidation() -> Bool {
+        if let categoryName = categoryButton.titleLabel?.text, categoryName == "카테고리를 선택하세요" {
+            let alert = UIAlertController(
+                title: "카테고리 입력 에러", message: "카테고리를 선택하세요", preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "확인", style: .cancel))
+            present(alert, animated: true)
+            return false
+        } else if let titleText = titleTextField.text,
+                  titleText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            let alert = UIAlertController(
+                title: "제목 입력 에러", message: "제목을 입력하세요", preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "확인", style: .cancel))
+            present(alert, animated: true)
+            return false
+        } else if let contentText = contentTextView.text, contentText == "내용을 입력하세요" {
+            let alert = UIAlertController(
+                title: "내용 입력 에러", message: "내용을 입력하세요", preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "확인", style: .cancel))
+            present(alert, animated: true)
+            return false
+        }
+        
+        return true
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
@@ -252,6 +330,11 @@ extension AddFormViewController: UITextFieldDelegate {
         if textField.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textField.font = UIFont.systemFont(ofSize: 20, weight: .thin)
         }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        return (text.count + string.count - range.length) <= 15
     }
 }
 

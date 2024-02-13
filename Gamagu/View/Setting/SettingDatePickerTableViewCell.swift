@@ -12,7 +12,7 @@ class SettingDatePickerTableViewCell: UITableViewCell {
     
     weak var delegate: SettingButtonDelegate?
     
-    var text: String? {
+    var data: (labelText: String, date: Date)? {
         didSet { setupData() }
     }
     
@@ -38,7 +38,8 @@ class SettingDatePickerTableViewCell: UITableViewCell {
         dp.locale = Locale(identifier: "ko-KR")
         dp.timeZone = .autoupdatingCurrent
         dp.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.dateValueChanged()
+            guard let self else { return }
+            self.delegate?.dateValueChanged(type: self.data?.labelText ?? "", date: self.datePicker.date)
         }), for: .valueChanged)
         dp.translatesAutoresizingMaskIntoConstraints = false
         return dp
@@ -79,6 +80,7 @@ class SettingDatePickerTableViewCell: UITableViewCell {
     }
     
     func setupData() {
-        settingLabel.text = text
+        settingLabel.text = data?.labelText
+        datePicker.date = data?.date ?? Date()
     }
 }

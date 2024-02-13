@@ -45,8 +45,8 @@ final class HomeTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 4),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4),
         ])
     }
 }

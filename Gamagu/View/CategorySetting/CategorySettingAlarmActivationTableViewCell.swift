@@ -1,18 +1,18 @@
 //
-//  SettingCategoryTableViewCell.swift
+//  CategorySettingAlarmActivationTableViewCell.swift
 //  Gamagu
 //
-//  Created by yona on 2/6/24.
+//  Created by yona on 2/12/24.
 //
 
 import UIKit
 
-class SettingCategoryTableViewCell: UITableViewCell {
-    static let identifier = "SettingCategoryTableViewCell"
+class CategorySettingAlarmActivationTableViewCell: UITableViewCell {
+    static let identifier = "CategorySettingAlarmActivationTableViewCell"
     
-    weak var delegate: SettingButtonDelegate?
+    weak var delegate: CategorySettingButtonDelegate?
     
-    var labelText: String? {
+    var data: (labelText: String, category: Category, section: Int)? {
         didSet { setupData() }
     }
     
@@ -30,12 +30,22 @@ class SettingCategoryTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let arrowImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
-        iv.tintColor = .primary20
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        return iv
+    private lazy var toggleSwitch: UISwitch = {
+        let sw = UISwitch()
+        sw.onTintColor = .accent100
+        sw.isOn = true
+        sw.addAction(UIAction(handler: { [weak self] _ in
+            self?.data?.category.isAlarmActive.toggle()
+            CoreDataManager.shared.save()
+            CoreDataManager.shared.fetchCategories()
+            
+            self?.delegate?.categorySettingActivationToggleValueChanged(
+                section: self?.data?.section ?? 0,
+                isActive: self?.toggleSwitch.isOn ?? true
+            )
+        }), for: .valueChanged)
+        sw.translatesAutoresizingMaskIntoConstraints = false
+        return sw
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -48,18 +58,13 @@ class SettingCategoryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        selected ? delegate?.categoryButtonTapped() : .none
-    }
-    
     func setupUI() {
         self.backgroundColor = .primary80
         self.selectionStyle = .none
         
         contentView.addSubview(containerView)
         containerView.addSubview(settingLabel)
-        containerView.addSubview(arrowImageView)
+        containerView.addSubview(toggleSwitch)
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
@@ -71,12 +76,14 @@ class SettingCategoryTableViewCell: UITableViewCell {
             settingLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
             settingLabel.heightAnchor.constraint(equalTo: containerView.heightAnchor),
             
-            arrowImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            arrowImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            toggleSwitch.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            toggleSwitch.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            toggleSwitch.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
         ])
     }
     
     func setupData() {
-        settingLabel.text = labelText
+        settingLabel.text = data?.labelText
+        toggleSwitch.isOn = data?.category.isAlarmActive ?? true
     }
 }
