@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CategorySettingViewController: UIViewController {
+final class CategorySettingViewController: UIViewController {
     private let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
         tv.separatorColor = .primary20

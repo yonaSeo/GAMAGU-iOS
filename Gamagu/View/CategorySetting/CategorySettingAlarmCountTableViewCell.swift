@@ -110,7 +110,7 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
         alarmCountButton.showsMenuAsPrimaryAction = true
         alarmCountButton.menu = UIMenu(
             title: "횟수",
-            children: Array(1...9)
+            children: Array(1...7)
                 .filter { $0 % 2 == 1 }
                 .map { UIAction(title: $0.description, handler: popUpButtonAction) }
         )

@@ -15,6 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
+        UNUserNotificationCenter.current().delegate = self
+        
         let homeVC = UINavigationController(rootViewController: HomeViewController())
         let settingVC = UINavigationController(rootViewController: SettingViewController())
         
@@ -27,6 +29,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
         window?.overrideUserInterfaceStyle = .dark
+    }
+    
+    func sceneDidEnterBackground(_ scene: UIScene) {
     }
     
     private func preloadData() {
@@ -42,3 +47,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 }
 
+extension SceneDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.badge, .banner, .list, .sound])
+    }
+}

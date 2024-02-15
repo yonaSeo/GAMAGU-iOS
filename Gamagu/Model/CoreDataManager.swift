@@ -34,6 +34,12 @@ final class CoreDataManager {
         }
     }
     
+    func fetchData() {
+        fetchUserSetting()
+        fetchItems()
+        fetchCategories()
+    }
+    
     // MARK: - 초기 데이터 셋업
     func initialDataSetup() {
         let dateFormatter = DateFormatter()
@@ -43,7 +49,7 @@ final class CoreDataManager {
         
         setting.alarmStartTime = dateFormatter.date(from: "09:00")
         setting.alarmEndTime = dateFormatter.date(from: "21:00")
-        setting.alarmSoundType = AlarmContentType.titleAndContent.rawValue
+        setting.alarmContentType = AlarmContentType.titleAndContent.rawValue
         setting.alarmSoundType = AlarmSoundType.crowA.rawValue
         setting.isAlarmSoundActive = true
         setting.isCardViewActive = true
@@ -80,6 +86,11 @@ final class CoreDataManager {
         
         do { userSetting = try context.fetch(request).first }
         catch { print(error.localizedDescription) }
+    }
+    
+    func getUserSetting() -> UserSetting {
+        guard let userSetting else { return UserSetting() }
+        return userSetting
     }
     
     // MARK: - 카테고리 데이터 관련

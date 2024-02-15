@@ -38,6 +38,7 @@
 		ED22526A2B692FE100C0FDA9 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252692B692FE100C0FDA9 /* HomeCollectionHeaderView.swift */; };
 		ED22526B2B692FE100C0FDA9 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252692B692FE100C0FDA9 /* HomeCollectionHeaderView.swift */; };
 		ED22526C2B692FE100C0FDA9 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252692B692FE100C0FDA9 /* HomeCollectionHeaderView.swift */; };
+		ED43ED692B7CEC8800ECA5E7 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED43ED682B7CEC8800ECA5E7 /* PushNotificationManager.swift */; };
 		ED46F0812B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46F0802B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift */; };
 		ED46F0822B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46F0802B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift */; };
 		ED46F0832B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46F0802B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift */; };
@@ -155,6 +156,7 @@
 		ED2252502B67BC9700C0FDA9 /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Ext.swift"; sourceTree = "<group>"; };
 		ED2252692B692FE100C0FDA9 /* HomeCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionHeaderView.swift; sourceTree = "<group>"; };
+		ED43ED682B7CEC8800ECA5E7 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		ED46F0802B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingToggleSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		ED46F0842B71453D004A1FD9 /* SettingOptionMenuButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingOptionMenuButtonTableViewCell.swift; sourceTree = "<group>"; };
 		ED46F0882B71468E004A1FD9 /* SettingCategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCategoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 			children = (
 				ED2250C22B61973000C0FDA9 /* AppDelegate.swift */,
 				ED2250C42B61973000C0FDA9 /* SceneDelegate.swift */,
+				ED43ED672B7CEC5A00ECA5E7 /* Helper */,
 				EDB18F412B7A13AB007B4559 /* Enum */,
 				EDB316FB2B7152900061934A /* Protocol */,
 				ED2252432B67A19A00C0FDA9 /* Extention */,
@@ -350,6 +353,14 @@
 				EDB18F2C2B7A0E26007B4559 /* UserSetting+CoreDataProperties.swift */,
 			);
 			path = UserSetting;
+			sourceTree = "<group>";
+		};
+		ED43ED672B7CEC5A00ECA5E7 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				ED43ED682B7CEC8800ECA5E7 /* PushNotificationManager.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		EDB18F412B7A13AB007B4559 /* Enum */ = {
@@ -564,6 +575,7 @@
 				ED46F0852B71453D004A1FD9 /* SettingOptionMenuButtonTableViewCell.swift in Sources */,
 				EDB317012B71F8F50061934A /* CategorySettingViewController.swift in Sources */,
 				ED2250C52B61973000C0FDA9 /* SceneDelegate.swift in Sources */,
+				ED43ED692B7CEC8800ECA5E7 /* PushNotificationManager.swift in Sources */,
 				EDACCDE72B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift in Sources */,
 				ED2252422B674F8400C0FDA9 /* SettingViewController.swift in Sources */,
 				EDB3170A2B7326810061934A /* CategorySettingNameTableViewCell.swift in Sources */,

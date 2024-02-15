@@ -22,6 +22,7 @@ final class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         setupData()
         setupTableView()
         setupNavigationBar()
@@ -111,14 +112,14 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.delegate = self
                 cell.data = (
                     labelText: "알림 시작 시간",
-                    date: CoreDataManager.shared.userSetting?.alarmStartTime ?? Date()
+                    date: CoreDataManager.shared.getUserSetting().alarmStartTime ?? Date()
                 )
                 return cell
             case 1:
                 cell.delegate = self
                 cell.data = (
                     labelText: "알림 종료 시간",
-                    date: CoreDataManager.shared.userSetting?.alarmEndTime ?? Date()
+                    date: CoreDataManager.shared.getUserSetting().alarmEndTime ?? Date()
                 )
                 return cell
             default: fatalError()
@@ -132,7 +133,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.delegate = self
                 cell.data = (
                     labelText: "알림 타입",
-                    selectedOption: CoreDataManager.shared.userSetting?.alarmContentType ?? "",
+                    selectedOption: CoreDataManager.shared.getUserSetting().alarmContentType ?? "",
                     options: AlarmContentType.allCases.map { $0.rawValue },
                     isActive: nil
                 )
@@ -144,7 +145,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.delegate = self
                 cell.data = (
                     labelText: "알림음 여부",
-                    isActive: CoreDataManager.shared.userSetting?.isAlarmSoundActive ?? true
+                    isActive: CoreDataManager.shared.getUserSetting().isAlarmSoundActive
                 )
                 return cell
             case 2:
@@ -154,9 +155,9 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.delegate = self
                 cell.data = (
                     labelText: "알림음 타입",
-                    selectedOption: CoreDataManager.shared.userSetting?.alarmSoundType ?? "",
+                    selectedOption: CoreDataManager.shared.getUserSetting().alarmSoundType ?? "",
                     options: AlarmSoundType.allCases.map { $0.rawValue },
-                    isActive: CoreDataManager.shared.userSetting?.isAlarmSoundActive
+                    isActive: CoreDataManager.shared.getUserSetting().isAlarmSoundActive
                 )
                 return cell
             default: fatalError()
@@ -175,8 +176,8 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
 extension SettingViewController: SettingButtonDelegate {
     func dateValueChanged(type: String, date: Date) {
         switch type {
-        case "알림 시작 시간": CoreDataManager.shared.userSetting?.alarmStartTime = date;
-        case "알림 종료 시간": CoreDataManager.shared.userSetting?.alarmEndTime = date;
+        case "알림 시작 시간": CoreDataManager.shared.getUserSetting().alarmStartTime = date;
+        case "알림 종료 시간": CoreDataManager.shared.getUserSetting().alarmEndTime = date;
         default: break
         }
         CoreDataManager.shared.save()
@@ -187,15 +188,15 @@ extension SettingViewController: SettingButtonDelegate {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? SettingOptionMenuButtonTableViewCell else { return }
         cell.toggleButtonState(isActive: isActive)
         
-        CoreDataManager.shared.userSetting?.isAlarmSoundActive = isActive
+        CoreDataManager.shared.getUserSetting().isAlarmSoundActive = isActive
         CoreDataManager.shared.save()
         CoreDataManager.shared.fetchUserSetting()
     }
     
     func optionMenuValueChnaged(type: String, selectedOption: String) {
         switch type {
-        case "알림 타입": CoreDataManager.shared.userSetting?.alarmContentType = selectedOption
-        case "알림음 종류": CoreDataManager.shared.userSetting?.alarmSoundType = selectedOption
+        case "알림 타입": CoreDataManager.shared.getUserSetting().alarmContentType = selectedOption
+        case "알림음 종류": CoreDataManager.shared.getUserSetting().alarmSoundType = selectedOption
         default: break
         }
         CoreDataManager.shared.save()

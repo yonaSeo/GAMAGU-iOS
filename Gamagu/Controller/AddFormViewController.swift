@@ -113,7 +113,7 @@ final class AddFormViewController: UIViewController {
     
     let letterCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "0/150"
+        label.text = "0/200"
         label.font = .systemFont(ofSize: 16)
         label.textColor = .font25
         label.textAlignment = .right
@@ -138,7 +138,7 @@ final class AddFormViewController: UIViewController {
                 content: self.contentTextView.text ?? "",
                 category: CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
             )
-//            CoreDataManager.shared.fetchItems()
+            CoreDataManager.shared.fetchItems()
             CoreDataManager.shared.fetchCategories()
             self.delegate?.saveButtonTapped()
             self.dismiss(animated: true)
@@ -334,7 +334,7 @@ extension AddFormViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
-        return (text.count + string.count - range.length) <= 15
+        return (text.count + string.count - range.length) <= 20
     }
 }
 
@@ -369,7 +369,7 @@ extension AddFormViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text.count > 150 {
+        if textView.text.count > 200 {
             textView.deleteBackward()
         }
         
@@ -378,11 +378,11 @@ extension AddFormViewController: UITextViewDelegate {
     }
     
     func setAttributedString(textView: UITextView) -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: "\(textView.text.count)/150")
+        let attributedString = NSMutableAttributedString(string: "\(textView.text.count)/200")
         attributedString.addAttribute(
             .foregroundColor,
             value: UIColor.accent100,
-            range: ("\(textView.text.count)/150" as NSString).range(of:"\(textView.text.count)"))
+            range: ("\(textView.text.count)/200" as NSString).range(of:"\(textView.text.count)"))
         return attributedString
     }
 

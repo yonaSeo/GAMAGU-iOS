@@ -46,7 +46,7 @@ final class HomeViewController: UIViewController {
         control.setTitleTextAttributes([.foregroundColor: UIColor.primary20], for: .normal)
         control.selectedSegmentIndex = 0
         control.addAction(UIAction(handler: { [weak self] _ in
-            CoreDataManager.shared.userSetting?.isCardViewActive.toggle()
+            CoreDataManager.shared.getUserSetting().isCardViewActive.toggle()
             CoreDataManager.shared.save()
             CoreDataManager.shared.fetchUserSetting()
             self?.toggleCardTable()
@@ -139,13 +139,14 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupData()
+        setupPushNotification()
         setupSegmentedControl()
         setupTabBarController()
         setupNavigationBar()
         setupCollectionView()
         setupTableView()
         setupUI()
-        setupData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -155,9 +156,18 @@ final class HomeViewController: UIViewController {
     }
     
     // MARK: - setup 함수
+    func setupData() {
+        CoreDataManager.shared.fetchCategories()
+        CoreDataManager.shared.fetchItems()
+    }
+    
+    func setupPushNotification() {
+        PushNotificationManager.shared.setAutorization()
+    }
+    
     func setupSegmentedControl() {
         CoreDataManager.shared.fetchUserSetting()
-        segmentedControl.selectedSegmentIndex = CoreDataManager.shared.userSetting!.isCardViewActive ? 0 : 1
+        segmentedControl.selectedSegmentIndex = CoreDataManager.shared.getUserSetting().isCardViewActive ? 0 : 1
         toggleCardTable()
     }
     
@@ -249,11 +259,6 @@ final class HomeViewController: UIViewController {
                 customButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: -8),
             ])
         }
-    }
-    
-    func setupData() {
-        CoreDataManager.shared.fetchCategories()
-        CoreDataManager.shared.fetchItems()
     }
     
     func toggleCardTable() {

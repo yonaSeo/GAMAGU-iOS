@@ -35,6 +35,7 @@ class SettingDatePickerTableViewCell: UITableViewCell {
         dp.tintColor = .accent100
         dp.preferredDatePickerStyle = .compact
         dp.datePickerMode = .time
+        dp.minuteInterval = 15
         dp.locale = Locale(identifier: "ko-KR")
         dp.timeZone = .autoupdatingCurrent
         dp.addAction(UIAction(handler: { [weak self] _ in

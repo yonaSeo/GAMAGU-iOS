@@ -28,7 +28,6 @@ extension Category {
     public var alarmCycleString: String? {
         switch alarmCycleDayCount {
         case 1: return "하루"
-        case 3: return "삼일"
         case 7: return "일주일"
         case 30: return "한 달"
         default: return ""
@@ -38,7 +37,6 @@ extension Category {
     static func makeAlarmCycleNumber(string: String) -> Int64 {
         switch string {
         case "하루": return 1
-        case "삼일": return 3
         case "일주일": return 7
         case "한 달": return 30
         default: return 0

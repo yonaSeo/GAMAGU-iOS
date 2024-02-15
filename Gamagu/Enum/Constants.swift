@@ -23,7 +23,6 @@ enum AlarmSoundType: String, CaseIterable {
 
 enum CategoryAlarmCycle: String, CaseIterable {
     case oneDay = "하루"
-    case threeDay = "삼일"
     case oneWeek = "일주일"
     case oneMonth = "한 달"
 }
