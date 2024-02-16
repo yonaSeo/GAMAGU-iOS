@@ -133,13 +133,15 @@ final class AddFormViewController: UIViewController {
         button.addAction(UIAction(identifier: UIAction.Identifier("add"), handler: { [weak self] _ in
             guard let self else { return }
             guard self.checkValidation() else { return }
+            let category = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
             CoreDataManager.shared.setItem(
                 title: self.titleTextField.text ?? "",
                 content: self.contentTextView.text ?? "",
-                category: CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
+                category: category
             )
             CoreDataManager.shared.fetchItems()
             CoreDataManager.shared.fetchCategories()
+            PushNotificationManager.shared.setPushNotificationsOfCategory(category: category)
             self.delegate?.saveButtonTapped()
             self.dismiss(animated: true)
         }), for: .touchUpInside)
@@ -162,11 +164,15 @@ final class AddFormViewController: UIViewController {
                 title: "삭제", message: "정말 삭제하시겠습니까?", preferredStyle: .alert
             )
             let yes = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
+                let category = CoreDataManager.shared.getCategory(name: self?.item?.category?.name ?? "")
                 CoreDataManager.shared.deleteItem(
                     deleteItem: CoreDataManager.shared.getItem(title: self?.item?.title ?? "")
                 )
                 CoreDataManager.shared.fetchItems()
                 CoreDataManager.shared.fetchCategories()
+                PushNotificationManager.shared.removePushNotificationOfItem(
+                    itemTitle: self?.item?.title ?? "", category: category
+                )
                 self?.delegate?.deleteButtonTapped()
                 self?.dismiss(animated: true)
             })
@@ -213,14 +219,24 @@ final class AddFormViewController: UIViewController {
         saveButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self else { return }
             guard self.checkValidation() else { return }
+            let prevCategory = CoreDataManager.shared.getCategory(name: self.item?.category?.name ?? "")
+            let newCategory = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
+            
+            PushNotificationManager.shared.removePushNotificationsOfCategory(category: prevCategory)
+            PushNotificationManager.shared.removePushNotificationsOfCategory(category: newCategory)
+            
             self.item?.title = self.titleTextField.text
             self.item?.content = self.contentTextView.text
-            self.item?.category = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
+            self.item?.category = newCategory
             self.item?.createdDate = Date()
-            
+
             CoreDataManager.shared.save()
             CoreDataManager.shared.fetchItems()
             CoreDataManager.shared.fetchCategories()
+            
+            PushNotificationManager.shared.setPushNotificationsOfCategory(category: prevCategory)
+            PushNotificationManager.shared.setPushNotificationsOfCategory(category: newCategory)
+            
             self.delegate?.deleteButtonTapped()
             self.dismiss(animated: true)
         }), for: .touchUpInside)

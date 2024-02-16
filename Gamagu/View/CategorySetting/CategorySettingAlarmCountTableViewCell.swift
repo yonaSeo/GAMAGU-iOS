@@ -61,7 +61,10 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
             CoreDataManager.shared.save()
             CoreDataManager.shared.fetchCategories()
             
-            self?.delegate?.categorySettingAlarmCycleButtonTapped()
+            self?.delegate?.categorySettingAlarmCycleCountButtonTapped()
+            
+            guard let category = self?.data?.category, category.items?.count != 0 else { return }
+            PushNotificationManager.shared.refreshPushNotificationsOfCategory(category: category)
         }
         
         alarmCycleButton.showsMenuAsPrimaryAction = true
@@ -104,7 +107,10 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
             CoreDataManager.shared.save()
             CoreDataManager.shared.fetchCategories()
             
-            self?.delegate?.categorySettingAlarmCountButtonTapped()
+            self?.delegate?.categorySettingAlarmCycleCountButtonTapped()
+            
+            guard let category = self?.data?.category, category.items?.count != 0 else { return }
+            PushNotificationManager.shared.refreshPushNotificationsOfCategory(category: category)
         }
         
         alarmCountButton.showsMenuAsPrimaryAction = true

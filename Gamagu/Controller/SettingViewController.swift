@@ -175,13 +175,46 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension SettingViewController: SettingButtonDelegate {
     func dateValueChanged(type: String, date: Date) {
-        switch type {
-        case "알림 시작 시간": CoreDataManager.shared.getUserSetting().alarmStartTime = date;
-        case "알림 종료 시간": CoreDataManager.shared.getUserSetting().alarmEndTime = date;
-        default: break
+        guard let startTimecell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? SettingDatePickerTableViewCell else { return }
+        guard let endTimecell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? SettingDatePickerTableViewCell else { return }
+        dismiss(animated: true)
+        
+        print(startTimecell.datePicker.date.convertedDate)
+        print(endTimecell.datePicker.date.convertedDate)
+        
+        let start = Calendar.current.dateComponents([.hour, .minute], from: startTimecell.datePicker.date)
+        let end = Calendar.current.dateComponents([.hour, .minute], from: endTimecell.datePicker.date)
+        
+        if start.hour! > end.hour! || (start.hour! == end.hour! && start.minute! >= end.minute!) {
+            let alert = UIAlertController(
+                title: "알람 시간 입력 에러", message: "종료 시간이 시작 시간보다 앞서거나 같을 수 없습니다.", preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "확인", style: .cancel))
+            present(alert, animated: true)
+            
+            switch type {
+            case "알림 시작 시간":
+                let initialDate = Calendar.current.date(from: DateComponents(hour: 0, minute: 0))!
+                startTimecell.datePicker.date = initialDate
+                CoreDataManager.shared.getUserSetting().alarmStartTime = initialDate
+            case "알림 종료 시간":
+                let initialDate = Calendar.current.date(from: DateComponents(hour: 23, minute: 45))!
+                endTimecell.datePicker.date = initialDate
+                CoreDataManager.shared.getUserSetting().alarmEndTime = initialDate;
+            default: break
+            }
+        } else {
+            switch type {
+            case "알림 시작 시간": CoreDataManager.shared.getUserSetting().alarmStartTime = date;
+            case "알림 종료 시간": CoreDataManager.shared.getUserSetting().alarmEndTime = date;
+            default: break
+            }
         }
+        
         CoreDataManager.shared.save()
         CoreDataManager.shared.fetchUserSetting()
+        
+        PushNotificationManager.shared.refreshAllPushNotifications()
     }
     
     func toggleValueChanged(isActive: Bool) {

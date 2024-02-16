@@ -141,6 +141,9 @@ extension CategorySettingViewController: UITableViewDataSource, UITableViewDeleg
             let yes = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
                 let category = CoreDataManager.shared.getAllCategories()[indexPath.section]
                 CoreDataManager.shared.deleteCategory(deleteCategory: category)
+                if category.items?.count != 0 {
+                    PushNotificationManager.shared.removePushNotificationsOfCategory(category: category)
+                }
                 self?.tableView.reloadData()
             })
             let no = UIAlertAction(title: "취소", style: .cancel)
@@ -155,8 +158,12 @@ extension CategorySettingViewController: UITableViewDataSource, UITableViewDeleg
 extension CategorySettingViewController: CategorySettingButtonDelegate {
     func categorySettingActivationToggleValueChanged(section: Int, isActive: Bool) {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 2, section: section)) as? CategorySettingAlarmCountTableViewCell else { return }
+        guard let category = cell.data?.category else { return }
         cell.toggleButtonState(isActive: isActive)
         
+        guard category.items?.count != 0 else { return }
+        if isActive { PushNotificationManager.shared.setPushNotificationsOfCategory(category: category) }
+        else { PushNotificationManager.shared.removePushNotificationsOfCategory(category: category) }
         // tableView.reloadData()
     }
     
@@ -164,11 +171,7 @@ extension CategorySettingViewController: CategorySettingButtonDelegate {
         tableView.reloadData()
     }
     
-    func categorySettingAlarmCycleButtonTapped() {
-        tableView.reloadData()
-    }
-    
-    func categorySettingAlarmCountButtonTapped() {
+    func categorySettingAlarmCycleCountButtonTapped() {
         tableView.reloadData()
     }
     

@@ -30,7 +30,7 @@ class SettingDatePickerTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var datePicker: UIDatePicker = {
+    public lazy var datePicker: UIDatePicker = {
         let dp = UIDatePicker()
         dp.tintColor = .accent100
         dp.preferredDatePickerStyle = .compact
@@ -38,7 +38,8 @@ class SettingDatePickerTableViewCell: UITableViewCell {
         dp.minuteInterval = 15
         dp.locale = Locale(identifier: "ko-KR")
         dp.timeZone = .autoupdatingCurrent
-        dp.addAction(UIAction(handler: { [weak self] _ in
+        dp.date = Date()
+        dp.addAction(UIAction(handler: { [weak self] action in
             guard let self else { return }
             self.delegate?.dateValueChanged(type: self.data?.labelText ?? "", date: self.datePicker.date)
         }), for: .valueChanged)
