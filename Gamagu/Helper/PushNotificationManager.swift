@@ -21,7 +21,7 @@ final class PushNotificationManager {
     func refreshAllPushNotifications() {
         let categories = CoreDataManager.shared.getCategoriesWithoutNoItem()
 //        UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-//            notifications.forEach { notification in print("💀 삭제 대상(비동기 호출): \(notification.identifier)") }
+//            notifications.forEach { notification in // print("💀 삭제 대상(비동기 호출): \(notification.identifier)") }
 //        }
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         // print("🚨 All Deleted")
@@ -98,6 +98,7 @@ final class PushNotificationManager {
             } else {
                 notificationContent.sound = nil
             }
+            
             notificationContents.append(notificationContent)
         }
         var calendar = Calendar.current
@@ -129,7 +130,7 @@ final class PushNotificationManager {
                     )
                     // print("id: \(content.categoryIdentifier)_\(index)")
                     UNUserNotificationCenter.current().add(request) { error in
-                        if let error { print("Error: \(error.localizedDescription)")}
+                        if let error { print("Error: \(error.localizedDescription)") }
                     }
                 }
             }

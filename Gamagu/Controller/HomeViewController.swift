@@ -81,7 +81,7 @@ final class HomeViewController: UIViewController {
         return view
     }()
     
-    private let collectionView: UICollectionView = {
+    public let collectionView: UICollectionView = {
         let layout = UICollectionViewCompositionalLayout { _, _ in
             // item
             let item = NSCollectionLayoutItem(
@@ -142,7 +142,7 @@ final class HomeViewController: UIViewController {
         return view
     }()
     
-    private let tableView: UITableView = {
+    public let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
         tv.separatorColor = .primary20
         tv.rowHeight = 48

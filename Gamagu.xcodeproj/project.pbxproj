@@ -85,6 +85,11 @@
 		EDA25AD22B8095FF0059168E /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA25AD12B8095FF0059168E /* HapticManager.swift */; };
 		EDA25AD32B8096020059168E /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA25AD12B8095FF0059168E /* HapticManager.swift */; };
 		EDA25AD42B8096030059168E /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA25AD12B8095FF0059168E /* HapticManager.swift */; };
+		EDA25AD52B80A50E0059168E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED2250CB2B61973300C0FDA9 /* Assets.xcassets */; };
+		EDA25AD62B80A50E0059168E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED2250CB2B61973300C0FDA9 /* Assets.xcassets */; };
+		EDA25AD82B80EC400059168E /* UIApplication+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA25AD72B80EC400059168E /* UIApplication+Ext.swift */; };
+		EDA25AD92B80EC400059168E /* UIApplication+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA25AD72B80EC400059168E /* UIApplication+Ext.swift */; };
+		EDA25ADA2B80EC400059168E /* UIApplication+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA25AD72B80EC400059168E /* UIApplication+Ext.swift */; };
 		EDACCDDF2B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */; };
 		EDACCDE02B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */; };
 		EDACCDE12B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */; };
@@ -194,6 +199,7 @@
 		ED91BF552B77BC2700CF048E /* GamaguCoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GamaguCoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		ED91BF892B789C8300CF048E /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		EDA25AD12B8095FF0059168E /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		EDA25AD72B80EC400059168E /* UIApplication+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Ext.swift"; sourceTree = "<group>"; };
 		EDACCDDE2B7333B700371898 /* CategorySettingButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingButtonDelegate.swift; sourceTree = "<group>"; };
 		EDACCDE22B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingAlarmCountTableViewCell.swift; sourceTree = "<group>"; };
 		EDACCDE62B737FEA00371898 /* CategorySettingDeleteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingDeleteTableViewCell.swift; sourceTree = "<group>"; };
@@ -334,6 +340,7 @@
 				ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */,
 				ED64964A2B6D1C1600D890E1 /* UITextField+Ext.swift */,
 				EDADCFEB2B7E96ED008D4823 /* Date+Ext.swift */,
+				EDA25AD72B80EC400059168E /* UIApplication+Ext.swift */,
 			);
 			path = Extention;
 			sourceTree = "<group>";
@@ -585,6 +592,7 @@
 				ED32C4D32B7FD7B20032329E /* crowB.wav in Resources */,
 				ED22524C2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf in Resources */,
 				ED32C4CB2B7FD3DF0032329E /* kyak.wav in Resources */,
+				EDA25AD52B80A50E0059168E /* Assets.xcassets in Resources */,
 				ED32C4CF2B7FD77C0032329E /* crowC.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -599,6 +607,7 @@
 				ED32C4D42B7FD7B20032329E /* crowB.wav in Resources */,
 				ED22524D2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf in Resources */,
 				ED32C4CC2B7FD3DF0032329E /* kyak.wav in Resources */,
+				EDA25AD62B80A50E0059168E /* Assets.xcassets in Resources */,
 				ED32C4D02B7FD77C0032329E /* crowC.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -642,6 +651,7 @@
 				EDB18F2F2B7A0E26007B4559 /* Category+CoreDataClass.swift in Sources */,
 				ED2252512B67BC9700C0FDA9 /* UIButton+Ext.swift in Sources */,
 				EDB18F352B7A0E26007B4559 /* UserSetting+CoreDataClass.swift in Sources */,
+				EDA25AD82B80EC400059168E /* UIApplication+Ext.swift in Sources */,
 				ED6496472B6CD28800D890E1 /* AddFormViewController.swift in Sources */,
 				EDB18F3B2B7A0E26007B4559 /* Item+CoreDataClass.swift in Sources */,
 				EDB18F322B7A0E26007B4559 /* Category+CoreDataProperties.swift in Sources */,
@@ -678,6 +688,7 @@
 				EDA25AD32B8096020059168E /* HapticManager.swift in Sources */,
 				EDB18F0B2B790830007B4559 /* AddFormButtonDelegate.swift in Sources */,
 				EDB18F302B7A0E26007B4559 /* Category+CoreDataClass.swift in Sources */,
+				EDA25AD92B80EC400059168E /* UIApplication+Ext.swift in Sources */,
 				EDACCDE02B7333B700371898 /* CategorySettingButtonDelegate.swift in Sources */,
 				EDB316FE2B7152D90061934A /* SettingButtonDelegate.swift in Sources */,
 				EDB18F442B7A13D6007B4559 /* Constants.swift in Sources */,
@@ -713,6 +724,7 @@
 				ED91BF8C2B789C8300CF048E /* CoreDataManager.swift in Sources */,
 				EDACCDE52B7367D500371898 /* CategorySettingAlarmCountTableViewCell.swift in Sources */,
 				EDA25AD42B8096030059168E /* HapticManager.swift in Sources */,
+				EDA25ADA2B80EC400059168E /* UIApplication+Ext.swift in Sources */,
 				ED88E67B2B69764000C66565 /* HomeCollectionViewCell.swift in Sources */,
 				ED1B38A82B6A97D300C36A7A /* HomeTableViewCell.swift in Sources */,
 				ED91BF582B77BC2700CF048E /* GamaguCoreDataModel.xcdatamodeld in Sources */,

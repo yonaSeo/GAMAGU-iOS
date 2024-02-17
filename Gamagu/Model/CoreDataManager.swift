@@ -151,6 +151,10 @@ final class CoreDataManager {
         return categories.max { $0.orderNumber < $1.orderNumber }?.orderNumber ?? 0
     }
     
+    func getCategoryIndex(category: Category) -> Int? {
+        return categories?.firstIndex(where: { $0.name == category.name })
+    }
+    
     // MARK: - 아이템 데이터 관련
     func fetchItems() {
         let request = Item.fetchRequest()
@@ -169,7 +173,6 @@ final class CoreDataManager {
         guard let items else { fatalError() }
         return items.filter { $0.title == title }.first!
     }
-    
     
     func getItemsOfCategory(category: Category) -> [Item] {
         var itemList: [Item] = []
@@ -200,5 +203,10 @@ final class CoreDataManager {
         
         save()
         fetchItems()
+    }
+    
+    func getItemIndexOfCategory(item: Item) -> Int? {
+        let items = getItemsOfCategory(category: item.category!)
+        return items.firstIndex(where: { $0.title == item.title })
     }
 }

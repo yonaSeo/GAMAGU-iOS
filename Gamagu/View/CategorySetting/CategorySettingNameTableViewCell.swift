@@ -97,8 +97,13 @@ class CategorySettingNameTableViewCell: UITableViewCell {
             let alert = UIAlertController(title: "카테고리 수정", message: "변경할 카테고리 이름을 입력하세요", preferredStyle: .alert)
             let yes = UIAlertAction(title: "확인", style: .default, handler: { [weak alert, self] _ in
                 guard let text = alert?.textFields?[0].text else { return }
-                self?.editButton.setTitle(text, for: .normal)
                 
+                if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    self?.delegate?.categoryNameErrorOccured()
+                    return
+                }
+                
+                self?.editButton.setTitle(text, for: .normal)
                 self?.data?.category.name = text
                 CoreDataManager.shared.save()
                 CoreDataManager.shared.fetchCategories()

@@ -32,6 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
+        if let tabBarController = window?.rootViewController as? UITabBarController {
+             tabBarController.selectedIndex = 0
+        }
     }
     
     private func preloadData() {
@@ -50,5 +53,32 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.badge, .banner, .list, .sound])
+    }
+    
+    func   userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        // print("✨item: \(response.notification.request.content.title)")
+        let item = CoreDataManager.shared.getItem(title: response.notification.request.content.title)
+        
+        let categoryIndex = CoreDataManager.shared.getCategoryIndex(category: item.category!) ?? 0
+        let itemIndex = CoreDataManager.shared.getItemIndexOfCategory(item: item) ?? 0
+        // print("category index: \(categoryIndex)")
+        // print("item index: \(itemIndex)")
+        
+        if let tabBarController = window?.rootViewController as? UITabBarController {
+            tabBarController.selectedIndex = 0
+            if let navigationController = tabBarController.viewControllers?.first as? UINavigationController,
+               let homeVC = navigationController.viewControllers.first as? HomeViewController {
+                homeVC.collectionView.scrollToItem(
+                    at: IndexPath(item: itemIndex, section: categoryIndex),
+                    at: [.centeredHorizontally, .centeredVertically],
+                    animated: true
+                )
+                homeVC.tableView.scrollToRow(
+                    at: IndexPath(item: itemIndex, section: categoryIndex),
+                    at: .middle,
+                    animated: true
+                )
+            }
+        }
     }
 }

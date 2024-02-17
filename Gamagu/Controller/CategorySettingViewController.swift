@@ -32,6 +32,12 @@ final class CategorySettingViewController: UIViewController {
             let yes = UIAlertAction(title: "확인", style: .default, handler: { [weak alert, self] _ in
                 HapticManager.shared.selectionChanged()
                 guard let text = alert?.textFields?[0].text else { return }
+                
+                if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    self?.categoryNameErrorOccured()
+                    return
+                }
+                
                 CoreDataManager.shared.setCategory(name: text)
                 self?.tableView.reloadData()
             })
@@ -203,6 +209,12 @@ extension CategorySettingViewController: CategorySettingButtonDelegate {
         CoreDataManager.shared.fetchCategories()
         
         tableView.reloadData()
+    }
+    
+    func categoryNameErrorOccured() {
+        let error = UIAlertController(title: "이름 입력 에러", message: "이름을 한 글자 이상 입력하세요", preferredStyle: .alert)
+        error.addAction(UIAlertAction(title: "확인", style: .cancel))
+        present(error, animated: true)
     }
 }
 

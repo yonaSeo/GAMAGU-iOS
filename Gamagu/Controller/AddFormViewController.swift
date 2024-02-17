@@ -97,7 +97,7 @@ final class AddFormViewController: UIViewController {
     private lazy var contentTextView: UITextView = { [weak self] in
         let tv = UITextView()
         tv.delegate = self
-        tv.autocorrectionType = .no
+        tv.autocorrectionType = .default
         tv.spellCheckingType = .no
         
         tv.text = "내용을 입력하세요"
