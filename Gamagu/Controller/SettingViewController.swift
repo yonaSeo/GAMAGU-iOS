@@ -180,10 +180,19 @@ extension SettingViewController: SettingButtonDelegate {
     func dateValueChanged(type: String, date: Date) {
         guard let startTimecell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? SettingDatePickerTableViewCell else { return }
         guard let endTimecell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? SettingDatePickerTableViewCell else { return }
-        dismiss(animated: true)
+        let transition: CATransition = CATransition()
         
-        print(startTimecell.datePicker.date.convertedDate)
-        print(endTimecell.datePicker.date.convertedDate)
+        HapticManager.shared.selectionChanged()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        transition.type = .fade
+        transition.subtype = .none
+        self.view.window!.layer.add(transition, forKey: nil)
+        
+        dismiss(animated: false)
+        
+        // print(startTimecell.datePicker.date.convertedDate)
+        // print(endTimecell.datePicker.date.convertedDate)
         
         let start = Calendar.current.dateComponents([.hour, .minute], from: startTimecell.datePicker.date)
         let end = Calendar.current.dateComponents([.hour, .minute], from: endTimecell.datePicker.date)
@@ -222,6 +231,8 @@ extension SettingViewController: SettingButtonDelegate {
     
     func toggleValueChanged(isActive: Bool) {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? SettingOptionMenuButtonTableViewCell else { return }
+        
+        HapticManager.shared.selectionChanged()
         cell.toggleButtonState(isActive: isActive)
         
         CoreDataManager.shared.getUserSetting().isAlarmSoundActive = isActive
@@ -232,6 +243,8 @@ extension SettingViewController: SettingButtonDelegate {
     }
     
     func optionMenuValueChnaged(type: String, selectedOption: String) {
+        HapticManager.shared.selectionChanged()
+        
         switch type {
         case "알림 타입": CoreDataManager.shared.getUserSetting().alarmContentType = selectedOption
         case "알림음 타입": CoreDataManager.shared.getUserSetting().alarmSoundType = selectedOption
@@ -260,6 +273,7 @@ extension SettingViewController: SettingButtonDelegate {
     }
     
     func categoryButtonTapped() {
+        HapticManager.shared.hapticImpact(style: .light)
         navigationController?.pushViewController(CategorySettingViewController(), animated: true)
     }
 }

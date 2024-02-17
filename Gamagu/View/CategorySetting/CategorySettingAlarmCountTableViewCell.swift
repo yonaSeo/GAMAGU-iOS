@@ -55,6 +55,7 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     
     func setupAlarmCycleButton() {
         let popUpButtonAction = { [weak self] (action: UIAction) in
+            HapticManager.shared.selectionChanged()
             self?.alarmCycleButton.setTitle(action.title, for: .normal)
             
             guard let category = self?.data?.category else { return }
@@ -101,6 +102,7 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     
     func setupAlarmCountButton() {
         let popUpButtonAction = { [weak self] (action: UIAction) in
+            HapticManager.shared.selectionChanged()
             self?.alarmCountButton.setTitle(action.title, for: .normal)
             
             guard let category = self?.data?.category else { return }

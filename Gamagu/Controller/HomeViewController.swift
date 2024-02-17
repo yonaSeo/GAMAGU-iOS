@@ -22,6 +22,7 @@ final class HomeViewController: UIViewController {
         button.titleLabel?.font = UIFont(name: "Slackey-Regular", size: 28)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addAction(UIAction(handler: { [weak self] _ in
+            HapticManager.shared.hapticImpact(style: .soft)
             let url = Bundle.main.url(forResource: AlarmSoundType.allCases.randomElement()?.caseName, withExtension: "wav")
             if let url = url {
                 do {
@@ -44,6 +45,7 @@ final class HomeViewController: UIViewController {
             button.oldCustomButtonMaker(title: "추가", color: .accent100, imageName: "icon_plus")
         }
         button.addAction(UIAction(handler: { [weak self] _ in
+            HapticManager.shared.hapticImpact(style: .rigid)
             let vc = AddFormViewController()
             vc.delegate = self
             self?.present(vc, animated: true)
@@ -61,6 +63,7 @@ final class HomeViewController: UIViewController {
         control.setTitleTextAttributes([.foregroundColor: UIColor.primary20], for: .normal)
         control.selectedSegmentIndex = 0
         control.addAction(UIAction(handler: { [weak self] _ in
+            HapticManager.shared.hapticImpact(style: .light)
             CoreDataManager.shared.getUserSetting().isCardViewActive.toggle()
             CoreDataManager.shared.save()
             CoreDataManager.shared.fetchUserSetting()
@@ -289,6 +292,8 @@ final class HomeViewController: UIViewController {
 // MARK: - 탭바 delegate
 extension HomeViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        HapticManager.shared.selectionChanged()
+        
         if tabBarController.selectedIndex == 0 {
             collectionView.reloadData()
             tableView.reloadData()
@@ -334,6 +339,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? HomeCollectionViewCell else { fatalError() }
         
+        HapticManager.shared.selectionChanged()
         cell.item?.category = CoreDataManager.shared.getCategoriesWithoutNoItem()[indexPath.section]
         
         let vc = AddFormViewController()
@@ -375,6 +381,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell else { fatalError() }
         
+        HapticManager.shared.selectionChanged()
         cell.item?.category = CoreDataManager.shared.getCategoriesWithoutNoItem()[indexPath.section]
         
         let vc = AddFormViewController()
@@ -406,6 +413,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             alert.addAction(yes)
             alert.addAction(no)
             
+            HapticManager.shared.hapticImpact(style: .heavy)
             present(alert, animated: true)
         }
     }

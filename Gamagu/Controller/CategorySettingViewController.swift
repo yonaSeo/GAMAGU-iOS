@@ -30,6 +30,7 @@ final class CategorySettingViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: { [weak self] _ in
             let alert = UIAlertController(title: "카테고리 추가", message: "카테고리 이름을 입력하세요", preferredStyle: .alert)
             let yes = UIAlertAction(title: "확인", style: .default, handler: { [weak alert, self] _ in
+                HapticManager.shared.selectionChanged()
                 guard let text = alert?.textFields?[0].text else { return }
                 CoreDataManager.shared.setCategory(name: text)
                 self?.tableView.reloadData()
@@ -43,6 +44,7 @@ final class CategorySettingViewController: UIViewController {
             alert.addAction(yes)
             alert.addAction(no)
             
+            HapticManager.shared.hapticImpact(style: .rigid)
             self?.present(alert, animated: true)
         }))
     }
@@ -139,6 +141,7 @@ extension CategorySettingViewController: UITableViewDataSource, UITableViewDeleg
                 title: "카테고리 삭제", message: "해당 카테고리에 속한\n모든 아이템이 삭제됩니다.\n\n정말 삭제하시겠습니까?", preferredStyle: .alert
             )
             let yes = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
+                HapticManager.shared.selectionChanged()
                 let category = CoreDataManager.shared.getAllCategories()[indexPath.section]
                 if category.items?.count != 0 {
                     PushNotificationManager.shared.removePushNotificationsOfCategory(category: category)
@@ -151,6 +154,7 @@ extension CategorySettingViewController: UITableViewDataSource, UITableViewDeleg
             alert.addAction(yes)
             alert.addAction(no)
             
+            HapticManager.shared.hapticImpact(style: .heavy)
             present(alert, animated: true)
         }
     }
@@ -173,6 +177,7 @@ extension CategorySettingViewController: CategorySettingButtonDelegate {
         guard let targetCell = tableView.cellForRow(at: IndexPath(row: 2, section: section - 1))
                 as? CategorySettingAlarmCountTableViewCell else { return }
         
+        HapticManager.shared.hapticImpact(style: .light)
         let temp = sourceCell.data?.category.orderNumber
         sourceCell.data?.category.orderNumber = targetCell.data?.category.orderNumber ?? 0
         targetCell.data?.category.orderNumber = temp ?? 0
@@ -189,6 +194,7 @@ extension CategorySettingViewController: CategorySettingButtonDelegate {
         guard let targetCell = tableView.cellForRow(at: IndexPath(row: 2, section: section + 1))
                 as? CategorySettingAlarmCountTableViewCell else { return }
         
+        HapticManager.shared.hapticImpact(style: .light)
         let temp = sourceCell.data?.category.orderNumber
         sourceCell.data?.category.orderNumber = targetCell.data?.category.orderNumber ?? 0
         targetCell.data?.category.orderNumber = temp ?? 0

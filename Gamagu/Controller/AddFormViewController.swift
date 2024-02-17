@@ -133,6 +133,8 @@ final class AddFormViewController: UIViewController {
         button.addAction(UIAction(identifier: UIAction.Identifier("add"), handler: { [weak self] _ in
             guard let self else { return }
             guard self.checkValidation() else { return }
+            
+            HapticManager.shared.hapticImpact(style: .rigid)
             let category = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
             CoreDataManager.shared.setItem(
                 title: self.titleTextField.text ?? "",
@@ -164,6 +166,7 @@ final class AddFormViewController: UIViewController {
                 title: "삭제", message: "정말 삭제하시겠습니까?", preferredStyle: .alert
             )
             let yes = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
+                HapticManager.shared.selectionChanged()
                 let category = CoreDataManager.shared.getCategory(name: self?.item?.category?.name ?? "")
                 CoreDataManager.shared.deleteItem(
                     deleteItem: CoreDataManager.shared.getItem(title: self?.item?.title ?? "")
@@ -180,6 +183,7 @@ final class AddFormViewController: UIViewController {
             alert.addAction(yes)
             alert.addAction(no)
             
+            HapticManager.shared.hapticImpact(style: .heavy)
             self?.present(alert, animated: true)
         }), for: .touchUpInside)
         return button
@@ -219,6 +223,8 @@ final class AddFormViewController: UIViewController {
         saveButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self else { return }
             guard self.checkValidation() else { return }
+            
+            HapticManager.shared.hapticImpact(style: .rigid)
             let prevCategory = CoreDataManager.shared.getCategory(name: self.item?.category?.name ?? "")
             let newCategory = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
             
@@ -246,6 +252,7 @@ final class AddFormViewController: UIViewController {
     
     func setupCategoryButton() {
         let popUpButtonAction = { [weak self] (action: UIAction) in
+            HapticManager.shared.selectionChanged()
             self?.categoryButton.setTitle(action.title, for: .normal)
             self?.categoryButton.setTitleColor(.font100, for: .normal)
         }
