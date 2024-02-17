@@ -154,8 +154,8 @@ final class AddFormViewController: UIViewController {
         let button = UIButton()
         button.setTitle("삭제", for: .normal)
         button.titleLabel?.font = UIFont(name: "BlackHanSans-Regular", size: 24)
-        button.setTitleColor(.font100, for: .normal)
-        button.backgroundColor = .accent50
+        button.setTitleColor(.font50, for: .normal)
+        button.backgroundColor = .primary60
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -248,6 +248,7 @@ final class AddFormViewController: UIViewController {
         }), for: .touchUpInside)
         
         deleteButton.isEnabled = true
+        deleteButton.backgroundColor = .primary100
     }
     
     func setupCategoryButton() {
