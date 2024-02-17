@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import AVFoundation
+import AudioToolbox
 
 final class SettingViewController: UIViewController {
+    
+    private var audioPlayer: AVAudioPlayer?
     
     private let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
@@ -21,7 +25,6 @@ final class SettingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         setupData()
         setupTableView()
@@ -224,16 +227,36 @@ extension SettingViewController: SettingButtonDelegate {
         CoreDataManager.shared.getUserSetting().isAlarmSoundActive = isActive
         CoreDataManager.shared.save()
         CoreDataManager.shared.fetchUserSetting()
+        
+        PushNotificationManager.shared.refreshAllPushNotifications()
     }
     
     func optionMenuValueChnaged(type: String, selectedOption: String) {
         switch type {
         case "알림 타입": CoreDataManager.shared.getUserSetting().alarmContentType = selectedOption
-        case "알림음 종류": CoreDataManager.shared.getUserSetting().alarmSoundType = selectedOption
+        case "알림음 타입": CoreDataManager.shared.getUserSetting().alarmSoundType = selectedOption
         default: break
         }
         CoreDataManager.shared.save()
         CoreDataManager.shared.fetchUserSetting()
+        
+        
+        PushNotificationManager.shared.refreshAllPushNotifications()
+        
+        if type == "알림음 타입" {
+            if selectedOption != "기본음" {
+                let url = Bundle.main.url(forResource: AlarmSoundType.makeSoundName(type: selectedOption), withExtension: "wav")
+                if let url = url {
+                    do {
+                        audioPlayer = try AVAudioPlayer(contentsOf: url)
+                        audioPlayer?.prepareToPlay()
+                        audioPlayer?.play()
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+        }
     }
     
     func categoryButtonTapped() {

@@ -140,10 +140,11 @@ extension CategorySettingViewController: UITableViewDataSource, UITableViewDeleg
             )
             let yes = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
                 let category = CoreDataManager.shared.getAllCategories()[indexPath.section]
-                CoreDataManager.shared.deleteCategory(deleteCategory: category)
                 if category.items?.count != 0 {
                     PushNotificationManager.shared.removePushNotificationsOfCategory(category: category)
                 }
+                
+                CoreDataManager.shared.deleteCategory(deleteCategory: category)
                 self?.tableView.reloadData()
             })
             let no = UIAlertAction(title: "취소", style: .cancel)
@@ -164,15 +165,6 @@ extension CategorySettingViewController: CategorySettingButtonDelegate {
         guard category.items?.count != 0 else { return }
         if isActive { PushNotificationManager.shared.setPushNotificationsOfCategory(category: category) }
         else { PushNotificationManager.shared.removePushNotificationsOfCategory(category: category) }
-        // tableView.reloadData()
-    }
-    
-    func categorySettingNameChanged() {
-        tableView.reloadData()
-    }
-    
-    func categorySettingAlarmCycleCountButtonTapped() {
-        tableView.reloadData()
     }
     
     func categorySettingPositionUpButtonTapped(section: Int) {

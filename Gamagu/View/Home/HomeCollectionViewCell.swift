@@ -29,6 +29,7 @@ final class HomeCollectionViewCell: UICollectionViewCell {
         label.textColor = .font75
         label.numberOfLines = 0
         label.textAlignment = .left
+        label.lineBreakMode = .byCharWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

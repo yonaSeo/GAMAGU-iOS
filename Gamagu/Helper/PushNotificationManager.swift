@@ -20,8 +20,11 @@ final class PushNotificationManager {
     
     func refreshAllPushNotifications() {
         let categories = CoreDataManager.shared.getCategoriesWithoutNoItem()
+        UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
+            notifications.forEach { notification in print("💀 삭제 대상(비동기 호출): \(notification.identifier)") }
+        }
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        // print("🚨 All Deleted")
+        print("🚨 All Deleted")
         categories.forEach { setPushNotificationsOfCategory(category: $0) }
     }
     
@@ -33,7 +36,7 @@ final class PushNotificationManager {
     func removePushNotificationOfItem(itemTitle: String, category: Category) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(
             withIdentifiers: (0..<category.alarmPushCount).map { index in
-                // print("❌ \(itemTitle)_\(index)")
+                print("❌ \(itemTitle)_\(index)")
                 return "\(itemTitle)_\(index)"
             }
         )
@@ -44,7 +47,7 @@ final class PushNotificationManager {
         itemTitles.forEach { itemTitle in
             UNUserNotificationCenter.current().removePendingNotificationRequests(
                 withIdentifiers: (0..<category.alarmPushCount).map { index in
-                    // print("❌ \(itemTitle)_\(index)")
+                    print("❌ \(itemTitle)_\(index)")
                     return "\(itemTitle)_\(index)"
                 }
             )
@@ -60,9 +63,41 @@ final class PushNotificationManager {
         
         items.forEach { item in
             let notificationContent = UNMutableNotificationContent()
-            notificationContent.title = item.title ?? ""
-            notificationContent.body = item.content ?? ""
-            notificationContent.sound = userSetting.isAlarmSoundActive ? .default : nil
+            
+            notificationContent.categoryIdentifier = item.title ?? ""
+            
+            switch userSetting.alarmContentType {
+            case AlarmContentType.titleAndContent.rawValue:
+                notificationContent.title = item.title ?? ""
+                notificationContent.body = item.content ?? ""
+            case AlarmContentType.categoryAndContent.rawValue:
+                notificationContent.title = category.name ?? ""
+                notificationContent.body = item.content ?? ""
+            case AlarmContentType.categoryAndTitle.rawValue:
+                notificationContent.title = category.name ?? ""
+                notificationContent.body = item.title ?? ""
+            case AlarmContentType.titleOnly.rawValue:
+                notificationContent.title = "GAMAGU"
+                notificationContent.body = item.title ?? ""
+            case AlarmContentType.contentOnly.rawValue:
+                notificationContent.title = "GAMAGU"
+                notificationContent.body = item.content ?? ""
+            default: break
+            }
+            
+            if userSetting.isAlarmSoundActive {
+                if userSetting.alarmSoundType == "기본음" {
+                    notificationContent.sound = .default
+                } else {
+                    notificationContent.sound = UNNotificationSound(
+                        named: UNNotificationSoundName(
+                            "\(AlarmSoundType.makeSoundName(type: userSetting.alarmSoundType ?? "")).wav"
+                        )
+                    )
+                }
+            } else {
+                notificationContent.sound = nil
+            }
             notificationContents.append(notificationContent)
         }
         var calendar = Calendar.current
@@ -71,8 +106,8 @@ final class PushNotificationManager {
         let startTimeComponent = calendar.dateComponents([.hour, .minute], from: userSetting.alarmStartTime!)
         let endTimeComponent = calendar.dateComponents([.hour, .minute], from: userSetting.alarmEndTime!)
         
-        // print("➡️ start -> \(startTimeComponent)")
-        // print("⬅️ end -> \(endTimeComponent)")
+        print("➡️ start -> \(startTimeComponent)")
+        print("⬅️ end -> \(endTimeComponent)")
         
         if category.alarmCycleDayCount == 1 {
             notificationContents.forEach { content in
@@ -83,14 +118,16 @@ final class PushNotificationManager {
                     endMinute: endTimeComponent.minute!,
                     count: Int(category.alarmPushCount)
                 )
-                // print("alarm: \(content.title)")
-                // print("times: \(randomOneDayDateComponentsArray)")
-        
+                print("alarm: \(content.title)")
+                print("times: \(randomOneDayDateComponentsArray)")
+                
                 // index 개수 == alarmPushCount 개수
                 randomOneDayDateComponentsArray.enumerated().forEach { index, dateComponents in
                     let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-                    let request = UNNotificationRequest(identifier: "\(content.title)_\(index)", content: content, trigger: trigger)
-                    // print("id: \(content.title)_\(index)")
+                    let request = UNNotificationRequest(
+                        identifier: "\(content.categoryIdentifier)_\(index)", content: content, trigger: trigger
+                    )
+                    print("id: \(content.categoryIdentifier)_\(index)")
                     UNUserNotificationCenter.current().add(request) { error in
                         if let error { print("Error: \(error.localizedDescription)")}
                     }
@@ -107,13 +144,15 @@ final class PushNotificationManager {
                     cycle: Int(category.alarmCycleDayCount)
                 )
                 
-                // print("alarm: \(content.title)")
-                // print("times: \(randomLonggerDateComponentsArray)")
+                print("alarm: \(content.title)")
+                print("times: \(randomLonggerDateComponentsArray)")
                 
                 randomLonggerDateComponentsArray.enumerated().forEach { index, dateComponents in
                     let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-                    let request = UNNotificationRequest(identifier: "\(content.title)_\(index)", content: content, trigger: trigger)
-                    // print("id: \(content.title)_\(index)")
+                    let request = UNNotificationRequest(
+                        identifier: "\(content.categoryIdentifier)_\(index)", content: content, trigger: trigger
+                    )
+                    print("id: \(content.categoryIdentifier)_\(index)")
                     UNUserNotificationCenter.current().add(request) { error in
                         if let error { print("Error: \(error.localizedDescription)")}
                     }

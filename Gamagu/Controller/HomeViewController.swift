@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import AVFoundation
 
 final class HomeViewController: UIViewController {
     
+    private var audioPlayer: AVAudioPlayer?
+    
     // MARK: - 헤더(네비게이션 바)
-    private let logoImageView: UIButton = {
+    private lazy var logoImageView: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "icon_gamagu"), for: .normal)
         button.setTitle("GAMAGU", for: .normal)
@@ -18,6 +21,18 @@ final class HomeViewController: UIViewController {
         button.contentVerticalAlignment = .bottom
         button.titleLabel?.font = UIFont(name: "Slackey-Regular", size: 28)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addAction(UIAction(handler: { [weak self] _ in
+            let url = Bundle.main.url(forResource: AlarmSoundType.allCases.randomElement()?.caseName, withExtension: "wav")
+            if let url = url {
+                do {
+                    self?.audioPlayer = try AVAudioPlayer(contentsOf: url)
+                    self?.audioPlayer?.prepareToPlay()
+                    self?.audioPlayer?.play()
+                } catch {
+                    print(error)
+                }
+            }
+        }), for: .touchUpInside)
         return button
     }()
     
@@ -76,7 +91,7 @@ final class HomeViewController: UIViewController {
             // group
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.9),
+                    widthDimension: .fractionalWidth(0.93),
                     heightDimension: .estimated(100) // 카드 크기: 내부 크기에 따라 늘어남 (아이템-그룹 같아야 함)
                 ),
                 subitem: item,

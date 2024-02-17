@@ -57,14 +57,14 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
         let popUpButtonAction = { [weak self] (action: UIAction) in
             self?.alarmCycleButton.setTitle(action.title, for: .normal)
             
-            self?.data?.category.alarmCycleDayCount = Category.makeAlarmCycleNumber(string: action.title)
+            guard let category = self?.data?.category else { return }
+            PushNotificationManager.shared.removePushNotificationsOfCategory(category: category)
+            
+            category.alarmCycleDayCount = Category.makeAlarmCycleNumber(string: action.title)
             CoreDataManager.shared.save()
             CoreDataManager.shared.fetchCategories()
             
-            self?.delegate?.categorySettingAlarmCycleCountButtonTapped()
-            
-            guard let category = self?.data?.category, category.items?.count != 0 else { return }
-            PushNotificationManager.shared.refreshPushNotificationsOfCategory(category: category)
+            PushNotificationManager.shared.setPushNotificationsOfCategory(category: category)
         }
         
         alarmCycleButton.showsMenuAsPrimaryAction = true
@@ -103,19 +103,19 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
         let popUpButtonAction = { [weak self] (action: UIAction) in
             self?.alarmCountButton.setTitle(action.title, for: .normal)
             
+            guard let category = self?.data?.category else { return }
+            PushNotificationManager.shared.removePushNotificationsOfCategory(category: category)
+            
             self?.data?.category.alarmPushCount = Int64(action.title) ?? 1
             CoreDataManager.shared.save()
             CoreDataManager.shared.fetchCategories()
             
-            self?.delegate?.categorySettingAlarmCycleCountButtonTapped()
-            
-            guard let category = self?.data?.category, category.items?.count != 0 else { return }
-            PushNotificationManager.shared.refreshPushNotificationsOfCategory(category: category)
+            PushNotificationManager.shared.setPushNotificationsOfCategory(category: category)
         }
         
         alarmCountButton.showsMenuAsPrimaryAction = true
         alarmCountButton.menu = UIMenu(
-            title: "횟수",
+            title: "횟수 (타 설정 변경 시 약간 오차 발생)",
             children: Array(1...7)
                 .filter { $0 % 2 == 1 }
                 .map { UIAction(title: $0.description, handler: popUpButtonAction) }

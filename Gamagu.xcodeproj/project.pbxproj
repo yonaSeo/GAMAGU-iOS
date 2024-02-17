@@ -38,6 +38,21 @@
 		ED22526A2B692FE100C0FDA9 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252692B692FE100C0FDA9 /* HomeCollectionHeaderView.swift */; };
 		ED22526B2B692FE100C0FDA9 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252692B692FE100C0FDA9 /* HomeCollectionHeaderView.swift */; };
 		ED22526C2B692FE100C0FDA9 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2252692B692FE100C0FDA9 /* HomeCollectionHeaderView.swift */; };
+		ED32C4BE2B7FD3DF0032329E /* crowA.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4B92B7FD3DE0032329E /* crowA.wav */; };
+		ED32C4BF2B7FD3DF0032329E /* crowA.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4B92B7FD3DE0032329E /* crowA.wav */; };
+		ED32C4C02B7FD3DF0032329E /* crowA.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4B92B7FD3DE0032329E /* crowA.wav */; };
+		ED32C4C72B7FD3DF0032329E /* byak.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4BC2B7FD3DF0032329E /* byak.wav */; };
+		ED32C4C82B7FD3DF0032329E /* byak.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4BC2B7FD3DF0032329E /* byak.wav */; };
+		ED32C4C92B7FD3DF0032329E /* byak.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4BC2B7FD3DF0032329E /* byak.wav */; };
+		ED32C4CA2B7FD3DF0032329E /* kyak.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4BD2B7FD3DF0032329E /* kyak.wav */; };
+		ED32C4CB2B7FD3DF0032329E /* kyak.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4BD2B7FD3DF0032329E /* kyak.wav */; };
+		ED32C4CC2B7FD3DF0032329E /* kyak.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4BD2B7FD3DF0032329E /* kyak.wav */; };
+		ED32C4CE2B7FD77C0032329E /* crowC.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4CD2B7FD77C0032329E /* crowC.wav */; };
+		ED32C4CF2B7FD77C0032329E /* crowC.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4CD2B7FD77C0032329E /* crowC.wav */; };
+		ED32C4D02B7FD77C0032329E /* crowC.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4CD2B7FD77C0032329E /* crowC.wav */; };
+		ED32C4D22B7FD7B20032329E /* crowB.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4D12B7FD7B20032329E /* crowB.wav */; };
+		ED32C4D32B7FD7B20032329E /* crowB.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4D12B7FD7B20032329E /* crowB.wav */; };
+		ED32C4D42B7FD7B20032329E /* crowB.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED32C4D12B7FD7B20032329E /* crowB.wav */; };
 		ED43ED692B7CEC8800ECA5E7 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED43ED682B7CEC8800ECA5E7 /* PushNotificationManager.swift */; };
 		ED46F0812B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46F0802B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift */; };
 		ED46F0822B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46F0802B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift */; };
@@ -159,6 +174,11 @@
 		ED2252502B67BC9700C0FDA9 /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		ED22525D2B67F4F300C0FDA9 /* UITabBarController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Ext.swift"; sourceTree = "<group>"; };
 		ED2252692B692FE100C0FDA9 /* HomeCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionHeaderView.swift; sourceTree = "<group>"; };
+		ED32C4B92B7FD3DE0032329E /* crowA.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crowA.wav; sourceTree = "<group>"; };
+		ED32C4BC2B7FD3DF0032329E /* byak.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = byak.wav; sourceTree = "<group>"; };
+		ED32C4BD2B7FD3DF0032329E /* kyak.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = kyak.wav; sourceTree = "<group>"; };
+		ED32C4CD2B7FD77C0032329E /* crowC.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crowC.wav; sourceTree = "<group>"; };
+		ED32C4D12B7FD7B20032329E /* crowB.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crowB.wav; sourceTree = "<group>"; };
 		ED43ED682B7CEC8800ECA5E7 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		ED46F0802B7144D3004A1FD9 /* SettingToggleSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingToggleSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		ED46F0842B71453D004A1FD9 /* SettingOptionMenuButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingOptionMenuButtonTableViewCell.swift; sourceTree = "<group>"; };
@@ -246,7 +266,7 @@
 				ED22523E2B6746C500C0FDA9 /* Model */,
 				ED22523F2B6746D500C0FDA9 /* View */,
 				ED2252402B6746DB00C0FDA9 /* Controller */,
-				ED2252492B67AF7300C0FDA9 /* Resources */,
+				ED2252492B67AF7300C0FDA9 /* Library */,
 				ED2250D02B61973300C0FDA9 /* Info.plist */,
 				ED2250CD2B61973300C0FDA9 /* LaunchScreen.storyboard */,
 				ED91BF542B77BC2700CF048E /* GamaguCoreDataModel.xcdatamodeld */,
@@ -315,22 +335,35 @@
 			path = Extention;
 			sourceTree = "<group>";
 		};
-		ED2252462B67AF1500C0FDA9 /* Font */ = {
+		ED2252462B67AF1500C0FDA9 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
 				ED22524A2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf */,
 				ED2252472B67AF6400C0FDA9 /* Slackey-Regular.ttf */,
 			);
-			path = Font;
+			path = Fonts;
 			sourceTree = "<group>";
 		};
-		ED2252492B67AF7300C0FDA9 /* Resources */ = {
+		ED2252492B67AF7300C0FDA9 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				ED32C4B82B7FD2730032329E /* Sounds */,
+				ED2252462B67AF1500C0FDA9 /* Fonts */,
 				ED2250CB2B61973300C0FDA9 /* Assets.xcassets */,
-				ED2252462B67AF1500C0FDA9 /* Font */,
 			);
-			path = Resources;
+			path = Library;
+			sourceTree = "<group>";
+		};
+		ED32C4B82B7FD2730032329E /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				ED32C4BC2B7FD3DF0032329E /* byak.wav */,
+				ED32C4B92B7FD3DE0032329E /* crowA.wav */,
+				ED32C4D12B7FD7B20032329E /* crowB.wav */,
+				ED32C4CD2B7FD77C0032329E /* crowC.wav */,
+				ED32C4BD2B7FD3DF0032329E /* kyak.wav */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 		ED43ED3E2B7A97E300ECA5E7 /* Category */ = {
@@ -525,8 +558,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED32C4CE2B7FD77C0032329E /* crowC.wav in Resources */,
+				ED32C4D22B7FD7B20032329E /* crowB.wav in Resources */,
 				ED22524B2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf in Resources */,
+				ED32C4BE2B7FD3DF0032329E /* crowA.wav in Resources */,
 				ED2250CF2B61973300C0FDA9 /* LaunchScreen.storyboard in Resources */,
+				ED32C4C72B7FD3DF0032329E /* byak.wav in Resources */,
+				ED32C4CA2B7FD3DF0032329E /* kyak.wav in Resources */,
 				ED2252482B67AF6400C0FDA9 /* Slackey-Regular.ttf in Resources */,
 				ED2250CC2B61973300C0FDA9 /* Assets.xcassets in Resources */,
 			);
@@ -536,8 +574,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED32C4BF2B7FD3DF0032329E /* crowA.wav in Resources */,
 				ED22524E2B67AFB400C0FDA9 /* Slackey-Regular.ttf in Resources */,
+				ED32C4C82B7FD3DF0032329E /* byak.wav in Resources */,
+				ED32C4D32B7FD7B20032329E /* crowB.wav in Resources */,
 				ED22524C2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf in Resources */,
+				ED32C4CB2B7FD3DF0032329E /* kyak.wav in Resources */,
+				ED32C4CF2B7FD77C0032329E /* crowC.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,8 +588,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED32C4C02B7FD3DF0032329E /* crowA.wav in Resources */,
 				ED22524F2B67AFB400C0FDA9 /* Slackey-Regular.ttf in Resources */,
+				ED32C4C92B7FD3DF0032329E /* byak.wav in Resources */,
+				ED32C4D42B7FD7B20032329E /* crowB.wav in Resources */,
 				ED22524D2B67AFAC00C0FDA9 /* BlackHanSans-Regular.ttf in Resources */,
+				ED32C4CC2B7FD3DF0032329E /* kyak.wav in Resources */,
+				ED32C4D02B7FD77C0032329E /* crowC.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

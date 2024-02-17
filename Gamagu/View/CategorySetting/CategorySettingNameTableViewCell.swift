@@ -102,8 +102,6 @@ class CategorySettingNameTableViewCell: UITableViewCell {
                 self?.data?.category.name = text
                 CoreDataManager.shared.save()
                 CoreDataManager.shared.fetchCategories()
-                
-                self?.delegate?.categorySettingNameChanged()
             })
             let no = UIAlertAction(title: "취소", style: .cancel)
             
