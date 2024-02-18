@@ -55,13 +55,17 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     
     func setupAlarmCycleButton() {
         let popUpButtonAction = { [weak self] (action: UIAction) in
+            HapticManager.shared.selectionChanged()
             self?.alarmCycleButton.setTitle(action.title, for: .normal)
             
-            self?.data?.category.alarmCycleDayCount = Category.makeAlarmCycleNumber(string: action.title)
+            guard let category = self?.data?.category else { return }
+            PushNotificationManager.shared.removePushNotificationsOfCategory(category: category)
+            
+            category.alarmCycleDayCount = Category.makeAlarmCycleNumber(string: action.title)
             CoreDataManager.shared.save()
             CoreDataManager.shared.fetchCategories()
             
-            self?.delegate?.categorySettingAlarmCycleButtonTapped()
+            PushNotificationManager.shared.setPushNotificationsOfCategory(category: category)
         }
         
         alarmCycleButton.showsMenuAsPrimaryAction = true
@@ -98,19 +102,23 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     
     func setupAlarmCountButton() {
         let popUpButtonAction = { [weak self] (action: UIAction) in
+            HapticManager.shared.selectionChanged()
             self?.alarmCountButton.setTitle(action.title, for: .normal)
+            
+            guard let category = self?.data?.category else { return }
+            PushNotificationManager.shared.removePushNotificationsOfCategory(category: category)
             
             self?.data?.category.alarmPushCount = Int64(action.title) ?? 1
             CoreDataManager.shared.save()
             CoreDataManager.shared.fetchCategories()
             
-            self?.delegate?.categorySettingAlarmCountButtonTapped()
+            PushNotificationManager.shared.setPushNotificationsOfCategory(category: category)
         }
         
         alarmCountButton.showsMenuAsPrimaryAction = true
         alarmCountButton.menu = UIMenu(
-            title: "횟수",
-            children: Array(1...9)
+            title: "횟수 (타 설정 변경 시 약간 오차 발생)",
+            children: Array(1...7)
                 .filter { $0 % 2 == 1 }
                 .map { UIAction(title: $0.description, handler: popUpButtonAction) }
         )

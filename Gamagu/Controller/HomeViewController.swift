@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import AVFoundation
 
 final class HomeViewController: UIViewController {
     
+    private var audioPlayer: AVAudioPlayer?
+    
     // MARK: - 헤더(네비게이션 바)
-    private let logoImageView: UIButton = {
+    private lazy var logoImageView: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "icon_gamagu"), for: .normal)
         button.setTitle("GAMAGU", for: .normal)
@@ -18,6 +21,19 @@ final class HomeViewController: UIViewController {
         button.contentVerticalAlignment = .bottom
         button.titleLabel?.font = UIFont(name: "Slackey-Regular", size: 28)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addAction(UIAction(handler: { [weak self] _ in
+            HapticManager.shared.hapticImpact(style: .soft)
+            let url = Bundle.main.url(forResource: AlarmSoundType.allCases.randomElement()?.caseName, withExtension: "wav")
+            if let url = url {
+                do {
+                    self?.audioPlayer = try AVAudioPlayer(contentsOf: url)
+                    self?.audioPlayer?.prepareToPlay()
+                    self?.audioPlayer?.play()
+                } catch {
+                    print(error)
+                }
+            }
+        }), for: .touchUpInside)
         return button
     }()
     
@@ -29,6 +45,7 @@ final class HomeViewController: UIViewController {
             button.oldCustomButtonMaker(title: "추가", color: .accent100, imageName: "icon_plus")
         }
         button.addAction(UIAction(handler: { [weak self] _ in
+            HapticManager.shared.hapticImpact(style: .rigid)
             let vc = AddFormViewController()
             vc.delegate = self
             self?.present(vc, animated: true)
@@ -46,7 +63,8 @@ final class HomeViewController: UIViewController {
         control.setTitleTextAttributes([.foregroundColor: UIColor.primary20], for: .normal)
         control.selectedSegmentIndex = 0
         control.addAction(UIAction(handler: { [weak self] _ in
-            CoreDataManager.shared.userSetting?.isCardViewActive.toggle()
+            HapticManager.shared.hapticImpact(style: .light)
+            CoreDataManager.shared.getUserSetting().isCardViewActive.toggle()
             CoreDataManager.shared.save()
             CoreDataManager.shared.fetchUserSetting()
             self?.toggleCardTable()
@@ -63,7 +81,7 @@ final class HomeViewController: UIViewController {
         return view
     }()
     
-    private let collectionView: UICollectionView = {
+    public let collectionView: UICollectionView = {
         let layout = UICollectionViewCompositionalLayout { _, _ in
             // item
             let item = NSCollectionLayoutItem(
@@ -76,7 +94,7 @@ final class HomeViewController: UIViewController {
             // group
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.9),
+                    widthDimension: .fractionalWidth(0.93),
                     heightDimension: .estimated(100) // 카드 크기: 내부 크기에 따라 늘어남 (아이템-그룹 같아야 함)
                 ),
                 subitem: item,
@@ -124,7 +142,7 @@ final class HomeViewController: UIViewController {
         return view
     }()
     
-    private let tableView: UITableView = {
+    public let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
         tv.separatorColor = .primary20
         tv.rowHeight = 48
@@ -139,13 +157,14 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupData()
+        setupPushNotification()
         setupSegmentedControl()
         setupTabBarController()
         setupNavigationBar()
         setupCollectionView()
         setupTableView()
         setupUI()
-        setupData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -155,9 +174,18 @@ final class HomeViewController: UIViewController {
     }
     
     // MARK: - setup 함수
+    func setupData() {
+        CoreDataManager.shared.fetchCategories()
+        CoreDataManager.shared.fetchItems()
+    }
+    
+    func setupPushNotification() {
+        PushNotificationManager.shared.setAutorization()
+    }
+    
     func setupSegmentedControl() {
         CoreDataManager.shared.fetchUserSetting()
-        segmentedControl.selectedSegmentIndex = CoreDataManager.shared.userSetting!.isCardViewActive ? 0 : 1
+        segmentedControl.selectedSegmentIndex = CoreDataManager.shared.getUserSetting().isCardViewActive ? 0 : 1
         toggleCardTable()
     }
     
@@ -251,11 +279,6 @@ final class HomeViewController: UIViewController {
         }
     }
     
-    func setupData() {
-        CoreDataManager.shared.fetchCategories()
-        CoreDataManager.shared.fetchItems()
-    }
-    
     func toggleCardTable() {
         UIView.animate(withDuration: 1.0) { [weak self] in
             guard let self else { return }
@@ -269,6 +292,8 @@ final class HomeViewController: UIViewController {
 // MARK: - 탭바 delegate
 extension HomeViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        HapticManager.shared.selectionChanged()
+        
         if tabBarController.selectedIndex == 0 {
             collectionView.reloadData()
             tableView.reloadData()
@@ -314,6 +339,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? HomeCollectionViewCell else { fatalError() }
         
+        HapticManager.shared.selectionChanged()
         cell.item?.category = CoreDataManager.shared.getCategoriesWithoutNoItem()[indexPath.section]
         
         let vc = AddFormViewController()
@@ -355,6 +381,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell else { fatalError() }
         
+        HapticManager.shared.selectionChanged()
         cell.item?.category = CoreDataManager.shared.getCategoriesWithoutNoItem()[indexPath.section]
         
         let vc = AddFormViewController()
@@ -386,6 +413,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             alert.addAction(yes)
             alert.addAction(no)
             
+            HapticManager.shared.hapticImpact(style: .heavy)
             present(alert, animated: true)
         }
     }

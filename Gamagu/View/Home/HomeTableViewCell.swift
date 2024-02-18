@@ -16,7 +16,7 @@ final class HomeTableViewCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BlackHanSans-Regular", size: 20)
+        label.font = UIFont(name: "BlackHanSans-Regular", size: 24)
         label.textColor = UIColor.font100
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -43,10 +43,9 @@ final class HomeTableViewCell: UITableViewCell {
         self.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 4),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
-            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
+            titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
 }

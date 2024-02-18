@@ -34,6 +34,12 @@ final class CoreDataManager {
         }
     }
     
+    func fetchData() {
+        fetchUserSetting()
+        fetchItems()
+        fetchCategories()
+    }
+    
     // MARK: - 초기 데이터 셋업
     func initialDataSetup() {
         let dateFormatter = DateFormatter()
@@ -43,7 +49,7 @@ final class CoreDataManager {
         
         setting.alarmStartTime = dateFormatter.date(from: "09:00")
         setting.alarmEndTime = dateFormatter.date(from: "21:00")
-        setting.alarmSoundType = AlarmContentType.titleAndContent.rawValue
+        setting.alarmContentType = AlarmContentType.titleAndContent.rawValue
         setting.alarmSoundType = AlarmSoundType.crowA.rawValue
         setting.isAlarmSoundActive = true
         setting.isCardViewActive = true
@@ -80,6 +86,11 @@ final class CoreDataManager {
         
         do { userSetting = try context.fetch(request).first }
         catch { print(error.localizedDescription) }
+    }
+    
+    func getUserSetting() -> UserSetting {
+        guard let userSetting else { return UserSetting() }
+        return userSetting
     }
     
     // MARK: - 카테고리 데이터 관련
@@ -140,6 +151,10 @@ final class CoreDataManager {
         return categories.max { $0.orderNumber < $1.orderNumber }?.orderNumber ?? 0
     }
     
+    func getCategoryIndex(category: Category) -> Int? {
+        return categories?.firstIndex(where: { $0.name == category.name })
+    }
+    
     // MARK: - 아이템 데이터 관련
     func fetchItems() {
         let request = Item.fetchRequest()
@@ -158,7 +173,6 @@ final class CoreDataManager {
         guard let items else { fatalError() }
         return items.filter { $0.title == title }.first!
     }
-    
     
     func getItemsOfCategory(category: Category) -> [Item] {
         var itemList: [Item] = []
@@ -189,5 +203,10 @@ final class CoreDataManager {
         
         save()
         fetchItems()
+    }
+    
+    func getItemIndexOfCategory(item: Item) -> Int? {
+        let items = getItemsOfCategory(category: item.category!)
+        return items.firstIndex(where: { $0.title == item.title })
     }
 }

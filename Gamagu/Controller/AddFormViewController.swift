@@ -97,7 +97,7 @@ final class AddFormViewController: UIViewController {
     private lazy var contentTextView: UITextView = { [weak self] in
         let tv = UITextView()
         tv.delegate = self
-        tv.autocorrectionType = .no
+        tv.autocorrectionType = .default
         tv.spellCheckingType = .no
         
         tv.text = "내용을 입력하세요"
@@ -113,7 +113,7 @@ final class AddFormViewController: UIViewController {
     
     let letterCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "0/150"
+        label.text = "0/200"
         label.font = .systemFont(ofSize: 16)
         label.textColor = .font25
         label.textAlignment = .right
@@ -133,13 +133,17 @@ final class AddFormViewController: UIViewController {
         button.addAction(UIAction(identifier: UIAction.Identifier("add"), handler: { [weak self] _ in
             guard let self else { return }
             guard self.checkValidation() else { return }
+            
+            HapticManager.shared.hapticImpact(style: .rigid)
+            let category = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
             CoreDataManager.shared.setItem(
                 title: self.titleTextField.text ?? "",
                 content: self.contentTextView.text ?? "",
-                category: CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
+                category: category
             )
-//            CoreDataManager.shared.fetchItems()
+            CoreDataManager.shared.fetchItems()
             CoreDataManager.shared.fetchCategories()
+            PushNotificationManager.shared.setPushNotificationsOfCategory(category: category)
             self.delegate?.saveButtonTapped()
             self.dismiss(animated: true)
         }), for: .touchUpInside)
@@ -150,8 +154,8 @@ final class AddFormViewController: UIViewController {
         let button = UIButton()
         button.setTitle("삭제", for: .normal)
         button.titleLabel?.font = UIFont(name: "BlackHanSans-Regular", size: 24)
-        button.setTitleColor(.font100, for: .normal)
-        button.backgroundColor = .accent50
+        button.setTitleColor(.font50, for: .normal)
+        button.backgroundColor = .primary60
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -162,11 +166,16 @@ final class AddFormViewController: UIViewController {
                 title: "삭제", message: "정말 삭제하시겠습니까?", preferredStyle: .alert
             )
             let yes = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
+                HapticManager.shared.selectionChanged()
+                let category = CoreDataManager.shared.getCategory(name: self?.item?.category?.name ?? "")
                 CoreDataManager.shared.deleteItem(
                     deleteItem: CoreDataManager.shared.getItem(title: self?.item?.title ?? "")
                 )
                 CoreDataManager.shared.fetchItems()
                 CoreDataManager.shared.fetchCategories()
+                PushNotificationManager.shared.removePushNotificationOfItem(
+                    itemTitle: self?.item?.title ?? "", category: category
+                )
                 self?.delegate?.deleteButtonTapped()
                 self?.dismiss(animated: true)
             })
@@ -174,6 +183,7 @@ final class AddFormViewController: UIViewController {
             alert.addAction(yes)
             alert.addAction(no)
             
+            HapticManager.shared.hapticImpact(style: .heavy)
             self?.present(alert, animated: true)
         }), for: .touchUpInside)
         return button
@@ -213,23 +223,37 @@ final class AddFormViewController: UIViewController {
         saveButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self else { return }
             guard self.checkValidation() else { return }
+            
+            HapticManager.shared.hapticImpact(style: .rigid)
+            let prevCategory = CoreDataManager.shared.getCategory(name: self.item?.category?.name ?? "")
+            let newCategory = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
+            
+            PushNotificationManager.shared.removePushNotificationsOfCategory(category: prevCategory)
+            PushNotificationManager.shared.removePushNotificationsOfCategory(category: newCategory)
+            
             self.item?.title = self.titleTextField.text
             self.item?.content = self.contentTextView.text
-            self.item?.category = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
+            self.item?.category = newCategory
             self.item?.createdDate = Date()
-            
+
             CoreDataManager.shared.save()
             CoreDataManager.shared.fetchItems()
             CoreDataManager.shared.fetchCategories()
+            
+            PushNotificationManager.shared.setPushNotificationsOfCategory(category: prevCategory)
+            PushNotificationManager.shared.setPushNotificationsOfCategory(category: newCategory)
+            
             self.delegate?.deleteButtonTapped()
             self.dismiss(animated: true)
         }), for: .touchUpInside)
         
         deleteButton.isEnabled = true
+        deleteButton.backgroundColor = .primary100
     }
     
     func setupCategoryButton() {
         let popUpButtonAction = { [weak self] (action: UIAction) in
+            HapticManager.shared.selectionChanged()
             self?.categoryButton.setTitle(action.title, for: .normal)
             self?.categoryButton.setTitleColor(.font100, for: .normal)
         }
@@ -334,7 +358,7 @@ extension AddFormViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
-        return (text.count + string.count - range.length) <= 15
+        return (text.count + string.count - range.length) <= 20
     }
 }
 
@@ -369,7 +393,7 @@ extension AddFormViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text.count > 150 {
+        if textView.text.count > 200 {
             textView.deleteBackward()
         }
         
@@ -378,11 +402,11 @@ extension AddFormViewController: UITextViewDelegate {
     }
     
     func setAttributedString(textView: UITextView) -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: "\(textView.text.count)/150")
+        let attributedString = NSMutableAttributedString(string: "\(textView.text.count)/200")
         attributedString.addAttribute(
             .foregroundColor,
             value: UIColor.accent100,
-            range: ("\(textView.text.count)/150" as NSString).range(of:"\(textView.text.count)"))
+            range: ("\(textView.text.count)/200" as NSString).range(of:"\(textView.text.count)"))
         return attributedString
     }
 

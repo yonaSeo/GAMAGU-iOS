@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import AVFoundation
+import AudioToolbox
 
 final class SettingViewController: UIViewController {
+    
+    private var audioPlayer: AVAudioPlayer?
     
     private let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
@@ -111,14 +115,14 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.delegate = self
                 cell.data = (
                     labelText: "알림 시작 시간",
-                    date: CoreDataManager.shared.userSetting?.alarmStartTime ?? Date()
+                    date: CoreDataManager.shared.getUserSetting().alarmStartTime ?? Date()
                 )
                 return cell
             case 1:
                 cell.delegate = self
                 cell.data = (
                     labelText: "알림 종료 시간",
-                    date: CoreDataManager.shared.userSetting?.alarmEndTime ?? Date()
+                    date: CoreDataManager.shared.getUserSetting().alarmEndTime ?? Date()
                 )
                 return cell
             default: fatalError()
@@ -132,7 +136,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.delegate = self
                 cell.data = (
                     labelText: "알림 타입",
-                    selectedOption: CoreDataManager.shared.userSetting?.alarmContentType ?? "",
+                    selectedOption: CoreDataManager.shared.getUserSetting().alarmContentType ?? "",
                     options: AlarmContentType.allCases.map { $0.rawValue },
                     isActive: nil
                 )
@@ -144,7 +148,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.delegate = self
                 cell.data = (
                     labelText: "알림음 여부",
-                    isActive: CoreDataManager.shared.userSetting?.isAlarmSoundActive ?? true
+                    isActive: CoreDataManager.shared.getUserSetting().isAlarmSoundActive
                 )
                 return cell
             case 2:
@@ -154,9 +158,9 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.delegate = self
                 cell.data = (
                     labelText: "알림음 타입",
-                    selectedOption: CoreDataManager.shared.userSetting?.alarmSoundType ?? "",
+                    selectedOption: CoreDataManager.shared.getUserSetting().alarmSoundType ?? "",
                     options: AlarmSoundType.allCases.map { $0.rawValue },
-                    isActive: CoreDataManager.shared.userSetting?.isAlarmSoundActive
+                    isActive: CoreDataManager.shared.getUserSetting().isAlarmSoundActive
                 )
                 return cell
             default: fatalError()
@@ -174,35 +178,102 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension SettingViewController: SettingButtonDelegate {
     func dateValueChanged(type: String, date: Date) {
-        switch type {
-        case "알림 시작 시간": CoreDataManager.shared.userSetting?.alarmStartTime = date;
-        case "알림 종료 시간": CoreDataManager.shared.userSetting?.alarmEndTime = date;
-        default: break
+        guard let startTimecell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? SettingDatePickerTableViewCell else { return }
+        guard let endTimecell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? SettingDatePickerTableViewCell else { return }
+        let transition: CATransition = CATransition()
+        
+        HapticManager.shared.selectionChanged()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        transition.type = .fade
+        transition.subtype = .none
+        self.view.window!.layer.add(transition, forKey: nil)
+        
+        dismiss(animated: false)
+        
+        // print(startTimecell.datePicker.date.convertedDate)
+        // print(endTimecell.datePicker.date.convertedDate)
+        
+        let start = Calendar.current.dateComponents([.hour, .minute], from: startTimecell.datePicker.date)
+        let end = Calendar.current.dateComponents([.hour, .minute], from: endTimecell.datePicker.date)
+        
+        if start.hour! > end.hour! || (start.hour! == end.hour! && start.minute! >= end.minute!) {
+            let alert = UIAlertController(
+                title: "알람 시간 입력 에러", message: "종료 시간이 시작 시간보다 앞서거나 같을 수 없습니다.", preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "확인", style: .cancel))
+            present(alert, animated: true)
+            
+            switch type {
+            case "알림 시작 시간":
+                let initialDate = Calendar.current.date(from: DateComponents(hour: 0, minute: 0))!
+                startTimecell.datePicker.date = initialDate
+                CoreDataManager.shared.getUserSetting().alarmStartTime = initialDate
+            case "알림 종료 시간":
+                let initialDate = Calendar.current.date(from: DateComponents(hour: 23, minute: 45))!
+                endTimecell.datePicker.date = initialDate
+                CoreDataManager.shared.getUserSetting().alarmEndTime = initialDate;
+            default: break
+            }
+        } else {
+            switch type {
+            case "알림 시작 시간": CoreDataManager.shared.getUserSetting().alarmStartTime = date;
+            case "알림 종료 시간": CoreDataManager.shared.getUserSetting().alarmEndTime = date;
+            default: break
+            }
         }
+        
         CoreDataManager.shared.save()
         CoreDataManager.shared.fetchUserSetting()
+        
+        PushNotificationManager.shared.refreshAllPushNotifications()
     }
     
     func toggleValueChanged(isActive: Bool) {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? SettingOptionMenuButtonTableViewCell else { return }
+        
+        HapticManager.shared.selectionChanged()
         cell.toggleButtonState(isActive: isActive)
         
-        CoreDataManager.shared.userSetting?.isAlarmSoundActive = isActive
+        CoreDataManager.shared.getUserSetting().isAlarmSoundActive = isActive
         CoreDataManager.shared.save()
         CoreDataManager.shared.fetchUserSetting()
+        
+        PushNotificationManager.shared.refreshAllPushNotifications()
     }
     
     func optionMenuValueChnaged(type: String, selectedOption: String) {
+        HapticManager.shared.selectionChanged()
+        
         switch type {
-        case "알림 타입": CoreDataManager.shared.userSetting?.alarmContentType = selectedOption
-        case "알림음 종류": CoreDataManager.shared.userSetting?.alarmSoundType = selectedOption
+        case "알림 타입": CoreDataManager.shared.getUserSetting().alarmContentType = selectedOption
+        case "알림음 타입": CoreDataManager.shared.getUserSetting().alarmSoundType = selectedOption
         default: break
         }
         CoreDataManager.shared.save()
         CoreDataManager.shared.fetchUserSetting()
+        
+        
+        PushNotificationManager.shared.refreshAllPushNotifications()
+        
+        if type == "알림음 타입" {
+            if selectedOption != "기본음" {
+                let url = Bundle.main.url(forResource: AlarmSoundType.makeSoundName(type: selectedOption), withExtension: "wav")
+                if let url = url {
+                    do {
+                        audioPlayer = try AVAudioPlayer(contentsOf: url)
+                        audioPlayer?.prepareToPlay()
+                        audioPlayer?.play()
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+        }
     }
     
     func categoryButtonTapped() {
+        HapticManager.shared.hapticImpact(style: .light)
         navigationController?.pushViewController(CategorySettingViewController(), animated: true)
     }
 }
