@@ -47,6 +47,25 @@ final class HomeCollectionViewCell: UICollectionViewCell {
     func setupData() {
         titleLabel.text = item?.title
         contentLabel.text = item?.content
+        
+        self.isAccessibilityElement = true
+        self.accessibilityLabel = "제목: \(item?.title ?? "")"
+        self.accessibilityValue = "내용: \(item?.content ?? "")"
+    }
+    
+    override func accessibilityElementDidBecomeFocused() {
+        guard let item else { return }
+        let categoryIndex = CoreDataManager.shared.getCategoryIndex(category: item.category!) ?? 0
+        let currentItemIndex = CoreDataManager.shared.getItemIndexOfCategory(item: item) ?? 0
+        if let tabBarController = window?.rootViewController as? UITabBarController,
+           let navigationController = tabBarController.viewControllers?.first as? UINavigationController,
+           let homeVC = navigationController.viewControllers.first as? HomeViewController {
+            homeVC.collectionView.scrollToItem(
+                at: IndexPath(item: currentItemIndex, section: categoryIndex),
+                at: .centeredHorizontally,
+                animated: true
+            )
+        }
     }
     
     func setupCell() {
