@@ -74,7 +74,7 @@ final class AddFormViewController: UIViewController {
     private lazy var titleTextField: UITextField = { [weak self] in
         let tf = UITextField()
         tf.delegate = self
-        tf.autocorrectionType = .no
+        tf.autocorrectionType = .default
         tf.spellCheckingType = .no
         
         tf.attributedPlaceholder = .init(
@@ -154,7 +154,7 @@ final class AddFormViewController: UIViewController {
         let button = UIButton()
         button.setTitle("삭제", for: .normal)
         button.titleLabel?.font = UIFont(name: "BlackHanSans-Regular", size: 24)
-        button.setTitleColor(.font50, for: .normal)
+        button.setTitleColor(.primary40, for: .normal)
         button.backgroundColor = .primary60
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
@@ -249,6 +249,7 @@ final class AddFormViewController: UIViewController {
         
         deleteButton.isEnabled = true
         deleteButton.backgroundColor = .primary100
+        deleteButton.setTitleColor(.font50, for: .normal)
     }
     
     func setupCategoryButton() {

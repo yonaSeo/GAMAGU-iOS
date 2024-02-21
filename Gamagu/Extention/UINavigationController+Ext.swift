@@ -29,8 +29,7 @@ extension UINavigationController {
         navigationBar.scrollEdgeAppearance = appearance
         
         navigationBar.isTranslucent = false
-        navigationBar.tintColor = .red
         navigationBar.prefersLargeTitles = true
-        
+        // navigationBar.tintColor = .red
     }
 }

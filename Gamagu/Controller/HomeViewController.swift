@@ -280,11 +280,8 @@ final class HomeViewController: UIViewController {
     }
     
     func toggleCardTable() {
-        UIView.animate(withDuration: 1.0) { [weak self] in
-            guard let self else { return }
-            self.collectionContainerView.isHidden = self.segmentedControl.selectedSegmentIndex != 0
-            self.tableContainerView.isHidden = !self.collectionContainerView.isHidden
-        }
+        self.collectionContainerView.isHidden = self.segmentedControl.selectedSegmentIndex != 0
+        self.tableContainerView.isHidden = !self.collectionContainerView.isHidden
     }
 }
 
@@ -292,7 +289,7 @@ final class HomeViewController: UIViewController {
 // MARK: - 탭바 delegate
 extension HomeViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        HapticManager.shared.selectionChanged()
+        HapticManager.shared.hapticImpact(style: .light)
         
         if tabBarController.selectedIndex == 0 {
             collectionView.reloadData()

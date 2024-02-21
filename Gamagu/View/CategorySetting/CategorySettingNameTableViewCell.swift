@@ -112,6 +112,7 @@ class CategorySettingNameTableViewCell: UITableViewCell {
             
             alert.addTextField { [weak self] tf in
                 tf.placeholder = "ex) D-Day3, 영단어"
+                tf.text = self?.data?.category.name
                 tf.delegate = self
             }
             alert.addAction(yes)
@@ -126,6 +127,6 @@ class CategorySettingNameTableViewCell: UITableViewCell {
 extension CategorySettingNameTableViewCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
-        return (text.count + string.count - range.length) <= 10
+        return (text.count + string.count - range.length) <= 15
     }
 }

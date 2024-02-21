@@ -221,6 +221,6 @@ extension CategorySettingViewController: CategorySettingButtonDelegate {
 extension CategorySettingViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
-        return (text.count + string.count - range.length) <= 10
+        return (text.count + string.count - range.length) <= 15
     }
 }
