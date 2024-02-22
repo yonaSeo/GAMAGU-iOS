@@ -32,6 +32,7 @@ class CategorySettingPositionTableViewCell: UITableViewCell {
     
     private lazy var positionUpButton: UIButton = {
         let button = UIButton()
+        button.accessibilityLabel = "카테고리 위치 위로 변경"
         button.setImage(UIImage(systemName: "arrowshape.up.fill"), for: .normal)
         button.tintColor = .font100
         button.setBackgroundColor(.primary100, for: .normal)
@@ -47,6 +48,7 @@ class CategorySettingPositionTableViewCell: UITableViewCell {
     
     private lazy var positionDownButton: UIButton = {
         let button = UIButton()
+        button.accessibilityLabel = "카테고리 위치 아래로 변경"
         button.setImage(UIImage(systemName: "arrowshape.down.fill"), for: .normal)
         button.tintColor = .font100
         button.setBackgroundColor(.primary100, for: .normal)
@@ -103,10 +105,21 @@ class CategorySettingPositionTableViewCell: UITableViewCell {
     func setupData() {
         guard let data else { return }
         settingLabel.text = data.labelText
-        positionUpButton.isEnabled =
-            data.category.orderNumber != CoreDataManager.shared.getMinOrderNumberCategory() ? true : false
-        positionDownButton.isEnabled =
-            data.category.orderNumber != CoreDataManager.shared.getMaxOrderNumberCategory() ? true : false
+        if data.category.orderNumber != CoreDataManager.shared.getMinOrderNumberCategory() {
+            positionUpButton.isEnabled = true
+            positionUpButton.accessibilityHint = nil
+        } else {
+            positionUpButton.isEnabled = false
+            positionUpButton.accessibilityHint = "최상단 카테고리여서 비활성화됐습니다."
+        }
+        
+        if data.category.orderNumber != CoreDataManager.shared.getMaxOrderNumberCategory() {
+            positionDownButton.isEnabled = true
+            positionDownButton.accessibilityHint = nil
+        } else {
+            positionDownButton.isEnabled = false
+            positionDownButton.accessibilityHint = "최하단 카테고리여서 비활성화됐습니다."
+        }
     }
 
 }

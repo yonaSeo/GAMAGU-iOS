@@ -20,9 +20,15 @@ final class CategorySettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupAccessibilityNotification()
         setupNavigationBar()
         setupTableView()
         setupUI()
+    }
+    
+    func setupAccessibilityNotification() {
+        guard UIAccessibility.isVoiceOverRunning else { return }
+        UIAccessibility.post(notification: .screenChanged, argument: "카테고리 관리 화면으로 전환됐습니다.")
     }
     
     func setupNavigationBar() {
@@ -53,6 +59,7 @@ final class CategorySettingViewController: UIViewController {
             HapticManager.shared.hapticImpact(style: .rigid)
             self?.present(alert, animated: true)
         }))
+        navigationItem.rightBarButtonItem?.accessibilityLabel = "카테고리 추가"
     }
     
     func setupTableView() {

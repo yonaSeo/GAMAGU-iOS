@@ -15,6 +15,7 @@ final class HomeViewController: UIViewController {
     // MARK: - 헤더(네비게이션 바)
     private lazy var logoImageView: UIButton = {
         let button = UIButton()
+        button.accessibilityLabel = "까마구 아이콘"
         button.setImage(UIImage(named: "icon_gamagu"), for: .normal)
         button.setTitle("GAMAGU", for: .normal)
         button.setTitleColor(.font100, for: .normal)
@@ -39,6 +40,7 @@ final class HomeViewController: UIViewController {
     
     private lazy var customButton: UIButton = {
         var button = UIButton()
+        button.accessibilityLabel = "아이템 추가"
         if #available(iOS 15.0, *) {
             button.newCustomButtonMaker(title: "추가", color: .accent100, imageName: "icon_plus")
         } else {
@@ -57,6 +59,7 @@ final class HomeViewController: UIViewController {
     // MARK: - 세그먼트 컨트롤
     private lazy var segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["Card", "Table"])
+        control.accessibilityLabel = "아이템 표시 방식"
         control.backgroundColor = .primary100
         control.selectedSegmentTintColor = .primary60
         control.setTitleTextAttributes([.foregroundColor: UIColor.font100], for: .selected)
@@ -294,7 +297,14 @@ extension HomeViewController: UITabBarControllerDelegate {
         if tabBarController.selectedIndex == 0 {
             collectionView.reloadData()
             tableView.reloadData()
+            
+            guard UIAccessibility.isVoiceOverRunning else { return }
+            UIAccessibility.post(notification: .screenChanged, argument: "홈 화면으로 전환되었습니다.")
+        } else {
+            guard UIAccessibility.isVoiceOverRunning else { return }
+            UIAccessibility.post(notification: .screenChanged, argument: "설정 화면으로 전환되었습니다.")
         }
+        
     }
 }
 

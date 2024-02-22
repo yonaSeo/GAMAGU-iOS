@@ -32,6 +32,7 @@ class CategorySettingNameTableViewCell: UITableViewCell {
     
     private let editButton: UIButton = {
         let button = UIButton()
+        button.accessibilityHint = "카테고리 이름을 수정하려면 이중탭 하십시오."
         if #available(iOS 15.0, *) {
             button.configuration = UIButton.Configuration.filled()
             button.configuration?.imagePadding = 8

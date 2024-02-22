@@ -201,8 +201,14 @@ final class AddFormViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupAccessibilityNotification()
         setupCategoryButton()
         setupUI()
+    }
+    
+    func setupAccessibilityNotification() {
+        guard UIAccessibility.isVoiceOverRunning else { return }
+        UIAccessibility.post(notification: .screenChanged, argument: "아이템 추가 화면으로 전환됐습니다.")
     }
     
     func setupData() {
