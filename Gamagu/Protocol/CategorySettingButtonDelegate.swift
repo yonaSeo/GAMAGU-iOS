@@ -11,5 +11,6 @@ protocol CategorySettingButtonDelegate: AnyObject {
     func categorySettingActivationToggleValueChanged(section: Int, isActive: Bool)
     func categorySettingPositionUpButtonTapped(section: Int)
     func categorySettingPositionDownButtonTapped(section: Int)
-    func categoryNameErrorOccured()
+    func categoryEmptyNameErrorOccured()
+    func categorySameNameErrorOccured()
 }

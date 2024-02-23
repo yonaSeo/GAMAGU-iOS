@@ -10,8 +10,8 @@ import UIKit
 final class CategorySettingViewController: UIViewController {
     private let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
-        tv.separatorColor = .primary20
-        tv.rowHeight = 56
+        tv.separatorColor = .primary40
+        tv.rowHeight = 52
         tv.backgroundColor = .clear
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
@@ -40,7 +40,12 @@ final class CategorySettingViewController: UIViewController {
                 guard let text = alert?.textFields?[0].text else { return }
                 
                 if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    self?.categoryNameErrorOccured()
+                    self?.categoryEmptyNameErrorOccured()
+                    return
+                }
+                
+                if CoreDataManager.shared.getCategory(name: text) != nil {
+                    self?.categorySameNameErrorOccured()
                     return
                 }
                 
@@ -218,8 +223,14 @@ extension CategorySettingViewController: CategorySettingButtonDelegate {
         tableView.reloadData()
     }
     
-    func categoryNameErrorOccured() {
+    func categoryEmptyNameErrorOccured() {
         let error = UIAlertController(title: "이름 입력 에러", message: "이름을 한 글자 이상 입력하세요", preferredStyle: .alert)
+        error.addAction(UIAlertAction(title: "확인", style: .cancel))
+        present(error, animated: true)
+    }
+    
+    func categorySameNameErrorOccured() {
+        let error = UIAlertController(title: "이름 입력 에러", message: "같은 이름의 카테고리가 존재합니다.\n다른 이름을 입력하세요.", preferredStyle: .alert)
         error.addAction(UIAlertAction(title: "확인", style: .cancel))
         present(error, animated: true)
     }

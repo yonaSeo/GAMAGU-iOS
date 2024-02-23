@@ -55,9 +55,9 @@ extension SceneDelegate: UNUserNotificationCenterDelegate {
         completionHandler([.badge, .banner, .list, .sound])
     }
     
-    func   userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func  userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // print("✨item: \(response.notification.request.content.title)")
-        let item = CoreDataManager.shared.getItem(title: response.notification.request.content.title)
+        guard let item = CoreDataManager.shared.getItem(title: response.notification.request.content.title) else { return }
         
         let categoryIndex = CoreDataManager.shared.getCategoryIndex(category: item.category!) ?? 0
         let itemIndex = CoreDataManager.shared.getItemIndexOfCategory(item: item) ?? 0

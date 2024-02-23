@@ -100,7 +100,12 @@ class CategorySettingNameTableViewCell: UITableViewCell {
                 guard let text = alert?.textFields?[0].text else { return }
                 
                 if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    self?.delegate?.categoryNameErrorOccured()
+                    self?.delegate?.categoryEmptyNameErrorOccured()
+                    return
+                }
+                
+                if categoryName != text && CoreDataManager.shared.getCategory(name: text) != nil {
+                    self?.delegate?.categorySameNameErrorOccured()
                     return
                 }
                 
