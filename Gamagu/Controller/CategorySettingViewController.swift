@@ -165,7 +165,9 @@ extension CategorySettingViewController: UITableViewDataSource, UITableViewDeleg
                     PushNotificationManager.shared.removePushNotificationsOfCategory(category: category)
                 }
                 
+                CoreDataManager.shared.deleteItemsOfCategory(category: category)
                 CoreDataManager.shared.deleteCategory(deleteCategory: category)
+                
                 self?.tableView.reloadData()
             })
             let no = UIAlertAction(title: "취소", style: .cancel)

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingDatePickerTableViewCell: UITableViewCell {
+final class SettingDatePickerTableViewCell: UITableViewCell {
     static let identifier = "SettingDatePickerTableViewCell"
     
     weak var delegate: SettingButtonDelegate?

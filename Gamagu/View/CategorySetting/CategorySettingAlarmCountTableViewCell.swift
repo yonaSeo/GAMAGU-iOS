@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CategorySettingAlarmCountTableViewCell: UITableViewCell {
+final class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     static let identifier = "CategorySettingAlarmCountTableViewCell"
     
     weak var delegate: CategorySettingButtonDelegate?

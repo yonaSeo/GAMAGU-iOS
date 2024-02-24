@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingOptionMenuButtonTableViewCell: UITableViewCell {
+final class SettingOptionMenuButtonTableViewCell: UITableViewCell {
     static let identifier = "SettingOptionMenuButtonTableViewCell"
     
     weak var delegate: SettingButtonDelegate?

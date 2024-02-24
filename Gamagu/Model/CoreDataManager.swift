@@ -230,6 +230,15 @@ final class CoreDataManager {
         fetchItems()
     }
     
+    func deleteItemsOfCategory(category: Category) {
+        getItemsOfCategory(category: category).forEach { item in
+            context.delete(item)
+        }
+        
+        save()
+        fetchItems()
+    }
+    
     func getItemIndexOfCategory(item: Item) -> Int? {
         let items = getItemsOfCategory(category: item.category!)
         return items.firstIndex(where: { $0.title == item.title })

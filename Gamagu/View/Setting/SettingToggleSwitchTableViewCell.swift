@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingToggleSwitchTableViewCell: UITableViewCell {
+final class SettingToggleSwitchTableViewCell: UITableViewCell {
     static let identifier = "SettingToggleSwitchTableViewCell"
     
     weak var delegate: SettingButtonDelegate?

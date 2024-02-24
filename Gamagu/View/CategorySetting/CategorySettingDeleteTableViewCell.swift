@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CategorySettingDeleteTableViewCell: UITableViewCell {
+final class CategorySettingDeleteTableViewCell: UITableViewCell {
     static let identifier = "CategorySettingDeleteTableViewCell"
     
     private let containerView: UIView = {

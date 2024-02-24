@@ -180,8 +180,8 @@ final class PushNotificationManager {
         
         
         return randomDateComponentsArray
-            .sorted { $0.hour! < $1.hour! }
-            .sorted { $0.hour! == $1.hour! && $0.minute! < $1.minute! }
+//            .sorted { $0.hour! < $1.hour! }
+//            .sorted { $0.hour! == $1.hour! && $0.minute! < $1.minute! }
     }
 
     private func generateLonggerRandomDateComponentsArray(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int, count: Int, cycle: Int) -> [DateComponents] {
@@ -212,13 +212,13 @@ final class PushNotificationManager {
         
         return cycle == 7
         ? randomDateComponentsArray
-            .sorted { $0.weekday! < $1.weekday! }
-            .sorted { $0.weekday! == $1.weekday! && $0.hour! < $1.hour! }
-            .sorted { $0.weekday! == $1.weekday! && $0.hour! == $1.hour! && $0.minute! < $1.minute! }
+//            .sorted { $0.weekday! < $1.weekday! }
+//            .sorted { $0.weekday! == $1.weekday! && $0.hour! < $1.hour! }
+//            .sorted { $0.weekday! == $1.weekday! && $0.hour! == $1.hour! && $0.minute! < $1.minute! }
         :randomDateComponentsArray
-            .sorted { $0.day! < $1.day! }
-            .sorted { $0.day! == $1.day! && $0.hour! < $1.hour! }
-            .sorted { $0.day! == $1.day! && $0.hour! == $1.hour! && $0.minute! < $1.minute! }
+//            .sorted { $0.day! < $1.day! }
+//            .sorted { $0.day! == $1.day! && $0.hour! < $1.hour! }
+//            .sorted { $0.day! == $1.day! && $0.hour! == $1.hour! && $0.minute! < $1.minute! }
     }
 
     func makeRandomHourAndMinute(hour: Int, startHour: Int, startMinute: Int, endHour: Int, endMinute: Int) -> (hour: Int, minute: Int) {
