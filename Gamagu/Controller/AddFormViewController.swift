@@ -74,7 +74,7 @@ final class AddFormViewController: UIViewController {
     private lazy var titleTextField: UITextField = { [weak self] in
         let tf = UITextField()
         tf.delegate = self
-        tf.autocorrectionType = .no
+        tf.autocorrectionType = .default
         tf.spellCheckingType = .no
         
         tf.attributedPlaceholder = .init(
@@ -135,7 +135,14 @@ final class AddFormViewController: UIViewController {
             guard self.checkValidation() else { return }
             
             HapticManager.shared.hapticImpact(style: .rigid)
-            let category = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
+            
+            guard let category = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "") else { return }
+            
+            if CoreDataManager.shared.getItem(title: self.titleTextField.text ?? "") != nil {
+                self.itemSameTitleErrorOccured()
+                return
+            }
+            
             CoreDataManager.shared.setItem(
                 title: self.titleTextField.text ?? "",
                 content: self.contentTextView.text ?? "",
@@ -154,7 +161,7 @@ final class AddFormViewController: UIViewController {
         let button = UIButton()
         button.setTitle("삭제", for: .normal)
         button.titleLabel?.font = UIFont(name: "BlackHanSans-Regular", size: 24)
-        button.setTitleColor(.font50, for: .normal)
+        button.setTitleColor(.primary40, for: .normal)
         button.backgroundColor = .primary60
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
@@ -167,10 +174,11 @@ final class AddFormViewController: UIViewController {
             )
             let yes = UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
                 HapticManager.shared.selectionChanged()
-                let category = CoreDataManager.shared.getCategory(name: self?.item?.category?.name ?? "")
-                CoreDataManager.shared.deleteItem(
-                    deleteItem: CoreDataManager.shared.getItem(title: self?.item?.title ?? "")
-                )
+                
+                guard let category = CoreDataManager.shared.getCategory(name: self?.item?.category?.name ?? ""),
+                      let deleteItem = CoreDataManager.shared.getItem(title: self?.item?.title ?? "") else { return }
+                
+                CoreDataManager.shared.deleteItem(deleteItem: deleteItem)
                 CoreDataManager.shared.fetchItems()
                 CoreDataManager.shared.fetchCategories()
                 PushNotificationManager.shared.removePushNotificationOfItem(
@@ -201,8 +209,14 @@ final class AddFormViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupAccessibilityNotification()
         setupCategoryButton()
         setupUI()
+    }
+    
+    func setupAccessibilityNotification() {
+        guard UIAccessibility.isVoiceOverRunning else { return }
+        UIAccessibility.post(notification: .screenChanged, argument: "아이템 추가 화면으로 전환됐습니다.")
     }
     
     func setupData() {
@@ -225,8 +239,15 @@ final class AddFormViewController: UIViewController {
             guard self.checkValidation() else { return }
             
             HapticManager.shared.hapticImpact(style: .rigid)
-            let prevCategory = CoreDataManager.shared.getCategory(name: self.item?.category?.name ?? "")
-            let newCategory = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "")
+            
+            if item?.title != self.titleTextField.text
+                && CoreDataManager.shared.getItem(title: self.titleTextField.text ?? "") != nil {
+                self.itemSameTitleErrorOccured()
+                return
+            }
+            
+            guard let prevCategory = CoreDataManager.shared.getCategory(name: self.item?.category?.name ?? ""),
+                  let newCategory = CoreDataManager.shared.getCategory(name: self.categoryButton.titleLabel?.text ?? "") else { return }
             
             PushNotificationManager.shared.removePushNotificationsOfCategory(category: prevCategory)
             PushNotificationManager.shared.removePushNotificationsOfCategory(category: newCategory)
@@ -249,6 +270,7 @@ final class AddFormViewController: UIViewController {
         
         deleteButton.isEnabled = true
         deleteButton.backgroundColor = .primary100
+        deleteButton.setTitleColor(.font50, for: .normal)
     }
     
     func setupCategoryButton() {
@@ -334,6 +356,12 @@ final class AddFormViewController: UIViewController {
         }
         
         return true
+    }
+    
+    func itemSameTitleErrorOccured() {
+        let error = UIAlertController(title: "제목 입력 에러", message: "같은 제목의 아이템이 존재합니다.\n다른 이름을 입력하세요.", preferredStyle: .alert)
+        error.addAction(UIAlertAction(title: "확인", style: .cancel))
+        present(error, animated: true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

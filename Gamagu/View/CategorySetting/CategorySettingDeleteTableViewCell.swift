@@ -36,11 +36,17 @@ class CategorySettingDeleteTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        setupAccessibility()
         setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupAccessibility() {
+        self.accessibilityLabel = "카테고리 삭제"
+        self.accessibilityTraits = .button
     }
     
     func setupUI() {

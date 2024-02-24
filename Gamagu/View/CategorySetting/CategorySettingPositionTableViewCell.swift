@@ -32,7 +32,12 @@ class CategorySettingPositionTableViewCell: UITableViewCell {
     
     private lazy var positionUpButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "arrowshape.up.fill"), for: .normal)
+        button.accessibilityLabel = "카테고리 위치 위로 변경"
+        if #available(iOS 17.0, *) {
+            button.setImage(UIImage(systemName: "arrowshape.up.fill"), for: .normal)
+        } else {
+            button.setImage(UIImage(systemName: "arrowtriangle.up.fill"), for: .normal)
+        }
         button.tintColor = .font100
         button.setBackgroundColor(.primary100, for: .normal)
         button.layer.cornerRadius = 10
@@ -47,7 +52,12 @@ class CategorySettingPositionTableViewCell: UITableViewCell {
     
     private lazy var positionDownButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "arrowshape.down.fill"), for: .normal)
+        button.accessibilityLabel = "카테고리 위치 아래로 변경"
+        if #available(iOS 17.0, *) {
+            button.setImage(UIImage(systemName: "arrowshape.down.fill"), for: .normal)
+        } else {
+            button.setImage(UIImage(systemName: "arrowtriangle.down.fill"), for: .normal)
+        }
         button.tintColor = .font100
         button.setBackgroundColor(.primary100, for: .normal)
         button.layer.cornerRadius = 10
@@ -87,15 +97,15 @@ class CategorySettingPositionTableViewCell: UITableViewCell {
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             
             settingLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            settingLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            settingLabel.widthAnchor.constraint(equalToConstant: 50),
             settingLabel.heightAnchor.constraint(equalTo: containerView.heightAnchor),
             
             positionDownButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            positionDownButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            positionDownButton.widthAnchor.constraint(equalToConstant: 50),
             positionDownButton.heightAnchor.constraint(equalTo: containerView.heightAnchor),
             
             positionUpButton.trailingAnchor.constraint(equalTo: positionDownButton.leadingAnchor, constant: -8),
-            positionUpButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            positionUpButton.widthAnchor.constraint(equalToConstant: 50),
             positionUpButton.heightAnchor.constraint(equalTo: containerView.heightAnchor),
         ])
     }
@@ -103,10 +113,21 @@ class CategorySettingPositionTableViewCell: UITableViewCell {
     func setupData() {
         guard let data else { return }
         settingLabel.text = data.labelText
-        positionUpButton.isEnabled =
-            data.category.orderNumber != CoreDataManager.shared.getMinOrderNumberCategory() ? true : false
-        positionDownButton.isEnabled =
-            data.category.orderNumber != CoreDataManager.shared.getMaxOrderNumberCategory() ? true : false
+        if data.category.orderNumber != CoreDataManager.shared.getMinOrderNumberCategory() {
+            positionUpButton.isEnabled = true
+            positionUpButton.accessibilityHint = nil
+        } else {
+            positionUpButton.isEnabled = false
+            positionUpButton.accessibilityHint = "최상단 카테고리여서 비활성화됐습니다."
+        }
+        
+        if data.category.orderNumber != CoreDataManager.shared.getMaxOrderNumberCategory() {
+            positionDownButton.isEnabled = true
+            positionDownButton.accessibilityHint = nil
+        } else {
+            positionDownButton.isEnabled = false
+            positionDownButton.accessibilityHint = "최하단 카테고리여서 비활성화됐습니다."
+        }
     }
 
 }

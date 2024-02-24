@@ -11,7 +11,10 @@ final class HomeTableHeaderView: UITableViewHeaderFooterView {
     static let identifier = "TableHeaderView"
     
     var text: String? {
-        didSet { label.text = text }
+        didSet {
+            label.text = text
+            label.accessibilityLabel = "카테고리 이름: \(text ?? "")"
+        }
     }
     
     private let label: UILabel = {

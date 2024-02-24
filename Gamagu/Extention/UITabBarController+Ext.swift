@@ -15,7 +15,7 @@ extension UITabBarController {
         
         tabBar.items?.forEach {
             $0.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .heavy)], for: .normal)
-            $0.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 4)
+            $0.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 0)
         }
         
         tabBar.itemPositioning = .centered

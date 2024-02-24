@@ -15,6 +15,7 @@ final class HomeViewController: UIViewController {
     // MARK: - 헤더(네비게이션 바)
     private lazy var logoImageView: UIButton = {
         let button = UIButton()
+        button.accessibilityLabel = "까마구 아이콘"
         button.setImage(UIImage(named: "icon_gamagu"), for: .normal)
         button.setTitle("GAMAGU", for: .normal)
         button.setTitleColor(.font100, for: .normal)
@@ -39,6 +40,7 @@ final class HomeViewController: UIViewController {
     
     private lazy var customButton: UIButton = {
         var button = UIButton()
+        button.accessibilityLabel = "아이템 추가"
         if #available(iOS 15.0, *) {
             button.newCustomButtonMaker(title: "추가", color: .accent100, imageName: "icon_plus")
         } else {
@@ -57,6 +59,7 @@ final class HomeViewController: UIViewController {
     // MARK: - 세그먼트 컨트롤
     private lazy var segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["Card", "Table"])
+        control.accessibilityLabel = "아이템 표시 방식"
         control.backgroundColor = .primary100
         control.selectedSegmentTintColor = .primary60
         control.setTitleTextAttributes([.foregroundColor: UIColor.font100], for: .selected)
@@ -90,11 +93,11 @@ final class HomeViewController: UIViewController {
                     heightDimension: .estimated(100) // 카드 크기: 내부 크기에 따라 늘어남 (아이템-그룹 같아야 함)
                 )
             )
-            item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 40) // 카드 간 간격
+            item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 20) // 카드 간 간격
             // group
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.93),
+                    widthDimension: .fractionalWidth(0.9),
                     heightDimension: .estimated(100) // 카드 크기: 내부 크기에 따라 늘어남 (아이템-그룹 같아야 함)
                 ),
                 subitem: item,
@@ -107,7 +110,7 @@ final class HomeViewController: UIViewController {
             // 다만 **bottom**은 CollectionBackgroundView 크기 자체에 영향을 준다! -> 바꾸기 주의 ⚠️
             // top-32 / bottom-80인 이유: top과 bottom을 0으로 잡으면 CollectionBackgroundView 크기는 164(= Header 48 + Cell 116(28+28+8+24+28))가 되는데, top을 32로 잡으면 196(+32)가 되고, 이때 backgroundView는 topAnchor는 Header 크기와 같은 48이므로 이미 맞게 적용된 상태이고 bottomAnchor만 남은 상태다. 그러므로 여기서 나머지 bottomAnchor인 48에 top과 같은 32를 더한 80을 bottom으로 잡으면 동일한 거리가 나온다. (헷갈리면 top bottom 0 -> top 32 -> bottom 80 순으로 뷰 계층 비교해볼 것)
             // => top을 정한 후(ex: 50), 이에 backgroundView의 bottomAnchor(48)을 더해(ex: 98) bottom으로 설정
-            section.contentInsets = .init(top: 32, leading: 16, bottom: 80, trailing: 0)
+            section.contentInsets = .init(top: 32, leading: 20, bottom: 80, trailing: 0)
             
             
             // header
@@ -144,7 +147,7 @@ final class HomeViewController: UIViewController {
     
     public let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
-        tv.separatorColor = .primary20
+        tv.separatorColor = .primary40
         tv.rowHeight = 48
         tv.sectionHeaderHeight = 48
         tv.sectionFooterHeight = 48
@@ -280,11 +283,8 @@ final class HomeViewController: UIViewController {
     }
     
     func toggleCardTable() {
-        UIView.animate(withDuration: 1.0) { [weak self] in
-            guard let self else { return }
-            self.collectionContainerView.isHidden = self.segmentedControl.selectedSegmentIndex != 0
-            self.tableContainerView.isHidden = !self.collectionContainerView.isHidden
-        }
+        self.collectionContainerView.isHidden = self.segmentedControl.selectedSegmentIndex != 0
+        self.tableContainerView.isHidden = !self.collectionContainerView.isHidden
     }
 }
 
@@ -292,12 +292,19 @@ final class HomeViewController: UIViewController {
 // MARK: - 탭바 delegate
 extension HomeViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        HapticManager.shared.selectionChanged()
+        HapticManager.shared.hapticImpact(style: .light)
         
         if tabBarController.selectedIndex == 0 {
             collectionView.reloadData()
             tableView.reloadData()
+            
+            guard UIAccessibility.isVoiceOverRunning else { return }
+            UIAccessibility.post(notification: .screenChanged, argument: "홈 화면으로 전환되었습니다.")
+        } else {
+            guard UIAccessibility.isVoiceOverRunning else { return }
+            UIAccessibility.post(notification: .screenChanged, argument: "설정 화면으로 전환되었습니다.")
         }
+        
     }
 }
 

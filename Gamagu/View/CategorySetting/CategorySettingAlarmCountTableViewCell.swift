@@ -57,6 +57,7 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
         let popUpButtonAction = { [weak self] (action: UIAction) in
             HapticManager.shared.selectionChanged()
             self?.alarmCycleButton.setTitle(action.title, for: .normal)
+            self?.alarmCycleButton.accessibilityLabel = "알람 주기: \(action.title)"
             
             guard let category = self?.data?.category else { return }
             PushNotificationManager.shared.removePushNotificationsOfCategory(category: category)
@@ -104,6 +105,7 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
         let popUpButtonAction = { [weak self] (action: UIAction) in
             HapticManager.shared.selectionChanged()
             self?.alarmCountButton.setTitle(action.title, for: .normal)
+            self?.alarmCountButton.accessibilityLabel = "알람 횟수: \(action.title)"
             
             guard let category = self?.data?.category else { return }
             PushNotificationManager.shared.removePushNotificationsOfCategory(category: category)
@@ -166,10 +168,12 @@ class CategorySettingAlarmCountTableViewCell: UITableViewCell {
     func setupData() {
         guard let data else { return }
         settingLabel.text = data.labelText
-        alarmCountButton.setTitle(data.category.alarmPushCount.description, for: .normal)
         alarmCycleButton.setTitle(data.category.alarmCycleString, for: .normal)
-        setupAlarmCountButton()
+        alarmCountButton.setTitle(data.category.alarmPushCount.description, for: .normal)
+        alarmCycleButton.accessibilityLabel = "알람 주기: \(alarmCycleButton.title(for: .normal) ?? "")"
+        alarmCountButton.accessibilityLabel = "알람 횟수: \(alarmCountButton.title(for: .normal) ?? "")"
         setupAlarmCycleButton()
+        setupAlarmCountButton()
         
         toggleButtonState(isActive: data.category.isAlarmActive)
     }

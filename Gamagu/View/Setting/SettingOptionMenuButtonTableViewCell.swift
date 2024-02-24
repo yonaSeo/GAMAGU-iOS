@@ -113,7 +113,7 @@ class SettingOptionMenuButtonTableViewCell: UITableViewCell {
         setupOptionButton(options: data.options)
         optionButton.setTitle(data.selectedOption, for: .normal)
         
-        if data.isActive != nil && data.labelText == "알림음 타입" {
+        if data.isActive != nil && data.labelText == "알림음 종류" {
             toggleButtonState(isActive: data.isActive!)
         }
     }

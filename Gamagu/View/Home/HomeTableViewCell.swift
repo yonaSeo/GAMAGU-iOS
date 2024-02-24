@@ -37,6 +37,9 @@ final class HomeTableViewCell: UITableViewCell {
     
     func setupData() {
         titleLabel.text = item?.title
+        
+        self.isAccessibilityElement = true
+        self.accessibilityLabel = "제목: \(item?.title ?? "")"
     }
     
     func setupUI() {

@@ -32,6 +32,7 @@ class CategorySettingNameTableViewCell: UITableViewCell {
     
     private let editButton: UIButton = {
         let button = UIButton()
+        button.accessibilityHint = "카테고리 이름을 수정하려면 이중탭 하십시오."
         if #available(iOS 15.0, *) {
             button.configuration = UIButton.Configuration.filled()
             button.configuration?.imagePadding = 8
@@ -99,7 +100,12 @@ class CategorySettingNameTableViewCell: UITableViewCell {
                 guard let text = alert?.textFields?[0].text else { return }
                 
                 if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    self?.delegate?.categoryNameErrorOccured()
+                    self?.delegate?.categoryEmptyNameErrorOccured()
+                    return
+                }
+                
+                if categoryName != text && CoreDataManager.shared.getCategory(name: text) != nil {
+                    self?.delegate?.categorySameNameErrorOccured()
                     return
                 }
                 
@@ -112,6 +118,7 @@ class CategorySettingNameTableViewCell: UITableViewCell {
             
             alert.addTextField { [weak self] tf in
                 tf.placeholder = "ex) D-Day3, 영단어"
+                tf.text = self?.data?.category.name
                 tf.delegate = self
             }
             alert.addAction(yes)
@@ -126,6 +133,6 @@ class CategorySettingNameTableViewCell: UITableViewCell {
 extension CategorySettingNameTableViewCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
-        return (text.count + string.count - range.length) <= 10
+        return (text.count + string.count - range.length) <= 15
     }
 }

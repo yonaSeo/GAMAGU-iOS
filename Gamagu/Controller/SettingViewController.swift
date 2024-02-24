@@ -15,7 +15,7 @@ final class SettingViewController: UIViewController {
     
     private let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
-        tv.separatorColor = .primary20
+        tv.separatorColor = .primary40
         tv.rowHeight = 56
         tv.sectionHeaderHeight = 48
         tv.backgroundColor = .clear
@@ -131,23 +131,23 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             switch indexPath.row {
             case 0:
                 guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: SettingOptionMenuButtonTableViewCell.identifier, for: indexPath
-                ) as? SettingOptionMenuButtonTableViewCell else { fatalError() }
-                cell.delegate = self
-                cell.data = (
-                    labelText: "알림 타입",
-                    selectedOption: CoreDataManager.shared.getUserSetting().alarmContentType ?? "",
-                    options: AlarmContentType.allCases.map { $0.rawValue },
-                    isActive: nil
-                )
-                return cell
-            case 1:
-                guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: SettingToggleSwitchTableViewCell.identifier, for: indexPath
                 ) as? SettingToggleSwitchTableViewCell else { fatalError() }
                 cell.delegate = self
                 cell.data = (
                     labelText: "알림음 여부",
+                    isActive: CoreDataManager.shared.getUserSetting().isAlarmSoundActive
+                )
+                return cell
+            case 1:
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: SettingOptionMenuButtonTableViewCell.identifier, for: indexPath
+                ) as? SettingOptionMenuButtonTableViewCell else { fatalError() }
+                cell.delegate = self
+                cell.data = (
+                    labelText: "알림음 종류",
+                    selectedOption: CoreDataManager.shared.getUserSetting().alarmSoundType ?? "",
+                    options: AlarmSoundType.allCases.map { $0.rawValue },
                     isActive: CoreDataManager.shared.getUserSetting().isAlarmSoundActive
                 )
                 return cell
@@ -157,10 +157,10 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                 ) as? SettingOptionMenuButtonTableViewCell else { fatalError() }
                 cell.delegate = self
                 cell.data = (
-                    labelText: "알림음 타입",
-                    selectedOption: CoreDataManager.shared.getUserSetting().alarmSoundType ?? "",
-                    options: AlarmSoundType.allCases.map { $0.rawValue },
-                    isActive: CoreDataManager.shared.getUserSetting().isAlarmSoundActive
+                    labelText: "알림 형식",
+                    selectedOption: CoreDataManager.shared.getUserSetting().alarmContentType ?? "",
+                    options: AlarmContentType.allCases.map { $0.rawValue },
+                    isActive: nil
                 )
                 return cell
             default: fatalError()
@@ -230,7 +230,7 @@ extension SettingViewController: SettingButtonDelegate {
     }
     
     func toggleValueChanged(isActive: Bool) {
-        guard let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? SettingOptionMenuButtonTableViewCell else { return }
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? SettingOptionMenuButtonTableViewCell else { return }
         
         HapticManager.shared.selectionChanged()
         cell.toggleButtonState(isActive: isActive)
@@ -246,8 +246,8 @@ extension SettingViewController: SettingButtonDelegate {
         HapticManager.shared.selectionChanged()
         
         switch type {
-        case "알림 타입": CoreDataManager.shared.getUserSetting().alarmContentType = selectedOption
-        case "알림음 타입": CoreDataManager.shared.getUserSetting().alarmSoundType = selectedOption
+        case "알림 형식": CoreDataManager.shared.getUserSetting().alarmContentType = selectedOption
+        case "알림음 종류": CoreDataManager.shared.getUserSetting().alarmSoundType = selectedOption
         default: break
         }
         CoreDataManager.shared.save()
@@ -256,7 +256,7 @@ extension SettingViewController: SettingButtonDelegate {
         
         PushNotificationManager.shared.refreshAllPushNotifications()
         
-        if type == "알림음 타입" {
+        if type == "알림음 종류" {
             if selectedOption != "기본음" {
                 let url = Bundle.main.url(forResource: AlarmSoundType.makeSoundName(type: selectedOption), withExtension: "wav")
                 if let url = url {

@@ -41,6 +41,7 @@ class SettingCategoryTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        setupAccessibility()
         setupUI()
     }
     
@@ -51,6 +52,11 @@ class SettingCategoryTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         selected ? delegate?.categoryButtonTapped() : .none
+    }
+    
+    func setupAccessibility() {
+        self.accessibilityLabel = "카테고리 관리"
+        self.accessibilityTraits = .button
     }
     
     func setupUI() {

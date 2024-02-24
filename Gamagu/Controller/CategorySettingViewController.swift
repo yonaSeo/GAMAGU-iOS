@@ -10,8 +10,8 @@ import UIKit
 final class CategorySettingViewController: UIViewController {
     private let tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .insetGrouped)
-        tv.separatorColor = .primary20
-        tv.rowHeight = 56
+        tv.separatorColor = .primary40
+        tv.rowHeight = 52
         tv.backgroundColor = .clear
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
@@ -20,9 +20,15 @@ final class CategorySettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupAccessibilityNotification()
         setupNavigationBar()
         setupTableView()
         setupUI()
+    }
+    
+    func setupAccessibilityNotification() {
+        guard UIAccessibility.isVoiceOverRunning else { return }
+        UIAccessibility.post(notification: .screenChanged, argument: "카테고리 관리 화면으로 전환됐습니다.")
     }
     
     func setupNavigationBar() {
@@ -34,7 +40,12 @@ final class CategorySettingViewController: UIViewController {
                 guard let text = alert?.textFields?[0].text else { return }
                 
                 if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    self?.categoryNameErrorOccured()
+                    self?.categoryEmptyNameErrorOccured()
+                    return
+                }
+                
+                if CoreDataManager.shared.getCategory(name: text) != nil {
+                    self?.categorySameNameErrorOccured()
                     return
                 }
                 
@@ -53,6 +64,7 @@ final class CategorySettingViewController: UIViewController {
             HapticManager.shared.hapticImpact(style: .rigid)
             self?.present(alert, animated: true)
         }))
+        navigationItem.rightBarButtonItem?.accessibilityLabel = "카테고리 추가"
     }
     
     func setupTableView() {
@@ -211,8 +223,14 @@ extension CategorySettingViewController: CategorySettingButtonDelegate {
         tableView.reloadData()
     }
     
-    func categoryNameErrorOccured() {
+    func categoryEmptyNameErrorOccured() {
         let error = UIAlertController(title: "이름 입력 에러", message: "이름을 한 글자 이상 입력하세요", preferredStyle: .alert)
+        error.addAction(UIAlertAction(title: "확인", style: .cancel))
+        present(error, animated: true)
+    }
+    
+    func categorySameNameErrorOccured() {
+        let error = UIAlertController(title: "이름 입력 에러", message: "같은 이름의 카테고리가 존재합니다.\n다른 이름을 입력하세요.", preferredStyle: .alert)
         error.addAction(UIAlertAction(title: "확인", style: .cancel))
         present(error, animated: true)
     }
@@ -221,6 +239,6 @@ extension CategorySettingViewController: CategorySettingButtonDelegate {
 extension CategorySettingViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
-        return (text.count + string.count - range.length) <= 10
+        return (text.count + string.count - range.length) <= 15
     }
 }
