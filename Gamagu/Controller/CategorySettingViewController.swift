@@ -55,7 +55,7 @@ final class CategorySettingViewController: UIViewController {
             let no = UIAlertAction(title: "취소", style: .cancel)
             
             alert.addTextField { [weak self] tf in
-                tf.placeholder = "ex) D-Day3, 영단어"
+                tf.placeholder = "ex) 자주 까먹는 것들, D-day 7"
                 tf.delegate = self
             }
             alert.addAction(yes)
