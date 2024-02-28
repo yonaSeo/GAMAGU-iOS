@@ -1,4 +1,4 @@
-# [🐦 까마구 GAMAGU](https://apps.apple.com/kr/app/%EA%B9%8C%EB%A7%88%EA%B5%AC-gamagu/id6478485140)
+# 🐦 까마구 GAMAGU [(App Store)](https://apps.apple.com/kr/app/%EA%B9%8C%EB%A7%88%EA%B5%AC-gamagu/id6478485140)
 ![All](https://github.com/yonaSeo/GAMAGU-iOS/assets/116647009/8fc2cd0b-beef-46d5-bb54-0e22063d278d)
 
 
@@ -161,7 +161,7 @@
 </details>
 <br>
 
-## 사용 GIF
+## 🎥 사용 GIF
 ![Simulator Screen Recording - iPhone 15 - 2024-02-29 at 00 33 31](https://github.com/yonaSeo/GAMAGU-iOS/assets/116647009/078ec8fb-a170-49b2-8d54-02f211eb8163)
 ![Simulator Screen Recording - iPhone 15 - 2024-02-29 at 01 03 07](https://github.com/yonaSeo/GAMAGU-iOS/assets/116647009/bd13b8b0-3bef-4b9f-955b-981ca3b29f83)
 ![Simulator Screen Recording - iPhone 15 - 2024-02-29 at 00 43 39](https://github.com/yonaSeo/GAMAGU-iOS/assets/116647009/d5cecef3-e2d0-4ba9-b48f-c8ac427d3d9d)
